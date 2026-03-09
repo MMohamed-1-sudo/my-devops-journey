@@ -1,0 +1,40 @@
+lab name [ calculator ]
+
+objective: 
+create a working calculator which could do simple addition, subtraction, multplication and division. 
+using Ifs and elif statment and echo commands. 
+
+commmands used:
+"#!/bin/bash
+
+echo "first number: "
+read a
+echo "operator : ( + * - / )"
+read op
+echo "second number: "
+read b 
+ 
+ if [ "$op" = "-" ]; then 
+  echo "$(( a - b ))"
+ elif [ "$op" = "+" ]; then
+  echo "$((a + b))"
+ elif [ "$op" = "*" ]; then
+  echo "$((a * b))"
+ elif [ "$op" = "/" ]; then
+  echo "$((a / b))"
+ fi"
+
+OUTPUT:
+
+first number: (user input number)
+operator ( + * - / ): (user input operator)
+second number: (user input number )
+
+# challenges & takeaways
+i first wrote "if [ "$op" = "-" ]; then 
+do" 
+but learnt do is only used with loops (while, for, until), not if statement.
+I also wrote 
+"elif ["$op" = "*" ]; then
+but Bash requires spaces inside [ ].
+

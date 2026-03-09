@@ -1,0 +1,10 @@
+visualise branches and logs
+
+git log --oneline
+- gives you a compact one line of view of your commits ( quick and clean )
+git log --graph - visual tree structure
+- gives you a visual tree structure so you can start to see where branches split and merge 
+git log --oneline --grapgh --all 
+- this essenstially gives you everything in one view branches, merges tree structure and histrory in one clear view. 
+- this can be usefule when debugging git problems for example merging branches and want to make sure what actually happend, also help yo breifly explain to someone on your team what happend as you have the 
+visual tree structure.
