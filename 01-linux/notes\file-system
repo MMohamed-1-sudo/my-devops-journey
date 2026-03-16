@@ -1,0 +1,11 @@
+FILE SYSTEM
+
+Linux is a tree like structure everything branches from the root directory which is denoted as a single  forward slash (/) 
+to go to the root directory the command would be [ cd / ] and to go back in directory the command would be [ cd .. ]
+bin folder is where all the essential command are stored. 
+home folder - stores users and there directory for example if you wanted to access a user you would put [ cd /home/mohamed ].
+lib folder also short for libary is a shared libary where it stores the simular functionalities, such as outputing (instead of the logic of outputing being in each command it will be in the lib folder to save disk space and for functionality reasons)
+etc contains system wide configs.
+opt - anything that doesnt follow linux file system structure is stored in the opt file ( such as google chrome which runs on unix)
+proc -
+
