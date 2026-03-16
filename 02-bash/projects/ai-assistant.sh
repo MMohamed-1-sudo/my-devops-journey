@@ -1,0 +1,64 @@
+#!/bin/bash
+
+echo "Setting up a Claude-style AI assistant..."
+
+# Check if Ollama is installed
+if ! command -v ollama &> /dev/null
+then
+    echo "Ollama not found. Installing..."
+    curl -fsSL https://ollama.com/install.sh | sh
+else
+    echo "Ollama already installed."
+fi
+
+# Start Ollama service if needed
+echo "Starting Ollama..."
+ollama serve >/dev/null 2>&1 &
+
+sleep 3
+
+# Pull model
+MODEL="llama3"
+echo "Downloading AI model: $MODEL"
+ollama pull $MODEL
+
+# Create Claude-style system prompt
+PROMPT_FILE="claude_prompt.txt"
+
+cat <<EOF > $PROMPT_FILE
+You are an AI assistant designed to be helpful, harmless, and honest.
+
+Rules:
+- Be polite and calm
+- Explain answers step-by-step
+- Prefer clarity over complexity
+- Ask questions if the user is unclear
+- Do not fabricate information
+- If unsure, say you don't know
+
+Tone:
+Clear, structured, educational, and respectful.
+EOF
+
+echo "Claude-style prompt created."
+
+# Simple chat loop
+echo ""
+echo "Claude-style AI is ready!"
+echo "Type 'exit' to quit."
+echo ""
+
+while true
+do
+    read -p "You: " user_input
+
+    if [ "$user_input" = "exit" ]; then
+        echo "Goodbye!"
+        break
+    fi
+
+    ollama run $MODEL "$(cat $PROMPT_FILE)
+
+User: $user_input
+Assistant:"
+done
