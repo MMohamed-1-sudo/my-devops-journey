@@ -1,1 +1,15 @@
-root 
+LINUX COMMANDS AND WHAT THEY DO.
+-whoami : tells you what user you are on currently.
+-pwd : print working directories ( tells you what directory you are currently in)
+-cd : change directory (you then put the directory you wich to change to after this command )
+-cd ..: changes directory backwards
+-ls : list files/directories (IF COLOURED ITS A DIRECTORY IF NOT ITS JUST A NORMAL FILE)
+-clear [Ctrl + l] : clear terminal ( does not delete them just clears screen useful for when terminal looks messy)
+-history : tells you all the commands you done in the past (except for the deleted ones)
+- touch : creates a file in cuurent directory (use "ls" to check if it exist).
+-cd ~ : change directory to home directory
+- echo : add text to the file ( echo "coderco" > file.txt) if the file doesnt exist it will create it and put the text in there.
+- cat : read content in file.
+- ls -la : list files/directoies including hidden files and directories.
+- find / -name "hidden_file.txt" ; find hidden file in hidden folder. OUTPUT [ /tmp/bc/labs/found.txt]
+ 
