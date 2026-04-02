@@ -2,13 +2,38 @@ FILE SYSTEM
 
 Linux is a tree like structure everything branches from the root directory which is denoted as a single  forward slash (/) 
 to go to the root directory the command would be [ cd / ] and to go back in directory the command would be [ cd .. ]
-bin folder -  is where all the essential command are stored. 
+bin folder - is where all the essential command are stored. 
 home folder - stores users and there directory for example if you wanted to access a user you would put [ cd /home/mohamed ].
-lib - folder also short for libary is a shared libary where it stores the simular functionalities, such as outputing (instead of the logic of outputing being in each command it will be in the lib folder to save disk space and for functionality reasons)
-etc - contains system wide configs.
-opt - anything that doesnt follow linux file system structure is stored in the opt file ( such as google chrome which runs on unix)
-proc - contains live processes that are running in the computer, alot of commands read the proc folder such as top command which is reading contents from the proc folder.
-sys - is very simular to proc and contains kernal info 
-boot - ( boot process is when you turn on your device your computer the time from the point you turn it on till it actually loads the login screen there are things happening behind the screen) withut this folder the system would never boot up as it conatins all the booting info.
-usr 
+lib folder - also short for libary is a shared libary where it stores the simular functionalities, such as outputing (instead of the logic of outputing being in each command it will be in the lib folder to save disk space and for functionality reasons)
+etc folder - contains system wide configs.
+opt folder - anything that doesnt follow linux file system structure is stored in the opt file ( such as google chrome which runs on unix)
+proc folder - kernal level info/ procceses that are running opn the computer.
+root folder - stores users and there dircetories for the root account( essentilally the same as the home folder but with the rooot account)
+boot folder - (the boot process is when you turn on your device computer/ laptop the time from when you press on till the logging in screen displays there are processes running called the boot process) this folder is uesed to boot the device up.
+usr folder- conatins the lib/bin and a few more 
+media/mnt folder - contains any third party device that you connect to such as a usb stick.
 
+
+
+ESSESNTIAL LINUX COMMANDS FOR NAVIGATING LINUX FILE SYSTEM 
+ ls - : lists contents of a directory
+ ls -a : shows hidden files
+ ls - l : shows us files and their permissions and time of modifications
+ ls -lh : makes files more readable 
+ ls - lah: shows hidden files and makes them more read able
+ cd : changes directory ( can be used to change directory into specfic area for example "cd /usr/bi") 
+ cd : [will take you back to your home directory]. 
+ cd .. 1 time in directories can also be done  as [ cd ../.. which will take u back to directories twice] 
+ cd /(name of directory you wish to go into)/(name of folder you wsih to go in to) is a more direct approach e.g. [ cd /lib/module ] 
+
+^ [these two file are used for navigating the linux file system]
+
+ESSENTIAL LINUX COMMANDS TO CREATE FILES AND DIRECTORY
+    touch : creates empty files
+    touch { numbers } : this creates multiple files in one command example for this would be [ (touch bootcamp{1,2,3}.txt) output (bootcamp1.txt, bootcamp2.txt, bootcamp3.txt) ] for a large range you would ( touch test{1..50}) soo dot dot instead of commars.
+    echo : out puts line of text in a file and creates the file if it doesnt already exist 
+    printf :  out puts line of text in a file and creates the file if it doesnt already exists ( the same thing as echo )
+    vim : is a file text editor, creates file for you and also opens up an editor which allows you edit the file by pressing 'i' and saving it by quitting and using 'wq!'.
+    mkdir: creates directorys e.g. [ mkdir directory ] and to create mulitple you could also use [mkir directory {1..50}] createing directories 1-50.
+
+COPYING, MOVING AND RENAMING FILES.
