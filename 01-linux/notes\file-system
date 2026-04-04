@@ -37,3 +37,87 @@ ESSENTIAL LINUX COMMANDS TO CREATE FILES AND DIRECTORY
     mkdir: creates directorys e.g. [ mkdir directory ] and to create mulitple you could also use [mkir directory {1..50}] createing directories 1-50.
 
 COPYING, MOVING AND RENAMING FILES.
+    cp : copies files [ cp (file1) (file2) ] 
+    cp -r : copies directories [ cp (directory1) (directory2) ]
+    mv : move and renames files and directorys [ mv (filename1) ( filename2) ] 
+    rm ; removes files 
+    rm -r :removes directory that has content inside it
+    rm -rf : removes current directory by force ( use with care)
+    
+
+READING FILES / SEARCH / CHECK ALIASE 
+    cat : reads files/ concatenate( combine files) [ cat file.txt file.txt > combine.txt]
+    grep : is used for searching fo specific text/pattern in a file,
+    grep -irl :be used to not show the contents but the actual file it resides in [ grep - is standard for searching, "i"in (-irl) focuses on the case sensitivity of what you are searching for  "r" in (-irl) looks in diffrerent folders, "l" (-irl) in lists all the files that contain the contennts that we are searching for.] very useful for sreaching in hughe repos
+    grep -A : shows you the 3 lines after what you are looking for. 
+    grep -B : shows 3 line before it.
+    grep -C : shows you 3 line before and after it.
+    type : shows you which command have been aliased. ( useful for whenever things are not working as they should it will tell you if they are aliased or not).( to remove aliase you would have to edit it out using vim/nano)
+
+FILE PERMISSION
+    To read file permision we use the command [ ls -l ] which would display something like this  (lrwxrwxrwx 1 root root 1 Mar  4 09:06 filesystem ->) there will be 10 characters, the first character will always refer to the file type 'l' in this case is a linked file also known as a soft link. It can sometimes start with 'd' which stands for directory and when its a normal file it will start with '-'. 
+    
+    The following 9 chracters (rwx,rwx,rwx) can be split up to 3 groups of 3, they each contain 3 character each "rwx" these stand for "read, write and execute". The first three is for the user , the middle three is for group and the final 3 is for others.
+    
+    The user is the person who created the file/folder to find this out we can use the following command [ whoami ] which in this case is the root user, you can also find this out by uing the [ls -l] command, which should display something like this (1 root root 1 ) after the string representation this indicates that we are in the root user.
+    
+    The middle 3 is the group, A group is just a collection of users. when a file is assigned to a group all users in that group get the same permissions for that file, this can be useful for collaborations within projects.
+
+    the final three is the others is everyone else in the machine you can give the permissions to just read the file 
+
+
+CREATE GROUPS / USERS
+    [adduser] - this command creates users and prompts you to create password and add info about user.
+    To confirm if user has been created we can going into the home directory ( /home ) this folder shows all the differet users in the system
+    
+    [su]- this command stands for [ subsitute user ] and is used to login to a user, and we use the [exit] command to exit the user. this can be useful to perform admin tasks , some command need elivated privlidgees [su] allows you to act as root user to insatll software
+
+    chmod - this command allows you to add permisiion on to a user group or others, using string (r,w,x), binary (010) or octal (4+2+1) representaion
+
+    [groupadd] - creates group but also requires sudo/root permissions todo so, to check if you have created a group you can check in the ( /etc/group) folder for the group ID.
+
+    [chown] - changes the ownership of a file and group the format in which rto use this command is 
+
+    [usermod -aG] - this cmmand adds user to group   it stands for usermod ( modification) -aG ( append to group) essentially saying modfiy user by adding it to group. 
+
+
+PROCESSES COMMANDS AND STATES
+    - In linux nearly everything running is a process from the terminal itself to the commands inputted are running processes
+
+    
+    [ps] - this command is used to show us the processes accociated to the current terminal session 
+    [ps a] - shows all processes in different terminal sessions aswell as the unique processesing ID.
+    
+    [ps au] - shows the associated user that started the process plus all processes in different terminal sessions aswell as the unique processesing ID. aswell as command that started it.
+   
+    [echo $$] - outputs the the process ID of this current terminal session.
+    
+    [ps -aux] is used to display all the proceses that are not terminal accociated so everything on the system.
+
+    [ps -f] is used to display detailed full format about running processes showing you UID (user who owns the process) , PID (process ID) PPID(parent process ID which is the process that created the new process), CMD (command that started the process), STIME (start time), TTY (terminal associated with the process).
+
+    [ps -p 1] - is the father of all process every process stems from this process uslly called system d
+    [pstree] - displays a visual representation of a process tree stemming from systemd
+    
+    [top/htop/btop] - give you real time continueous system monitoring which displays running processes, CPU usage, memory(RAM)usage and system load.
+
+    [ps aux --sort=-%mem | head] - this command shows highest ram usage at the top and includes their PID.
+
+
+    processes have different states you have running states[R] which means the process is currently excuting on CPU, sleeping state[S] which means the process is waiting for something such as input,file or an event(this is an interuptable sleep), uninteruptable sleep[D] state is when the process is waitng for I/OThe process is essentially “paused” until the kernel gets a response., stopped[T] state is when process has been manually paused and Zombie [Z] state is when the process is finished execution but the parent process(processes that it came from) hasnt collected its exit status yet.( normal process flow [1] child process runs [2] child process finshes [3] parent process collects exit status [4] process is fully removed). 
+
+    [Ctrl+c] - is used to terminate processes.
+    [Ctrl+z] - is used to stop/pause processes can sometimes be ignored
+    [kill -STOP PID] - pause processes using PID cannot be ignore 
+    [kill -CONT PID] - resumes processes using PID
+    [fg 1] - continues paused processes in the foreground 
+    [bg 1] - continue in the background
+    [KILL -l] - shows you all the different process signals 
+    [pkill] can use it to kill a file using name /PID.
+
+    [lsof] - lists open files and can be used to check specfic process and port.
+
+SAD SERVERS
+
+[awk] - this command is a pattern scanning and processssing language that can be used To perform operations on text files,
+the synax for [awk] is ( awk'{action}' file )

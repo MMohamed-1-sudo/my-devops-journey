@@ -1,0 +1,63 @@
+LABS 
+
+
+
+ CHANGE OWNERSHIP OF FILES AND GROUP
+
+COMMANDS USED 
+    - chown :alpha(groupname0) shared(foldername) 
+OBEJECTIVE 
+    - the objective was to change group ownership from root to group
+DOUBLE CHECK
+    - to dopuble check if this is the case we can run another command [ ls -l | grep shared ] this command essentially find the folder you are searching fopr and outputs the permissions in the terminal.
+TAKEAWAYS
+    - [chown] is useful when manageinbg shared projects , you can assign files to a shared group so multiple users can access them properly.
+
+ADD USERS TO GROUP 
+
+COMMANDS USED 
+    - usermod -aG [group] [user]
+    - usermod -G  [group] [user]
+OBJECTIVE 
+ - the objective of [usermod -aG] is adding user to a group without removing there existing group memberships
+ - the objective of [usermod -G] is to replace all exisiting secondary groups with the one you have specfified.
+ 
+ COMMAND RUNS
+    - usermod -G group1,group2 username
+KEY TAKEAWAYS
+    - [ usermod -G ] is useful for  removing unwanted permisiions, when a user has to much access you can strip it all and start clean. 
+    - [ usermod -aG ] is useful for granting new permissions and avoid accidnetal permission loss.
+
+PROCESSES
+
+COMMANDS USED
+    - [ps] 
+    - [ps a]
+    - [ps au]
+    - [echo $$] 
+    - [ps -f]
+    - [pstree]
+    - [top/htop/btop]
+    - [ps aux | head]
+    - [lsof]
+OBJECTIVE 
+    - the objective of [ps] is to display brief information of about active processes  running
+    - the objective of [ps a] is to display all proceesses running in terminal for all users 
+    - the objective of [ps au] is to display detailed information about all users  such as username (who owns the process), CPU usage, memory usage ,start times commands and etc.
+    - the objective of [echo $$] is to display unique current process ID.
+    - the objective of is to display detailed full format about running processes showing you UID (user who owns the process) , PID (process ID) PPID(parent process ID which is the process that created the new process), CMD (command that started the process), STIME (start time), TTY (terminal associated with the process).
+    - the objective of [pstree] is to display a visual tree represantation of your of your processes showing where processes oringnated from oyther processes.
+    - [top/htop/btop] give you real time continueous system monitoring which displays running processes, CPU usage, memory(RAM)usage and system load. 
+    - [ps aux | head] outputs the biggest processes running with detailed iformation on them 
+    - [lsof] - lists all open files on the system and can be used to check specfic process and port. and which process has a specfic file open.
+
+
+KEY TAKEAWAYS
+    - [ps] is useful for what you started in the current terminal
+    - [ps a] is useful for seening what other users are running interactivaly 
+    - [ps au] is use4ful for monitoring system activity and identifying heavy processes.
+    - [ps -f] : is useful as is displays PPID and CMD which shows who started the process and how it started(the command that started it). This can be valuebale when troubleshooting scripts and tracking down unwanted processes and getting an overall understand of your systems activities.
+    - [pstree] : is used to display a tree like visual structor showing where processes orignated from this can be useful fro tracking down where unwanted processes started.
+    - [top/htop/btop] : can be used to identify heavy processes that are using the most CPU and consuming the most RAM. Inside top you can use [k] to kill a process or [r] to renice(change priorty). 
+    - [ps aux | head] this command is useful to findnig the the largest processes making it easier for you to get rid of huge zombie processes.
+    - [lsof] is useful for trouble shooting as it can find which program is locking a file, its also good for network debugging as it can display specfic portys and the processes using them. 
