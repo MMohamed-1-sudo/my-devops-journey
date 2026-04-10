@@ -1,0 +1,17 @@
+GIT ARCHITECTURE & INTERNALS 
+
+    GIT IS NOT JUST A FILE TRACKER
+        - git tracks snapshots  not diffs, everytime you do a commit like a change, git takes snapshot of what the files look like at that point in time not just what changed
+        this means if you change one line it snapshots a full new version of that file.
+        - Git uses a key value store (SHA-1 hash) these long string that uniqule represent content of a file , no 2 diferent file conetnt will have the same hash .
+        - a commit in git is a pointer to a full snapshot of your project not just the changes but the state of the whole repo right then.
+        - Files are stored as objects (blobs, trees), these are essentailly blobs for file contents and trees for directories.
+        git is content addressed not file name based meaning it doesnt care what the file name is called, if the content changes the hash changes, if the cintents the same git reuses the same object 
+        - git is not just a tracker its a smart compressed hash based snap shot engine.
+
+    GIT terminology & key concepts (light primer)
+        - [repositpory] is a git project, a folder being tracked by git ( if it has . git directory inside it its a repo )
+        - [commit] is a snap shot of your files which includes the author , timestamp, message, parent commit, etc
+        - [branch] is a moveable pointer to a commit, you usally work on a main/ master branch as a dev and you have other feature branches like features as login feed, many other branches names you come across.
+        - [remote] is a refs to the external copy of your repo kept usally kept online in github/gitlab smetimes called origin.
+        - [staging] area also called the index is a buffer between your working directory and the repo you plan to commit.

@@ -1,0 +1,36 @@
+INTRODUCTION TO NET WORKING FUNDAMENTALS
+
+    - The overview of computer networks and their importance in modern infrastructure & Devops
+    - Network basics / types of networks such as LAN which stands for ( local area network ) and WAN ( wide area network ) etc ..
+    - Key networking components:routers, switches, firewalls.
+    - IP addressing (IPv4 & IPv6) there uses and importance.
+    - Mac addresses
+    - Ports and protocols (TCP, UDP) 
+
+        OVERVIEW OF COMPUTER NETWORK
+            - the defintion of computer networks is connecting devices to share information the purpose for this is communication and resoursce sharing for example in a building 
+            there are differewnt rooms with various devices/gadgets like phones , laptops and smart tv's when these devices connect to the same wifi they form a network there are different types of computer networks.
+            - home networkl is called a LAN ( local area network ) and covers a small limited area 
+            - WAN (wide area networks)is a bigger verion used to connect homes school and businesses world wide.
+        
+            IMPORTANCE OF COMPUTER NETWORKS
+                - Computer networks are important because they are the foundation that enables communications and sharing resources between devices such as sharing a printer at home or accessesing shared files at work. Networks are also cruicial for internet functionality which is used for browsing ,streaming or communicating online which all happens on the network. computer networks  alsdo supports application, softrware anbd apps that you use, when using application your devices sends data to a server over the network.
+                - The server processes this data and returns a response, this back and forth comms is essential for the application to work.
+            NETWORKING IN DEVOPS
+                - Interaction between servers arre a fundimental thing in devops at it enable communications between servers and application
+                - Deployments is essential for and controlling  applications. 
+                - networking enables you to monitor and manage infrastructure which is cruicial role in Devops as they can help you spot issues and resolve them effeciently 
+                - networks are essential for optimization, they can enhance performace by ensuring that data flows smoothly and quickly between devices and servers which is vital for scaling applications efficiently
+            
+        TYPES OF NETWORK SUCH AS LAN & WAN
+            - There two types of core networks, LAN and a WAN. These are fundamental to understanding how devices communicate in both small and large environments.
+            - LAN also know as loacal area network, it connects devices in a small area such as a office or a home. This enables devices to communicate with each other and share resources like printers and files. For instance, when you print a document from your laptop to a printer at home, you are using a LAN. LANs are commonly used to connect computers, printers, and other devices within a single location. They also allow users to share files and resources locally, as well as provide internet access within a limited area.
+            - WAN also known as wide area networks, A WAN spans a much larger area than a LAN. A clear example is the internet, which links devices worldwide. It can be compared to a vast global network that allows data to travel across countries and continents. WANs are used to connect multiple LANs, making it possible to communicate and share data over long distances.
+        KEY NETWORK COMPONENTS
+            - Routers, Switches, and Firewalls, form the backbone of any network.
+            - switches can be thought of as the manager of a local area network. It connects multiple devices—such as computers, printers, and other equipment—within the same network. Its role is to ensure that data moves efficiently between devices, reducing congestion and improving communication. Switches are mainly used for connecting devices within a network and controlling how data flows across a LAN.
+            - A router can be compared to a traffic controller for a network. Its primary role is to direct data between different networks. For instance, in a home setup, a router links your local network to the internet, making sure information reaches the correct destination whether you’re browsing online or streaming content. Routers are mainly used to route traffic between networks and to connect separate networks, such as a home network and the internet.
+            - A firewall can be thought of as a security guard for your network. It monitors and regulates incoming and outgoing traffic according to set security rules. Firewalls are essential for protecting networks from unauthorized access and for managing traffic to improve overall security.
+        IP ADDRESS & MAC ADDRESS 
+
+
