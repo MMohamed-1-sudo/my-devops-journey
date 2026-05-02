@@ -32,5 +32,62 @@ INTRODUCTION TO NET WORKING FUNDAMENTALS
             - A router can be compared to a traffic controller for a network. Its primary role is to direct data between different networks. For instance, in a home setup, a router links your local network to the internet, making sure information reaches the correct destination whether you’re browsing online or streaming content. Routers are mainly used to route traffic between networks and to connect separate networks, such as a home network and the internet.
             - A firewall can be thought of as a security guard for your network. It monitors and regulates incoming and outgoing traffic according to set security rules. Firewalls are essential for protecting networks from unauthorized access and for managing traffic to improve overall security.
         IP ADDRESS & MAC ADDRESS 
+          - IP Address is a unique identifier for devices on a network it allows devices to locate and communicate witheach other.
+                - IPv4 are 32 bit number, written in 4 decimal number seprated by dots each group can range from 0 to 55, providing 4.3 billion unique addresses
+            but with rapid growth of the internet IPv4 address are bacoming rare.
+                - IPv6 adresses are 128 bit numbers which can provide a large pool of unique addresses around 320 undicillion addressses which is formatted in a hexadecimal digit seprated by colons. IPv6 not only provides more addresses but also includes enhancement like simplified address assignment and improved seurity features.
+            - WHY ARE IP ADDRESSES IMPORTANT?
+                - they enable  devices to identify and communicate with each other on the network, without IP addresses devicese wouldnt know where to send or recieve data.
+            MAC ADDRESSES
+                WHAT ARE MAC ADDRESS?
+                    - A mac address stands for media access control address, its a unique identifier assigned to a network interface sort of like a finger print for network devices each device on a network has its own unique Mac address.
+                    - a MAC address is a 48 bit address, these addresses are usally displayed in a hexadecimal format just like the IPv6 address ( they use numbers 0-9and letters A to F)
+                WHAT IS THEIR FUNTION?
+                    mac address opertate at the data link layer of the OSI model ( the data link layer is responsible for node to node transfer) essentila mac devices help
+                    devices identify each other on a local network, they are crucial for think such as ensuring your laptop cponnects to the right router instead of your neigbors.
+                    they also play a big role in network communication and security with them devices wont be able to properly communicate with the local network.
+        PORTS & PROTOCOLS: TCP AND UDP
+            WHAT ARE PORTS?
+                - Ports are logical doors on your device each door is numbered and each number is used for a specific type of communication for example the word traffic typically goes through port 80 which is (HTTP) and port 443 For (HTTPS). 
+                - These port help facilitate commmunication between devices,when you computer wants to send or reciceve data it uses these ports to make sure data goes to the right place.
+            WHAT ARE PROTOCOLS?
+                - protocol are essentially "the rules of the road" for data transmission and defines how data is formatted accrosse a network.
+                - Some common protocols you might have heard of include HTTP, FTP, SMTP, and much more. These protocols ensure that devices can communicate effectively by following the same set of rules. Think of them as languages that devices use to talk to each other.
+            WHY ARE PROTOCOLS IMPORTANT?
+                - Without protocols our network communications would be a mess ports ensure data is transmitted tpo the correct place while protocols ensure the communications is formatted correctly which is essential for smooth and efficent communication.
+        TRANSMISSION CONTROL PROTOCOL(TCP)
+            WHAT IS TCP?
+                - TCP is sort of like the post man of the internet, it ensures that the data sent from one device reaches another accurately and in the correct format and order. 
+                - its a protocols meaning its a set of rules that devices follow to communicate with each other.
+            WHAT ARE THE KEY CHARACTERISTICS ON TCP
+                - Stands for transmission control protocols
+                - connection oriented meaning that bbefore any data is sent a connection is essablished between the two devices(sort of like a phone call you must dial and connect before you can speak).
+                - Requires a handshake  meaning two devices agree to communicate like when you shake hands with somepne to confirm you are onthe same page (in networking this handshake is a 3 step device to ensure both devices are ready tpo send and recieve data)
+                - reliable data tranfer, TCP ensures that all data sent is reciceved correctly on the other end, meaning any data is lost or corrupted is TCP will resend it and thats why its reliable. 
+            WHAT ARE THE USE CASES IN TCP?
+                - TCP ensures data is delieverd in order.
+                - error checking and flow control, TCP checks for errors in the data and controls the flow of data to avoid congestion insuring smooth and error free information transfer.
+                - TCP allows for bidirectionsal communication, it can be used whenever two devices need to communicate back and forth for example emails, web browsing amd file transfer.
+        USER DATAGRAM PROTOCOL (UDP)
+            - UDP is a simple protocol used to send and recicve data unlike TCP UDP is connectionless.
+            - WHAT ARE THE KEY CHARACTERISTICS ON UDP
+                - stands for User datagram Protocol  
+                - its a simple protocol to send and receive data its straight forward and doesnt require much over head making it quick and easy to use.
+                - No Prior communication need data can be sent immediatly without waiting to establish communication, but the downside to this is theres no guarantee that the data will reach its destination 
+                - Its also connectionless meaning no prior communication needs to be established between sender and receiver as each packet is sent independatly. 
+                - Fast but unreliable since theres no onnection set up nor is there error checking UDP is much faster then TCP, but this speed comes at a cost of reliablity.
+            WHAT ARE THE COMMON FUNCTIONS FOR UDP
+                - UDP is suitable for real time application such as live streaming, online gaming and many other hwere speed is more important then reliablity.
+                - DNS 
+                - VPN (virtual private network) some VPn networks use UDP because its faster and works better for streaming 
+        TCP VS UDP
+            COMPARISONS
+                - TCP is connectionoriented and UDP is contionless.
+                - TCP is much more reliable the UDP
+                - TCP is much slower then UDP as there no error or data control and connection oriented  
+
+
+
+
 
 
