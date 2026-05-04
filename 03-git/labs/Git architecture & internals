@@ -15,3 +15,14 @@ GIT ARCHITECTURE & INTERNALS
         - [branch] is a moveable pointer to a commit, you usally work on a main/ master branch as a dev and you have other feature branches like features as login feed, many other branches names you come across.
         - [remote] is a refs to the external copy of your repo kept usally kept online in github/gitlab smetimes called origin.
         - [staging] area also called the index is a buffer between your working directory and the repo you plan to commit.
+        - [blobs] stands for binary large objects which stores the actually contents of the file
+        - [trees] link file paths to blobs and other trees  which basically represent directorys and structure
+        - [refs] stands for referencaes and include branches tags and some special pointers like HEAD 
+        - [HEAD] is a pointer to where you currently arte the branch/ commit you are currently on
+        - [Index] the actual binary file on disc that store the actual binary data which ios used by git to prep yopur commit.
+        - [Object store] which is .git/object/ directory and this is where git stores all. blobs, trees and commit by SHA hash  
+        - [tag] a refs to a specfic commit often used for marking releases.
+
+    THE .git DIRECTORY
+        -  
+        -
