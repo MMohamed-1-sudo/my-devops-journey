@@ -1,0 +1,103 @@
+OSI MODEL 
+    The OSI model which stands for open system interconnection is a conceptual framework that divides network communication into seven layers, each with a specific role, from physical data transmission up to user-facing applications. Its importance lies in providing a standard structure that allows different devices, systems, and software to communicate reliably regardless of their underlying technology. By separating functions into layers, it simplifies network design, troubleshooting, and development, making it easier to identify issues, upgrade components, and ensure compatibility across diverse networks.
+
+OSI MODEL 1-7 
+
+    Layer 1 – Physical Layer
+        Function: Transmits raw bits over a physical medium.
+            Explanation:
+            This is the lowest layer and deals entirely with hardware. It converts digital data (1s and 0s) into physical signals that can travel across a medium. These signals can be electrical (copper cables), light pulses (fiber optics), or radio waves (Wi-Fi). There is no structure to the data here—just a continuous stream of bits. There is also no addressing, meaning all devices connected to the medium can receive the signal.
+        How components are used:    
+            - Cables (Ethernet): carry electrical signals between devices
+            - Fiber optics: used for high-speed, long-distance communication using light
+            - NIC (Network Interface Card): converts data into signals and vice versa
+            - Hubs: broadcast incoming signals to all connected devices (no filtering)
+            - Wi-Fi: transmits data wirelessly via radio frequencies
+
+
+    Layer 2 – Data Link Layer
+        Function: Provides node-to-node communication and organizes data into frames.
+            Explanation:This layer takes raw bits from Layer 1 and groups them into frames, which are structured units of data. It ensures reliable communication between devices on the same network by detecting errors and controlling access to the medium. It introduces physical addressing using MAC addresses, which are unique identifiers assigned to each device.
+        How components are used:
+            - MAC address: identifies devices within a local network (like a house address)
+            - Switches: forward frames only to the correct device using MAC addresses
+            - Bridges: connect and filter traffic between network segments
+            - Ethernet: defines rules for communication on wired networks
+            - Frames: encapsulate data with headers and error-checking info
+
+    Layer 3 – Network Layer
+        Function: Handles routing and logical addressing.
+            Explanation:This layer is responsible for sending data between different networks. It breaks data into packets and assigns logical addresses (IP addresses) to identify source and destination devices globally. Routers use this information to determine the best path for data to travel across multiple networks.
+        How components are used:
+            - IP address: uniquely identifies a device across networks (like a postal address)
+            - Routers: analyze IP addresses and forward packets along the best route
+            - ICMP: used for diagnostics (e.g., ping to test connectivity)
+            - Packets: units of data that travel across networks
+
+    Layer 4 – Transport Layer
+        Function: Ensures end-to-end communication and controls reliability.
+            Explanation:This layer is responsible for delivering data correctly between devices. It decides whether communication should be reliable or fast, and manages segmentation (breaking data into smaller pieces), error checking, and reassembly.
+            Protocols:
+                TCP (Transmission Control Protocol):
+                    - Connection-oriented (establishes a connection before sending data)
+                    - Reliable (guarantees delivery)
+                    - Ordered (data arrives in the correct sequence)
+                    - Error-checked (retransmits lost or corrupted data)
+                How TCP works:
+                    1. Three-way handshake (SYN → SYN-ACK → ACK) to establish connection
+                    2. Data is sent in segments with sequence numbers
+                    3. Receiver sends acknowledgements (ACKs)
+                4. Missing data is retransmitted
+                Use cases:
+                    - Web browsing (HTTP/HTTPS)
+                    - File transfers
+                    - Emails
+                    - And any situation where accuracy matters more than speed
+                UDP (User Datagram Protocol):
+                    - Connectionless (no setup required)
+                    - Unreliable (no guarantee of delivery)
+                    - Faster (no error checking or retransmission)
+                How UDP works:
+                    - Data is sent as independent packets (datagrams)
+                    - No acknowledgements or ordering
+                    - Minimal overhead → higher speed
+                Use cases:
+                    - Video streaming
+                    - Online gaming
+                    - Voice calls (VoIP)
+                    - And any other situation where speed matters more than perfect accuracy
+
+    Layer 5 – Session Layer
+        Function: Manages communication sessions between applications.
+            Explanation:This layer controls the start, maintenance, and termination of communication sessions. It ensures that connections remain open while data is being exchanged and properly closes them afterward. It can also manage checkpoints and recovery if a session is interrupted.
+        How components are used:
+            - Establish session: e.g., logging into a website
+            - Maintain session: keeps you logged in while interacting
+            - Terminate session: logging out or closing connection
+            - RPC: allows programs to execute functions on remote systems
+            - NetBIOS: manages sessions in local networks
+
+    Layer 6 – Presentation Layer
+        Function: Formats, encrypts, and compresses data.
+            Explanation:This layer ensures that data is in a format the application layer can understand. It acts as a translator between different systems. It also provides security by encrypting data and improves efficiency through compression.
+        How components are used:
+            - Encryption (SSL/TLS): secures data during transmission (e.g., HTTPS)
+            - Decryption: converts encrypted data back to readable form
+            - Formatting: converts data formats (e.g., images like JPEG)
+            - Compression: reduces file size for faster transmission
+
+    Layer 7 – Application Layer
+        Function: Provides network services to end-user applications.
+            Explanation:This is the top layer and the closest to the user. It allows software applications to access network services. It does not refer to the apps themselves, but the protocols that enable them to communicate.
+        How components are used:
+            - HTTP: used when accessing websites in a browser
+            - FTP: used to upload/download files between systems
+            - SMTP: used to send emails
+            - DNS (also commonly included): translates domain names into IP addresses
+        Real-world examples:
+            - Opening a browser → uses HTTP
+            - Sending an email → uses SMTP  
+            - Uploading files to a server → uses FTP
+    Memory Aid:
+        All People Seem To Need Data Processing
+        (Application → Presentation → Session → Transport → Network → Data Link → Physical)
