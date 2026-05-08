@@ -1,0 +1,47 @@
+Git basics
+
+- COMMON COMMANDS
+  - [git init] initializes a new Git repo with a .git directory and starts tracking your project.
+  - [git add] stages your changes, preparing files to be included in the next commit.
+  - [git commit] takes a snapshot of what has been staged — the official save.
+  - [git status] shows what is staged, what is unstaged, and what is untracked. It is important to use it often.
+  - [git log] displays commit history, which is useful when you want to investigate what changed and when.
+  - [git diff] shows what changed. It is useful for discovering what broke and how.
+
+- EXTRA COMMANDS
+  - [git config] is essential when you first set up Git on your machine. It sets your name, email, and other options.
+  - [git help <command>] shows built-in Git documentation for a specific command.
+  - [git clone] copies a remote repository from GitHub, GitLab, or another host to your local machine.
+  - [git rm] removes a tracked file from Git.
+  - [git mv] renames or moves a file while preserving history.
+  - [git restore] undoes file changes cleanly without rolling back an entire commit.
+
+- THE 3 AREAS OF Git
+  - [Working Directory] is where you edit your files. Changes here are not tracked until you stage them.
+  - [Staging area (Index)] is where files go when you run git add, preparing them for the next commit.
+  - [Repository] is where commits are stored. When you run git commit, staged changes become a new snapshot in the repository.
+
+FLOW
+
+WORKING DIRECTORY → [git add] → STAGING AREA → [git commit] → REPOSITORY
+
+Brief explanation: start in the working directory, use git add to stage changes, then use git commit to save them to the repository. Saving a file in VS Code does not mean Git is tracking it; you must add and commit it.
+
+# VIEWING HISTORY
+- Viewing history in DevOps is crucial for debugging because it lets you trace who changed what, when, and why.
+
+ESSENTIAL COMMANDS FOR VIEWING HISTORY
+  - [git log] gives you the full commit history.
+    - use case: useful when you want to walk back through recent changes.
+  - [git log --oneline --graph] shows a compact tree/branch layout.
+    - use case: helpful when dealing with merge commits and release branches.
+  - [git show <commit>] shows the details of a specific commit.
+    - use case: view the exact changes, author, and commit message.
+  - [git diff] compares unstaged changes with the last commit.
+    - use case: great for checking what changed before committing.
+  - [git diff --staged] compares staged changes with the last commit.
+  - [git blame <file>] shows who last changed each line in a file.
+    - use case: useful for debugging and reviewing config files, or asking the person responsible about a change.
+  - [git reflog] displays every HEAD movement, even actions that were later removed from history.
+    - use case: helpful if you accidentally deleted a branch or lost a commit; reflog can help recover it.
+
