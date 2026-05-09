@@ -24,5 +24,9 @@ GIT ARCHITECTURE & INTERNALS
         - [tag] a refs to a specfic commit often used for marking releases.
 
     THE .git DIRECTORY
-        -  
-        -
+        -  every git repo has a secert folder called .git, which is also refered to as the brain of the project and conatians everything git need to function with history, config , brancvhes and more
+        - [.git/refs/] is where git stores branches and tags
+        - [.git/objects/] is also called the object store its where git keeps every commit ,blob and trees all compressed and  aand stored by shahash 
+        - [.git/config] these are the repo specific settings meaning if you goit diffenrent remotes or user info for this project , theyll usallly go here.
+        - [.git/HEAD] tells git what branch / commit you are currently on.
+        - [.git/index] this is the staging area, which acts a temporary zone between editing your files and commiting them, git also build your next snapshot here 

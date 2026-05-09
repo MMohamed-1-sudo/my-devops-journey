@@ -27,7 +27,7 @@ WORKING DIRECTORY → [git add] → STAGING AREA → [git commit] → REPOSITORY
 
 Brief explanation: start in the working directory, use git add to stage changes, then use git commit to save them to the repository. Saving a file in VS Code does not mean Git is tracking it; you must add and commit it.
 
-# VIEWING HISTORY
+- VIEWING HISTORY
 - Viewing history in DevOps is crucial for debugging because it lets you trace who changed what, when, and why.
 
 ESSENTIAL COMMANDS FOR VIEWING HISTORY

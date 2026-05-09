@@ -1,0 +1,136 @@
+REBASE VS MERGE
+    
+    MERGE - preserves history and added a merge commit so you can see where the branch is joined this can be good for collabartaion where visibilty matters.
+    REBASE - Is abit more advance essentially rewriting the git history in a linear format making it appear as though your branch was always bilt of the last commit and this is ideal for cleaning up your branch before a pull request.
+    DO NOT REBASE SHARED BRACNCHES AS OTHER PEAOPLE MAY BE USING IT AND THIS WILL LEAD TO BREAKING IT
+GIT STASH & POP 
+    git stash is used as a temporary storage box for your changes, this can be used in situation where you are half way through something and someone ask if you can quickily go in to said branch and you dont want to commit that branch so you can just temporarly store it.
+        - [git stash] this command hides away all your uncommited changes think of it sort of like hitting a pause button.
+        - [git stash list] this command displays all your stashes or any work you have sttashed away.
+        - [git stash apply] this command takes changes you previouley saved with git stash and reapplies them in your working directory. this command is super useful if you want keep reusing this in other directorys.
+        - [git stash pop] this command applies the most recent stash to your working directory and removes that stash from the stash list. this is useful  when you are done with it and want to keep things clean.
+        - use case: These commands are especially handy when you need to switch context quickly—like jumping between branches or tasks. Maybe a teammate asks for a quick hotfix on main, or you want to pull the latest changes before continuing your work. Instead of committing unfinished code, you can stash your changes, switch over, and then bring everything back later with a pop.
+        
+        It’s one of those moments where Git can feel a bit rigid—you’re not ready to commit yet, but you still need to move fast. Stashing gives you a way around that: save your progress temporarily, switch contexts, and then return to your work as if nothing interrupted you.
+
+    RESET, REVERT AND CHERRY PICK
+        
+        - [git revert] - this command undoes a previous commit by creating a new commit, it doesnt erease history its takes changes introduced in commit <a1b2c3d> and creates a new commit that does the opposite and is safe to use in shared branches and production.
+        - [git reset] is a more aggressive command it essentially moves the branch pointer backwards, there are three types of git reset soft, mixed and hard
+        the soft moves your pointer back but keeps changes staged. mixed version moves the pointer and also unstaged your changes. and the hard version which should be approached with caustion litrally nukes everything as it rewrites the history and can be dangerous in production.
+        - [ gity cherry pick] this command allows you to take a specific commit from another branch somewhere else and apply it in your current one. which can be quite useful for hot fixes  for exam,ple you fix a bug in the main and you want to pull that single commit into your release and you dont want to merge everything you just want that single commit this command will allow you to cherry pick that.
+
+        QUICK SUMMARY: Use `revert` when you need to safely undo changes on a shared branch. Use `reset` when you want to move your local history backward. And use `cherry-pick` when you need to grab a specific commit from another branch without merging everything. These are powerful tools, and once you understand when to use each one, your Git workflow becomes much more efficient.
+    
+    FORKS AND PULL REQUEST
+        - fork is essentially your own copy of someones elses repo (on github) you take a project usually from github create a copy under your account and clone it to your local machine create a new branch then you can make changes + commit then finally push to your fork which will open a pull request to propose your changes.
+
+        Simple example
+            -You fork a project called awesome-project
+            - Fix a bug in your fork
+            - Open a pull request saying:
+            - “Fix login bug”
+            - The maintainers can:
+            - review your code
+            - request changes
+            - merge it if they approve
+        
+
+        WHY THIS MATTER:
+            Forks + pull requests are what make large-scale collaboration possible without chaos. Everyone can work independently, then propose changes in a controlled way.
+
+        
+    COLLABRATING PRACTICES
+        1. Use branches to isolate your work always work on a separate branch (feature, bug fix, etc.) instead of directly on main. This keeps the main branch stable and ready for deployment.
+        2. Push your code and open a pull request once your changes are ready, push your branch to a remote like GitHub and open a pull request (PR) or merge request (MR). This makes your work visible and starts the review process.
+        3. Assign reviewers and use comments tag teammates to review your code, leave inline comments, and suggest improvements. This is where collaboration happens and code quality improves.
+        4. Resolve merge conflicts before merging if your branch has conflicts, fix them yourself before requesting a merge. This keeps things smooth and respects your team’s time.
+        5. Use issues, projects, and discussions track tasks, bugs, and ideas using tools provided by platforms like GitHub. This helps organize work and improves team coordination.
+        6. Keep commits clean and focused Write clear, meaningful commit messages and keep each commit focused on a single change. Avoid vague messages like “fixed stuff” or “updated things.”
+        7. Follow best practices for smoother teamwork By sticking to these habits, you reduce confusion, improve efficiency, and avoid common Git-related issues within your team.
+
+    TYPICAL GIT WORKFLOW(when working in a team)
+        - Start by pulling the latest code
+        You update your local main branch so you’re working with the newest version of the project.
+        Why: avoids conflicts and outdated work
+        Use case: when starting a new task or returning to work
+        - Create a new branch you make a separate branch for your feature or fix.
+        Why: keeps main stable and isolates your changes
+        Use case: any new feature, bug fix, or experiment
+        - Make changes and commit you work on your code and save progress with small, clear commits.
+        Why: makes history easier to understand, review, and debug
+        Use case: after completing small pieces of work
+        - Push and open a pull request you push your branch to a remote like GitHub and open a PR.
+        Why: shares your work and starts the review process
+        Use case: when your changes are ready for feedback
+        - Review and improve
+        Teammates review your code and you make updates if needed.
+        Why: improves quality and keeps everyone aligned
+        Use case: before merging into main
+        - Resolve conflicts, if your branch is behind, you fix any merge conflicts.
+        Why: ensures your code works with the latest changes
+        Use case: when multiple people changed similar code
+        - Merge into main after approval, your changes are merged.
+        Why: adds your work to the main project
+        Use case: when everything is reviewed and ready
+        - Clean up
+        Delete your branch after merging.
+        Why: keeps the repo organized
+        Use case: after your work is complete.
+
+COMMIT HYGIENE & BEST PRACTICES
+    - Write clear, descriptive commit messages that explain the “what” and “why” of your changes. Avoid vague messages like “fixed stuff” or “updated things.”
+    - Keep commits focused on a single change or logical unit of work. This makes it easier to review and understand the history.
+    - Use the imperative mood in commit messages (e.g., “Add feature X” instead of “Added feature X”) for consistency and clarity.
+    - Regularly pull changes from the main branch to keep your branch up to date and avoid large merge conflicts later on.
+    - Use branches for new features, bug fixes, or experiments to keep the main branch stable and organized.
+PRECOMMIT 
+    - pre commit is a type of git hook that runs before a commit is finalized. It allows you to automate checks and tasks to ensure code quality and consistency before changes are committed to the repository.
+    - Common use cases for pre-commit hooks include:
+        - Running linters to check for code style issues
+        - Running tests to ensure code functionality
+        - Checking for sensitive information (like API keys) before committing
+        - Enforcing commit message formats
+    - By using pre-commit hooks, you can catch issues early in the development process, maintain code quality, and save time by preventing bad commits from being added to the repository. 
+    It’s a powerful way to automate and enforce best practices in your Git workflow.
+AUTOMATION WITH GIT HOOKS
+    - Git hooks are scripts that run automatically at certain points in the Git workflow. They allow you to automate tasks and enforce rules without manual intervention.
+    - Common types of Git hooks include:
+        - pre-commit: runs before a commit is finalized, used for checks and validations
+        - post-commit: runs after a commit is made, can be used for notifications or updates
+        - pre-push: runs before pushing changes to a remote repository, useful for final checks
+        - post-merge: runs after merging branches, can be used for cleanup or notifications
+    - By leveraging Git hooks, you can streamline your development process, ensure code quality, and maintain consistency across your team. They help automate repetitive tasks and catch issues early, making your workflow more efficient and reliable.
+COMMON MISTAKES IN THE REAL WORLD
+    - Failing to pull the latest changes before starting work, which can lead to merge conflicts and outdated code.
+    - Force pushing to shared branches, which can overwrite others’ work and cause confusion.
+    - commiting sensitive information like API keys or passwords, which can lead to security issues.
+    - merging without code review, which can introduce bugs or lower code quality.
+    - Not using branches for new features or fixes, which can clutter the main branch and make it unstable.
+    - Writing vague commit messages that don’t explain the purpose of the changes, making it harder for others to understand the history.
+    - Ignoring merge conflicts or not resolving them properly, which can lead to broken code and frustration for the team.
+    - Not using .gitignore properly, which can lead to committing unnecessary files like build artifacts or sensitive data.
+GIT AT large-scale
+    - In large organizations, using Git becomes much more complex than in small projects. Instead of a few developers, you may have hundreds of engineers, thousands of commits, and heavy CI pipelines. 
+    Managing Git at this scale requires structured workflows and specialized tools.
+    - One common approach is using a monorepo, where multiple projects or services are stored in a single repository instead of separate ones. Companies like Google, Meta, and Uber use this approach.
+    It simplifies dependency management and shared tooling, but it also makes builds and testing more complex.
+    - To handle large repositories efficiently, teams use selective builds. Tools like Turborepo, Nx, and Bazel ensure that only the parts of the codebase that changed are built or tested.
+    This avoids wasting time running full builds for small changes.
+    - Another technique is sparse checkout, which allows developers to download only the parts of the repository they need. 
+    This is useful when the full repository is very large, as it reduces local storage usage and speeds up development.
+    - For handling large files such as media or datasets, teams use Git Large File Storage. Instead of storing big files directly in the repository, 
+    Git LFS keeps lightweight pointers in the repo and stores the actual files separately.
+    - When working with long-lived repositories, cleanup becomes necessary. Tools like git-filter-repo are used to rewrite history, 
+    remove sensitive data, or clean up unnecessary files from past commits.
+    -  Some organizations split projects across multiple repositories using submodules or subtrees. Submodules allow linking separate repositories but can be fragile, 
+    while subtrees are more integrated into Git and often easier to manage.
+    - At scale, teams rely on automation and enforcement rather than individual discipline. This includes commit linting, server-side hooks, and automated checks or 
+    bots that enforce standards, detect issues, and maintain code quality.
+    - Git is also used beyond application code through practices like GitOps. Tools such as Argo CD and Flux monitor repositories and automatically apply changes to 
+    infrastructure, especially in systems like Kubernetes.
+    - Overall, Git itself does not break at scale, but the way it is used must evolve. Large organizations rely on structured workflows, automation, 
+    and specialized tooling to manage complexity effectively.
+        
+    
+
