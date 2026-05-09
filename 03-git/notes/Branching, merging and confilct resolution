@@ -1,0 +1,28 @@
+BRANCHING 101 
+    Branching is a powerful git feature which allows you to work on multiple tyhings at once without it messing with yourr main project. thios allows you to test new feature, fix bugs and test changes effectively and safely 
+
+    BRANCHING COMMANDS
+        - [git branch] this command displays a list of branches that you have.
+        - [git checkout -b <branch>] - this the more old fashion way to create/switch to a new branch.
+        - [git switch -c <branch>] is a more modern way of switchin and creating  a new branch its easier to read and good for beginners.
+        - [git switch <branch>] this is used to switch to the specified exsisting branch.
+        - [git branch -d<branch>] this commandsa allows you to delte brancvh after you are done with it(git will stop you if that brnach hasnt been merged just to be safe).
+
+MERGING 101
+    Merging is the next natural step in the cycle, when you are done working on a branch, merging in git is essentially combining changes in one branch to another.
+        syntax for merging in git - [git merge <branch>] - this basically pulls the commit form that branch.
+    Merging can be handleld in two ways fast forward merge and a recursive merge also known as the true merge. the fast forward merge essentially moves the pointer forward. if both branches have diverged git does something called a recursive merge this creates a merged commit that ties the two divulged commits together.
+    if the same file was edited on both side git might know what to do and this is where you have a merge conflict and this must be resloved manually.
+
+VISUALISE BRANCHES & LOGS
+    [git log --oneline - compact commit view] - this command displays a comopact one line view of your commits.
+    [git log --graph] this displays a visual tree like structure where you can see where branches split and merge.
+    [git log --online --graph --all] this is a more powerdul version.
+        - These commands are extremely useful for debugging merges and tracking branches and help you see whats really happening behind the scenes.
+
+
+REBASE VS MERGE
+    
+    MERGE - preserves history and added a merge commit so you can see where the branch is joined this can be good for collabartaion where visibilty matters.
+    REBASE - Is abit more advance essentially rewriting the git history in a linear format making it appear as though your branch was always bilt of the last commit and this is ideal for cleaning up your branch before a pull request.
+    DO NOT REBASE SHARED BRACNCHES AS OTHER PEAOPLE MAY BE USING IT AND THIS WILL LEAD TO BREAKING IT
