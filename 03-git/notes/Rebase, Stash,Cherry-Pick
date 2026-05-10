@@ -131,6 +131,16 @@ GIT AT large-scale
     infrastructure, especially in systems like Kubernetes.
     - Overall, Git itself does not break at scale, but the way it is used must evolve. Large organizations rely on structured workflows, automation, 
     and specialized tooling to manage complexity effectively.
-        
+
+
+GIT SECURITY AND SECRETS HYGIENE
+
+    - Do not commit secrets, this ca be done by using tools such as truffle hog and even .gitingore basics these act as security guared and scan your before you commit and fail to commit ifyou have something that look like a secret and it will notify you.
+    - If you've already leak something which happens quite often , do not worry, you just need to act fast you need to clean your git histrory with tools such as git filter repo, BFG repo cleaner.
+    - Its important to audit your git logs not everyoine does it but from time to time its nice to look at who made what changes.
+
+  
+
+
     
 

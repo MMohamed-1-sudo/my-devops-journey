@@ -101,3 +101,74 @@ OSI MODEL 1-7
     Memory Aid:
         All People Seem To Need Data Processing
         (Application → Presentation → Session → Transport → Network → Data Link → Physical)
+
+TCP/ IP MODEL
+    TCP/IP model is the backbone of the internet and only consists of 4 layers, application layer,transport layer, internet layer and finally Network access Layer.
+    - APPLICATION LAYER this is where the network applications and their products operate like HTTP, TLS and DNS Same as the OSI model
+    - TRANSPORT LAYER this layer is where end to end communication at data transfer between devices occours and key protocals here are TCP and UDP.
+    - INTERNET LAYER is responsible for logical addressing and routing data accross different networks and primary protocals for this is IP.
+    - NETWORK ACCESS LAYER this is a compact format of layer 1 and 2 of the OSI model this layer essentially encompasses the physical and data aspects, things like Ethernet, wireless, and LAN.
+
+THE OSI MODEL AN EXAMPLE (POV OF SENDER)
+
+
+    Application Layer (Layer 7)
+    - The user types a message or enters a website URL in a browser (for example, requesting a page using HTTP).
+    - The application prepares the data in a format the network can understand, such as an HTTP request.
+    Presentation Layer (Layer 6)
+    - The data is formatted, encoded, or compressed so the receiving system can interpret it correctly.
+    - Encryption may be applied here, for example using TLS to secure the data before transmission.
+    Session Layer (Layer 5)
+    - A session is established between the sender and receiver, managing how long the communication stays open.
+    - It ensures synchronization, so if the connection drops, it can resume from the last checkpoint.
+    Transport Layer (Layer 4)
+    - The data is broken into smaller segments for reliable delivery.
+    - A protocol such as TCP is used to ensure all segments arrive correctly and in order.
+    - Port numbers are added so the receiving device knows which application should get the data.
+    Network Layer (Layer 3)
+    - Logical addressing is added, such as the destination IP address.
+    - IP determines the best path across networks to reach the destination.
+    - Data is now called a packet.
+    Data Link Layer (Layer 2)
+    - The packet is framed for transmission on the local network.
+    - A physical address (MAC address) is added so devices on the same network can identify each other.
+    - Error detection is included to identify corrupted frames.
+    Physical Layer (Layer 1)
+    - The framed data is converted into electrical signals, light pulses, or radio waves.
+    - These signals are transmitted over the physical medium such as Ethernet cables or Wi-Fi.
+        -Summary from sender perspective
+            Data starts as user input at the application layer.
+            Each layer adds its own information (encapsulation) as it moves downward.
+            By the time it reaches the physical layer, it is fully prepared for transmission across the network.
+
+
+THE OSI MODEL AN EXAMPLE (POV OF reciever)
+
+    Physical Layer (Layer 1)
+        - The receiver gets raw signals (electrical, light, or radio) from the medium such as Wi-Fi or Ethernet.
+        - These signals are converted back into a stream of bits (1s and 0s).
+    Data Link Layer (Layer 2)
+        - The bit stream is grouped into frames.
+        - The device checks the MAC address to confirm the data is intended for it.
+        - Error detection mechanisms verify whether the frame is corrupted; if so, it may be discarded or retransmission requested.
+    Network Layer (Layer 3)
+        - The frame is unpacked to extract the packet.
+        - The destination IP address is checked using IP to confirm the packet has reached the correct device.
+        - Routing information is removed since delivery to the endpoint is complete.
+    Transport Layer (Layer 4)
+        - The packet is broken back into segments and reassembled in the correct order.
+        - Using TCP, the receiver ensures all segments are present and requests any missing ones.
+        - Port numbers are used to direct the data to the correct application.
+    Session Layer (Layer 5)
+        - The session between sender and receiver is managed and eventually terminated.
+        - Synchronization points allow recovery if data transfer was interrupted.
+    Presentation Layer (Layer 6)
+        - Data is decrypted if encryption was used, such as TLS.
+        - It is then decompressed or translated into a format the application can understand.
+    Application Layer (Layer 7)
+        - The final data is delivered to the application, such as a web browser.
+        - The browser interprets the data (for example via HTTP) and displays the web page to the user.
+    Summary from receiver perspective
+        - Data starts as signals and moves upward through the layers.
+        - Each layer removes its corresponding header or processing from the sender.
+        - By the time it reaches the application layer, it is back in a human-readable form.
