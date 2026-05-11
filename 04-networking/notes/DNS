@@ -1,0 +1,45 @@
+DNS 
+    WHAT IS DNS AND ITS ROLE IN NETWORKING?
+        - DNS (Domain Name System) is a system that translates human-readable domain names (like google.com) into IP addresses that computers use to identify each other on a network.
+        - Its main role is to make the internet easier to use, so users don’t have to remember numerical IP addresses.
+        - When a user enters a website, DNS queries a server to find the correct IP address and directs the request to the right         destination.
+        - It works alongside protocols like IP to ensure data is sent to the correct device.
+        - Overall, DNS acts like a “phonebook of the internet,” enabling fast and efficient communication between devices
+    DNS COMPONENTS?
+        - DNS components overview: The DNS is made up of several parts that work together to translate domain names into IP addresses. Key components include resolvers (client-side request handlers), name servers (which store DNS records), and zone files (which contain the actual mappings).
+        - Name servers (what they are): Name servers are specialized servers that store and provide DNS records for domains. They answer queries about domain names by returning the corresponding IP address or other related information.
+        - How name servers work: When a user enters a domain, a DNS resolver sends a query through a hierarchy of name servers. This typically involves root servers, top-level domain (TLD) servers (like .com or .org), and authoritative name servers. The authoritative server holds the final answer and responds with the correct IP address.
+        - Zone files (what they are): Zone files are text-based files stored on authoritative name servers. They contain DNS records that define how a domain should be resolved.
+        - What zone files include: These files store records such as A records (mapping domain names to IP addresses), CNAME records (aliases), MX records (mail servers), and NS records (which define the authoritative name servers for the domain).
+        - Overall role: Name servers use the information in zone files to respond to DNS queries quickly and accurately, enabling users to access websites without needing to know IP addresses.
+DNS RECORDS?
+    - DNS records are instructions stored on DNS servers that tell the internet how to handle requests for a domain, such as where to find its website or email service. For example, an A record links a domain to an IP address, a CNAME creates an alias to another domain, an MX record directs email to mail servers, and a TXT record stores verification or security information. Together, these records allow DNS to translate human-friendly domain names into the technical details needed for devices to communicate.
+
+     +--------+----------------------+------------------------------+--------------------------------------------------------------+
+| Type   | Name (Host)          | Value / Points To            | Description                                                  |
++--------+----------------------+------------------------------+--------------------------------------------------------------+
+| A      | example.com          | 93.184.216.34                | Maps a domain name to an IPv4 address (used for websites)    |
+| AAAA   | example.com          | 2001:db8::1                  | Maps a domain name to an IPv6 address                        |
+| CNAME  | www                  | example.com                  | Creates an alias from one domain to another                  |
+| MX     | example.com          | mail.example.com (prio 10)   | Specifies mail server responsible for receiving emails       |
+| TXT    | example.com          | "v=spf1 include:_spf... ~all"| Stores text data (used for verification, SPF, DKIM, etc.)    |
+| NS     | example.com          | ns1.provider.com             | Defines which name servers manage the domain                 |
+| SOA    | example.com          | ns1.provider.com admin@...   | Contains admin and zone information for the domain           |
+| PTR    | 34.216.184.93.in-addr.arpa | example.com         | Maps an IP address back to a domain (reverse DNS lookup)     |
++--------+----------------------+------------------------------+--------------------------------------------------------------+
+     
+    HOW DNS WORKS: DNS PROCESS?
+        WHAT IS DNS RESOLUTIONS
+            - this is the process of converting domain names in to IP addresses.
+        DNS HIERACHY AND DSISTRIBUTION
+            - DNS hierarchy and distribution describe how the Domain Name System is structured and spread across the internet to efficiently resolve domain names into IP addresses.
+
+            - First, DNS is organized in a hierarchical (tree-like) structure. At the very top are the **root servers**, which act as the starting point for all DNS queries. Below them are the **Top-Level Domain (TLD) servers**, responsible for domains like `.com`, `.org`, or `.uk`. Beneath the TLD layer are the **authoritative name servers**, which store the actual DNS resource records (like A, MX, and CNAME) for specific domains such as `example.com`. This hierarchy ensures that no single server has to store all domain information, making the system scalable and organized.
+
+            - Second, DNS works step-by-step when resolving a domain. When you enter a website, your device asks a **DNS resolver** to find the IP address. If the resolver doesn’t already have the answer cached, it queries a root server, which directs it to the correct TLD server. The TLD server then points it to the authoritative name server for the domain. Finally, the authoritative server returns the correct DNS record (like the IP address), which is sent back to your device so it can connect to the website.
+
+            - Third, DNS is distributed across many servers worldwide rather than being stored in one central place. Root servers, TLD servers, and authoritative servers are replicated globally. This distribution improves speed (by responding from nearby servers), reliability (no single point of failure), and scalability (handling billions of queries). Because of caching at multiple levels (browser, resolver, and servers), repeated requests are answered faster without repeating the full lookup process.
+
+            - In summary, DNS hierarchy organizes the system into levels (root, TLD, authoritative), while distribution ensures that this information is spread across the globe for efficiency, reliability, and performance.
+    DNS TOOLS?
+    USING/ETC/HOSTS ON OUR LOCAL MACHINE?
