@@ -1,0 +1,73 @@
+Here’s a step-by-step guide tailored to your details for creating and using an SSH key with your GitHub account on macOS:
+
+* Open Terminal (press Cmd + Space, type “Terminal”)
+
+* Check if you already have an SSH key:
+
+```bash
+ls -al ~/.ssh
+```
+
+* Look for files like `id_ed25519` and `id_ed25519.pub`
+
+* If they exist, you can reuse them or create a new one
+
+* Generate a new SSH key using your email:
+
+```bash
+ssh-keygen -t ed25519 -C "MMohamed_786@outlook.com"
+```
+
+* Press Enter to accept the default file location
+
+* Optionally enter a passphrase (recommended)
+
+* Start the SSH agent:
+
+```bash
+eval "$(ssh-agent -s)"
+```
+
+* Add your SSH key to the agent:
+
+```bash
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+* Copy your public key to the clipboard:
+
+```bash
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+* Add the key to your GitHub account (username: MMohamed-1-sudo):
+
+* Go to GitHub
+
+* Click your profile picture (top right)
+
+* Go to “Settings”
+
+* Click “SSH and GPG keys”
+
+* Click “New SSH key”
+
+* Title it something like “MacBook - MMohamed-1-sudo”
+
+* Paste the copied key and save
+
+* Test the SSH connection:
+
+```bash
+ssh -T git@github.com
+```
+
+* You should see a success message mentioning your username: MMohamed-1-sudo
+
+* If your repo is still using HTTPS, switch it to SSH:
+
+```bash
+git remote set-url origin git@github.com:MMohamed-1-sudo/your-repo-name.git
+```
+
+After this setup, you’ll be able to push and pull without entering your GitHub username and password.
