@@ -1,0 +1,43 @@
+WHAT IS ROUTING AND WHY IT MATTERS?
+         - routing is the process of finding the best path for data to travel across networks for example When you send data over 
+        the internet (like opening a website), it doesn’t go directly in one straight line. Instead, it passes through multiple devices called routers. 
+        Routing decides which path the data should take to reach its destination efficiently.
+        - Routing is important because it ensures data can travel efficiently and reliably across networks to reach the correct destination, even when 
+        conditions change. For example, when you open a website like Google, routing determines the best path for your request to travel across 
+        multiple networks so the page loads quickly; if one connection is congested or fails, routing automatically finds an alternative route so you don’t lose 
+        access. Similarly, in everyday situations like sending a message on WhatsApp, routing ensures your message reaches the recipient almost instantly 
+        by navigating through the most efficient network paths, making modern communication fast, reliable, and scalable.
+
+STATIC VS DYNAMIC ROUTING 
+        - STATIC ROUTTING: Static routing is a type of network routing where the path that data should take is manually configured by
+         a network administrator and does not change automatically. This means routers use fixed routes that are entered by hand, 
+         rather than learning or adjusting routes dynamically.
+                - PROS OF STATIC ROUTING: Static routing has several advantages such as it is simple and predictable because routes are fixed, making 
+                network behavior easy to understand; it uses low resources since no routing updates are exchanged, meaning less bandwidth and 
+                processing power are needed; it is more secure because routes are not automatically shared, reducing the risk of malicious updates; 
+                and it is ideal for small networks where the setup is unlikely to change.
+                - CONS OF STATIC ROUTING: Static routing has several disadvantages such as it is not flexible because if a network path fails, the router 
+                cannot automatically find a new route and must be manually updated; it is time-consuming to manage, especially in large networks 
+                where configuring and maintaining routes can become complex and error-prone; it is not scalable since it becomes impractical as 
+                the network grows; and it lacks automatic adaptation, meaning it cannot adjust to traffic congestion or changes in network conditions.
+                - an example of a con would be Imagine a small office with two routers. You manually configure Router A to send all traffic for 
+                another branch office through Router B. If Router B goes down, communication stops until someone manually updates the route.
+        - DYNAMIC ROUTING is a type of routing where routers automatically learn and adjust the best paths for data using routing protocols. 
+        Instead of being manually set, routes are updated in real time based on network conditions such as traffic, failures, or changes in take 
+        topology.
+                -Dynamic routing uses protocols like RIP, OSPF, and BGP to share information between routers and decide the most efficient path.
+                -Dynamic routing is important because it allows networks to adapt automatically. For example, if a link between two routers 
+                fails, the system can quickly calculate a new path and continue sending data without interruption. This is how large systems 
+                like the internet keep working even when parts of the network go down.
+                - PROS OF DYNAMIC ROUTING: is that it is flexible and self-adjusting, making it ideal for large and complex networks. 
+                It also reduces manual work since administrators do not need to configure every route. Additionally, it can choose more 
+                efficient paths, improving performance.
+                - However, dynamic routing also has some disadvantages. It uses more CPU, memory, and bandwidth because routers must constantly 
+                exchange updates. It is also more complex to set up and manage compared to static routing, and incorrect configuration can lead to 
+                network issues.
+                - A common example is the internet, where routers use BGP to route traffic between different networks worldwide. Another 
+                example is a large company network using OSPF to automatically adjust routes when a connection between offices fails.
+
+COMMON ROUTING PROTOCOLS(BGP,OSPF ETC)
+        - Routing protocols: router protocol automate the proccess for the servers to find the best route instead of manually setting routes
+        THESE PROTOCALS DO THE HEAVEY LIFTING FOR US. 
