@@ -39,5 +39,17 @@ STATIC VS DYNAMIC ROUTING
                 example is a large company network using OSPF to automatically adjust routes when a connection between offices fails.
 
 COMMON ROUTING PROTOCOLS(BGP,OSPF ETC)
-        - Routing protocols: router protocol automate the proccess for the servers to find the best route instead of manually setting routes
-        THESE PROTOCALS DO THE HEAVEY LIFTING FOR US. 
+        - Routing protocols: router protocol automate the proccess for the servers to find the best route instead of manually setting routes while enhancing network efficency, essentially making sure that the data you send take the most efficient path reducing congestion, these protocoals do the heavy lifting.
+        - Routing protocals use algorithams that determine the best path for data to travel from one place to another while automation routing updates which basically means we dont have to manully configure everything and they find networking paths if one goes down therefore improving network resilince.
+        - OSPF protocal stands for (Open Shortest Path First) which essentially finds the shortest path for data to travel and is mainly used within large orginisation and uses a comlex system called link state information to make routing decisions which allows it to consider the status of a network and the cost to use it.
+        - BGP protocals stands for (Border Gateway Protocol) BGP is the protocol that powers routing on the internet. It’s used between large networks (like ISPs) to exchange routing information. Instead of just finding the shortest path, BGP focuses on policies, reliability, and control over how data flows between networks. 
+
+SUBNETTING 
+        - SUBNETTING BASICS: CIDR NOTATION & SUBNET MASK 
+                - Subnetting is the process of dividing a larger IP network into smaller, more manageable sections called subnets. It is used in computer networking to improve performance, security, and organization by controlling how IP addresses are distributed and how traffic flows.
+                - CIDR Notation stands for (classless Inter-Domain routing) is a compact way to write an IP address along with how much of it represents the network, using a slash and a number. For example, in **192.168.1.0/24**, the “/24” means the first 24 bits are the network part, leaving 8 bits for devices, which gives 256 total addresses (254 usable). Similarly, **10.0.0.0/8** has a much larger network because only 8 bits define the network and 24 bits are available for hosts, allowing millions of addresses, while something like **192.168.1.0/30** is very small, with only 4 total addresses (2 usable). In simple terms, the number after the slash tells you how big or small the network is—the bigger the number, the fewer devices it can support.
+
+        - BINARY BASICS
+                - 
+        - CALCULATING SUBNETS AND HOST RANGES 
+        - NAT (Network address Translation)
