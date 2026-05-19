@@ -1,0 +1,24 @@
+DOCKER
+
+    - INTRODUCTIONS TO CONTAINERS AND DOCKER
+    - SETTING UP DOCKER
+    - DOCKER BASICS 
+    - CREATING DOCKER IMAGES
+    - DOCKER NETWORKING 
+    - DOCKER COMPOSE
+    - DOCKER REGISTRY
+    - PRACTICAL EXAMPLE 
+    - ADVANCED TOPIC OVERVIEW 
+    - TROUBLE SHOOTING AND BEST PRACTICES 
+
+
+
+INTRODUCTIONS TO CONTAINERS AND DOCKER
+    - WHAT ARE CONTAINERS
+        - Dockers is a tool that lets you create, run, and manage containers by acting as the engine between your applications and the operating system. It packages an application with everything it needs—code, libraries, and dependencies—into an isolated container that runs the same on any machine, whether it’s your laptop or a production server. Docker uses a Docker Engine on top of the host operating system, making containers lightweight since they share the OS instead of needing a full one like virtual machines. For example, if you build a Node.js web app, Docker can package it with the exact Node version and dependencies so it runs perfectly on another developer’s computer or in the cloud; similarly, you could run a database like MySQL in one container and a backend API in another, and they won’t interfere with each other. This isolation and consistency are why Docker is so important in modern development and DevOps, as it allows you to build once and run anywhere reliably.
+
+    - BENIFIT OF CONTAINERS 
+        - 
+    - OVERVIEW OF DOCKER
+    - IMPORTANCE OF DOCKER IN MODERN DEVELOPMENT OPERATIONS 
+    
