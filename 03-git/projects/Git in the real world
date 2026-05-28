@@ -1,73 +1,1983 @@
-Here’s a step-by-step guide tailored to your details for creating and using an SSH key with your GitHub account on macOS:
+creating and using an SSH key with your GitHub account on macOS:
 
-* Open Terminal (press Cmd + Space, type “Terminal”)
+    * Open Terminal (press Cmd + Space, type “Terminal”)
 
-* Check if you already have an SSH key:
+    * Check if you already have an SSH key:
 
-```bash
+    ```bash
 ls -al ~/.ssh
 ```
 
-* Look for files like `id_ed25519` and `id_ed25519.pub`
+    * Look for files like `id_ed25519` and `id_ed25519.pub`
 
-* If they exist, you can reuse them or create a new one
+    * If they exist, you can reuse them or create a new one
 
-* Generate a new SSH key using your email:
+    * Generate a new SSH key using your email:
+
+    ```bash
+    sh-keygen -t ed25519 -C "MMohamed_786@outlook.com"
+    ```
+
+    * Press Enter to accept the default file location
+
+    * Optionally enter a passphrase (recommended)
+
+    * Start the SSH agent:
+
+    ```bash
+    eval "$(ssh-agent -s)"
+    ```
+
+    * Add your SSH key to the agent:
+
+    ```bash
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+    ```
+
+    * Copy your public key to the clipboard:
+
+    ```bash
+    pbcopy < ~/.ssh/id_ed25519.pub
+    ```
+
+    * Add the key to your GitHub account (username: MMohamed-1-sudo):
+
+    * Go to GitHub
+
+    * Click your profile picture (top right)
+
+    * Go to “Settings”
+
+    * Click “SSH and GPG keys”
+
+    * Click “New SSH key”
+
+    * Title it something like “MacBook - MMohamed-1-sudo”
+
+    * Paste the copied key and save
+
+    * Test the SSH connection:
+
+    ```bash
+    ssh -T git@github.com
+    ```
+
+    * You should see a success message mentioning your username: MMohamed-1-sudo
+
+    * If your repo is still using HTTPS, switch it to SSH:
+
+    ```bash
+    git remote set-url origin git@github.com:MMohamed-1-sudo/your-repo-name.git
+
+    Make sure to run ssh-add ~/.ssh/coderco_demo before running ssh -T git@github.com 
+    ```
+
+    After this setup, you’ll be able to push and pull without entering your GitHub username and password.
+
+CREATING NEW REPO
+    Here is a clear, step-by-step guide to creating and connecting a new Git repository using Git and your GitHub account (MMohamed-1-sudo). This follows a logical flow from local setup to connecting with GitHub.
+
+---
+
+    First, make sure your SSH authentication is working. You should already have done this earlier. You can confirm by running:
+
+    ```bash
+    ssh -T git@github.com
+    ```
+
+If everything is set up correctly, it will confirm that you are authenticated as **MMohamed-1-sudo**.
+
+---
+
+Next, create a new project directory on your Mac. This will be your local repository.
 
 ```bash
-ssh-keygen -t ed25519 -C "MMohamed_786@outlook.com"
+mkdir git-lab
+cd git-lab
 ```
 
-* Press Enter to accept the default file location
+    At this point, the folder is completely empty.
 
-* Optionally enter a passphrase (recommended)
+---
 
-* Start the SSH agent:
+    Now initialise Git in this directory:
+
+    ```bash
+    git init
+    ```
+
+    This command creates a hidden `.git` folder, which turns your directory into a Git repository. Even though you won’t see anything with a normal `ls` command, Git is now tracking this folder.
+
+---
+
+    Create your first file, a README file:
+
+    ```bash
+    touch README.md
+    ```
+
+    Add some content to it:
+
+    ```bash
+    echo "# git-lab" >> README.md
+    ```
+
+    This creates a simple markdown file with a heading.
+
+---
+
+    Check the current status of your repository:
+
+    ```bash
+    it status
+    ```
+
+    You will see that `README.md` is untracked.
+
+---
+
+    Stage the file so it is ready to be committed:
+
+    ```bash
+git add README.md
+```
+
+    It is better to add specific files rather than using `git add .`, especially in larger projects where you may not want to include everything.
+
+---
+
+    Now commit the file with a message:
+
+    ```bash
+    git commit -m "Initial commit"
+    ```
+
+    This saves your changes locally in your Git repository.
+
+---
+
+    At this stage, everything is still local. There is no connection to GitHub yet, so pushing will not work.
+
+---
+
+    Go to GitHub in your browser.
+
+    * Sign in as **MMohamed-1-sudo**
+    * Click on your profile icon
+    * Go to “Repositories”
+    * Click “New repository”
+
+    Fill in the details:
+
+    * Repository name: `git-lab` (or any name you prefer)
+    * Visibility: Public or Private (your choice)
+    * Do not initialise with a README (since you already created one locally)
+
+    Then click “Create repository”.
+
+---
+
+    Once the repository is created, GitHub will show you commands to connect your existing local repository. You will use the SSH URL, which will look like this:
+
+    ```bash
+    git@github.com:MMohamed-1-sudo/git-lab.git
+    ```
+
+---
+
+    Now go back to your terminal and connect your local repository to GitHub:
+
+    ```bash
+    git remote add origin git@github.com:MMohamed-1-sudo/git-lab.git
+    ```
+
+    This links your local project to the remote repository on GitHub.
+
+---
+
+    Finally, push your code to GitHub:
+
+    ```bash
+    git push -u origin main
+    ```
+
+    * `origin` is the name of your remote
+    * `main` is your branch
+    * `-u` sets it as the default upstream branch
+
+---
+
+    After this step, your local repository is fully connected to GitHub. Any future changes can be pushed using:
+
+    ```bash
+    git push
+    ```
+
+        and pulled using:
+
+    ```bash
+    git pull
+    ```
+
+---
+
+    This completes the full workflow: creating a local repository, committing code, creating a GitHub repository, and linking the two together.
+
+Below is a clear continuation of your workflow, focusing specifically on **pushing your repository to GitHub and making further changes** using your account (**MMohamed-1-sudo**) on GitHub.
+
+---
+
+    Once you have connected your local repository to GitHub using `git remote add origin`, the next step is to push your code to the remote repository.
+
+    Start by pushing your existing commit:
+
+    ``bash
+    git push -u origin main
+    ```
+
+    * `origin` is the name of your remote repository
+    * `main` is your branch
+    * `-u` sets this branch as the default upstream, so future pushes are simpler
+
+    If successful, Git will upload your files to GitHub.
+
+---
+
+    Now go to your repository on GitHub and refresh the page. You should now see your `README.md` file. This confirms that your local repository is successfully connected and pushed to GitHub.
+
+---
+
+    Next, you can make further changes to your project to understand the full workflow.
+
+    Create a `.gitignore` file:
+
+    ```bash
+    touch .gitignore
+    ```
+
+    Open and edit the file using the terminal editor:
+
+    ```bash
+    vi .gitignore
+    ```
+
+    Inside the editor:
+
+    * Press `i` to enter insert mode
+    * Add the following lines:
+
+    ```
+    .env
+    .DS_Store
+    ```
+
+    * Press `Esc`
+    * Type `:wq!` and press Enter to save and exit
+
+---
+
+    Check the status of your repository:
+
+    ```bash
+    git status
+    ```
+
+    You will see `.gitignore` listed as an untracked file.
+
+---
+
+    Stage the file:
+
+    ```bash
+    git add .gitignore
+    ```
+
+    Check status again:
+
+    ```bash
+    git status
+    ```
+
+    The file should now appear in green, meaning it is ready to be committed.
+
+---
+
+    Commit the change with a clear message:
+
+    ```bash
+    git commit -m "Add .gitignore file"
+    ```
+
+---
+
+    Push the new commit to GitHub:
+
+    ```bash
+    git push
+    ```
+
+    Because you previously used `-u origin main`, you no longer need to specify the branch or remote.
+
+---
+
+    Go back to your repository on GitHub and refresh the page again. You should now see the `.gitignore` file alongside your `README.md`.
+
+---
+
+    At this point, your workflow is fully set up:
+
+    * Your local directory is now a Git repository
+    * It is connected to a remote repository on GitHub
+    * You can make changes, commit them, and push them anytime
+
+    From here, you can expand into more advanced features such as creating branches, collaborating with others, and opening pull requests.
+
+BRANCHING AND MERGING 
+    Here is a clear, structured step-by-step guide on **branching, merging, and resolving conflicts in Git**, based on your workflow and using your GitHub account (MMohamed-1-sudo).
+
+---
+
+### Starting Point
+
+You already have:
+
+* A local Git repository
+* Connected to GitHub
+* A `main` branch
+
+Now you will simulate real development using branches.
+
+---
+
+### Step 1: Create and Commit a File on Main
+
+Create a file and add initial content from the main branch:
 
 ```bash
-eval "$(ssh-agent -s)"
+echo "Hello from main" > app.txt
 ```
 
-* Add your SSH key to the agent:
+Check status:
 
 ```bash
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+git status
 ```
 
-* Copy your public key to the clipboard:
+Stage the file:
 
 ```bash
-pbcopy < ~/.ssh/id_ed25519.pub
+git add app.txt
 ```
 
-* Add the key to your GitHub account (username: MMohamed-1-sudo):
-
-* Go to GitHub
-
-* Click your profile picture (top right)
-
-* Go to “Settings”
-
-* Click “SSH and GPG keys”
-
-* Click “New SSH key”
-
-* Title it something like “MacBook - MMohamed-1-sudo”
-
-* Paste the copied key and save
-
-* Test the SSH connection:
+Commit the change:
 
 ```bash
-ssh -T git@github.com
+git commit -m "Initial commit on main"
 ```
 
-* You should see a success message mentioning your username: MMohamed-1-sudo
+---
 
-* If your repo is still using HTTPS, switch it to SSH:
+### Step 2: Create and Switch to a New Branch
+
+Create a new branch and switch to it:
 
 ```bash
-git remote set-url origin git@github.com:MMohamed-1-sudo/your-repo-name.git
+git checkout -b feature-1
 ```
 
-After this setup, you’ll be able to push and pull without entering your GitHub username and password.
+You are now working inside `feature-1`, completely separate from `main`.
+
+---
+
+### Step 3: Make Changes in the Feature Branch
+
+Modify the same file:
+
+```bash
+echo "Feature branch change" > app.txt
+```
+
+Check status:
+
+```bash
+git status
+```
+
+Stage and commit:
+
+```bash
+git add app.txt
+git commit -m "Update from feature-1"
+```
+
+---
+
+### Step 4: Switch Back to Main and Make a Conflicting Change
+
+Go back to the main branch:
+
+```bash
+git checkout main
+```
+
+Now modify the same file differently:
+
+```bash
+echo "Main branch change" > app.txt
+```
+
+Stage and commit:
+
+```bash
+git add app.txt
+git commit -m "Conflicting update from main"
+```
+
+At this point:
+
+* `feature-1` has one version of the file
+* `main` has a different version
+
+This sets up a merge conflict.
+
+---
+
+### Step 5: Merge the Feature Branch into Main
+
+Attempt to merge:
+
+```bash
+git merge feature-1
+```
+
+Git will show a **merge conflict** because both branches changed the same part of `app.txt`.
+
+---
+
+### Step 6: Inspect the Conflict
+
+View the file:
+
+```bash
+cat app.txt
+```
+
+You will see conflict markers like:
+
+```text
+<<<<<<< HEAD
+Main branch change
+=======
+Feature branch change
+>>>>>>> feature-1
+```
+
+This means Git cannot decide which version to keep.
+
+---
+
+### Step 7: Resolve the Conflict
+
+Edit the file manually to combine both changes. For example:
+
+```bash
+echo -e "Hello from main\nFeature branch change" > app.txt
+```
+
+Now check the file again:
+
+```bash
+cat app.txt
+```
+
+It should look clean, without conflict markers.
+
+---
+
+### Step 8: Stage and Commit the Resolved File
+
+Add the resolved file:
+
+```bash
+git add app.txt
+```
+
+Commit the resolution:
+
+```bash
+git commit -m "Resolve merge conflict between main and feature-1"
+```
+
+---
+
+### Step 9: Push the Changes to GitHub
+
+Push your updated main branch:
+
+```bash
+git push
+```
+
+Go to your repository on GitHub and refresh. You will see the updated file with both changes included.
+
+---
+
+### Step 10: Clean Up the Branch
+
+Check existing branches:
+
+```bash
+git branch
+```
+
+Delete the feature branch locally:
+
+```bash
+git branch -d feature-1
+```
+
+Confirm it is removed:
+
+```bash
+git branch
+```
+
+Only `main` should remain.
+
+---
+
+### Final Understanding
+
+You have now completed the full workflow:
+
+* Created a branch to work independently
+* Made changes in both branches
+* Encountered a merge conflict
+* Resolved the conflict manually
+* Merged everything back into main
+* Cleaned up the branch
+
+This is a realistic example of how teams work with Git when multiple changes happen at the same time.
+
+Here is a clear, step-by-step guide to **team collaboration using Git and GitHub**, based on your workflow and using your account (**MMohamed-1-sudo**) on GitHub.
+
+This walks through the full real-world flow: branch → commit → push → pull request → review → merge.
+
+---
+
+### Step 1: Make Sure Your Local Repository Is Up to Date
+
+Start by ensuring you are working with the latest version of the project:
+
+```bash
+git pull
+```
+
+This fetches and updates your local `main` branch with the latest changes from GitHub.
+
+---
+
+### Step 2: Create a New Feature Branch
+
+It is best practice to never work directly on `main`. Instead, create a feature branch:
+
+```bash
+git checkout -b feature/add-about-page
+```
+
+* This creates a new branch
+* Automatically switches you into it
+
+You are now working in isolation from the main codebase.
+
+---
+
+### Step 3: Create and Modify Files
+
+Create a new file for your feature:
+
+```bash
+echo "This is the about page" > about.md
+```
+
+Check that the file exists:
+
+```bash
+ls
+```
+
+---
+
+### Step 4: Stage and Commit Your Changes
+
+Check the status:
+
+```bash
+git status
+```
+
+Stage the file:
+
+```bash
+git add about.md
+```
+
+Commit your changes:
+
+```bash
+git commit -m "Add about page"
+```
+
+Now your changes are saved locally in your feature branch.
+
+---
+
+### Step 5: Push the Branch to GitHub
+
+Since this is a new branch, you need to set the upstream:
+
+```bash
+git push -u origin feature/add-about-page
+```
+
+* This pushes your branch to GitHub
+* It also links your local branch to the remote branch
+
+After running this, Git will usually output a link to create a Pull Request.
+
+---
+
+### Step 6: Create a Pull Request (PR)
+
+Go to GitHub:
+
+* Navigate to your repository
+* You will see a prompt like “Compare & pull request”
+* Click it
+
+Alternatively:
+
+* Go to the “Pull requests” tab
+* Click “New pull request”
+* Select:
+
+  * Base branch: `main`
+  * Compare branch: `feature/add-about-page`
+
+Add:
+
+* A clear title (e.g. “Add About Page”)
+* A description of your changes
+
+Then click **Create Pull Request**
+
+---
+
+### Step 7: Code Review Process
+
+In a real team:
+
+* A teammate reviews your code
+* They may:
+
+  * Approve it
+  * Request changes
+  * Leave comments
+
+Example:
+
+* If changes are requested, go back to your code
+* Make updates
+* Commit and push again:
+
+```bash
+git add .
+git commit -m "Update based on review"
+git push
+```
+
+The PR updates automatically.
+
+---
+
+### Step 8: Merge the Pull Request
+
+Once approved:
+
+* Click **Merge Pull Request** on GitHub
+* Confirm the merge
+
+This merges your feature branch into `main`.
+
+---
+
+### Step 9: Update Your Local Main Branch
+
+After merging, sync your local repository:
+
+```bash
+git checkout main
+git pull
+```
+
+Now your local `main` includes the new feature.
+
+---
+
+### Step 10: Clean Up the Feature Branch
+
+Delete the branch locally:
+
+```bash
+git branch -d feature/add-about-page
+```
+
+Delete the branch on GitHub:
+
+```bash
+git push origin --delete feature/add-about-page
+```
+
+---
+
+### Final Workflow Summary
+
+This is the standard team workflow:
+
+* Pull latest changes
+* Create a feature branch
+* Make changes and commit
+* Push branch to GitHub
+* Create a Pull Request
+* Get code reviewed
+* Merge into main
+* Pull updates and clean up
+
+---
+
+This workflow is what most development teams use daily when collaborating on projects using GitHub.
+    
+    
+UNDOING GIT
+
+Here is a clear, step-by-step guide on **undoing changes in Git**, based on your workflow and using your GitHub account (MMohamed-1-sudo). This covers the most common real-world scenarios.
+
+---
+
+## Step 1: Start from a Clean State
+
+Always begin by switching to your main branch and pulling the latest changes:
+
+```bash
+git checkout main
+git pull
+```
+
+This ensures you are working with the latest version of your project.
+
+---
+
+## Step 2: Create and Commit a File (Setup Example)
+
+Create a file and commit it:
+
+```bash
+echo "Original line" > undo.txt
+git add undo.txt
+git commit -m "Test commit"
+git push
+```
+
+Now you have a committed file to work with.
+
+---
+
+## Case 1: Undo Changes That Are NOT Staged
+
+You edited a file but have not added it yet.
+
+Make a bad change:
+
+```bash
+echo "Bad change" >> undo.txt
+cat undo.txt
+```
+
+You realise this change is wrong and want to discard it.
+
+Restore the file to the last committed version:
+
+```bash
+git restore undo.txt
+```
+
+Check again:
+
+```bash
+cat undo.txt
+```
+
+The file is now back to its original state.
+
+---
+
+## Case 2: Undo Changes That Are Already Staged
+
+Make another change:
+
+```bash
+echo "Another bad line" >> undo.txt
+git add undo.txt
+```
+
+Now the file is staged, but you want to undo that staging.
+
+Unstage the file:
+
+```bash
+git restore --staged undo.txt
+```
+
+Check status:
+
+```bash
+git status
+```
+
+The file is now back to unstaged (red), but your changes still exist.
+
+If needed, you can now fully discard them using:
+
+```bash
+git restore undo.txt
+```
+
+---
+
+## Case 3: Undo a Commit That Has NOT Been Pushed
+
+Make a bad commit:
+
+```bash
+echo "Oops commit" >> undo.txt
+git add undo.txt
+git commit -m "Bad commit"
+```
+
+Now you want to undo this commit.
+
+### Option 1: Keep changes staged
+
+```bash
+git reset --soft HEAD~1
+```
+
+* Removes the commit
+* Keeps changes staged
+
+---
+
+### Option 2: Keep changes but unstage them
+
+```bash
+git reset --mixed HEAD~1
+```
+
+* Removes the commit
+* Keeps changes in the file
+* Unstages them
+
+---
+
+### Option 3: Delete commit and changes completely
+
+```bash
+git reset --hard HEAD~1
+```
+
+* Removes the commit
+* Deletes all associated changes
+
+This is destructive, so use it carefully.
+
+---
+
+## Case 4: Undo a Commit That Has BEEN Pushed
+
+Make a mistake and push it:
+
+```bash
+echo "Production mistake" >> undo.txt
+git add undo.txt
+git commit -m "Accidental commit"
+git push
+```
+
+Now the mistake is already on GitHub.
+
+Do NOT use reset here. Instead, safely revert it:
+
+```bash
+git revert HEAD
+```
+
+* This creates a new commit that undoes the previous one
+* It is safe for shared repositories
+
+Then push:
+
+```bash
+git push
+```
+
+Now your mistake is reversed without rewriting history.
+
+---
+
+## Step 5: View History and Recover Work
+
+To see commit history:
+
+```bash
+git log --oneline
+```
+
+This shows a simple list of commits.
+
+---
+
+To see all actions (including resets and deleted commits):
+
+```bash
+git reflog
+```
+
+This is very powerful because it tracks everything you have done, even if you reset or deleted commits. You can recover lost work from here.
+
+---
+
+## Final Understanding
+
+You now have four key ways to undo changes:
+
+* `git restore` → discard file changes
+* `git restore --staged` → unstage files
+* `git reset` → undo commits (local only, careful use)
+* `git revert` → safely undo pushed commits
+
+Safe methods:
+
+* restore
+* revert
+
+More dangerous methods:
+
+* reset --hard
+
+---
+
+Understanding when to use each of these is essential when working with Git, especially in team environments on GitHub.
+
+### Why Git Stash is Useful
+
+When working on a project, you will often be in the middle of a task when something urgent comes up, such as fixing a bug or switching branches. Instead of committing incomplete work or losing your changes, **Git stash allows you to temporarily save your work and come back to it later**. It acts like a safe holding area, letting you switch context quickly without affecting your commit history or breaking your workflow on GitHub.
+
+---
+
+## Step 1: Start from a Clean and Updated State
+
+Make sure your repository is up to date:
+
+```bash
+git pull
+```
+
+Check that there are no pending changes:
+
+```bash
+git status
+```
+
+---
+
+## Step 2: Create Some Work in Progress
+
+Simulate working on a feature:
+
+```bash
+echo "Incomplete work" > feature.txt
+git add feature.txt
+```
+
+Add more changes that are not staged:
+
+```bash
+echo "More changes not staged" >> feature.txt
+```
+
+At this point:
+
+* Some changes are staged
+* Some are not staged
+* Work is incomplete
+
+---
+
+## Step 3: Stash Your Work
+
+You are now asked to switch tasks. Save your work using stash:
+
+```bash
+git stash push -m "Work in progress on feature.txt"
+```
+
+Now check your status:
+
+```bash
+git status
+```
+
+Your working directory is clean. Your changes are safely stored in the stash.
+
+---
+
+## Step 4: Switch Context and Do Other Work
+
+Now you can work on something else, such as a hotfix:
+
+```bash
+echo "Hotfix applied" > hotfix.txt
+git add hotfix.txt
+git commit -m "Apply hotfix on main"
+git push
+```
+
+You have successfully switched tasks without losing your previous work.
+
+---
+
+## Step 5: View Your Stashed Work
+
+To see your saved work:
+
+```bash
+git stash list
+```
+
+You will see your stash entry with the message you provided.
+
+---
+
+## Step 6: Restore Your Stashed Work
+
+Bring your work back:
+
+```bash
+git stash apply
+```
+
+* This restores your changes
+* The stash is still saved
+
+Check your files:
+
+```bash
+git status
+```
+
+Your previous work is now back in your working directory.
+
+---
+
+## Step 7: Apply and Remove the Stash (Optional)
+
+If you want to restore and delete the stash in one step:
+
+```bash
+git stash pop
+```
+
+* Applies the stash
+* Removes it from the stash list
+
+---
+
+## Step 8: Continue Your Work
+
+Now commit and push your restored work:
+
+```bash
+git add feature.txt
+git commit -m "Continue feature work"
+git push
+```
+
+---
+
+## Step 9: Clean Up All Stashes (Optional)
+
+If you no longer need any stashes:
+
+```bash
+git stash clear
+```
+
+This removes all stored stashes permanently.
+
+---
+
+## Final Understanding
+
+Git stash helps you:
+
+* Save incomplete work without committing
+* Quickly switch between tasks or branches
+* Resume work exactly where you left off
+
+Typical workflow:
+
+* Work on a feature
+* Stash changes
+* Switch to another task
+* Apply or pop the stash
+* Continue working
+
+---
+
+This is a very common workflow used by developers working on shared projects in GitHub, especially when handling interruptions or urgent fixes.
+
+
+### Why Cleaning Commit History is Important
+
+When working on a project, especially in a team, your commit history should be clear and meaningful. Instead of having many small or messy commits like “fix”, “update”, or “test”, you can **combine them into a single clean commit** using rebase. This makes your project history easier to read, review, and maintain on GitHub.
+
+---
+
+## Step 1: Start from a Clean and Updated State
+
+Make sure your repository is up to date:
+
+```bash id="zsq8a1"
+git pull
+```
+
+Check status:
+
+```bash id="u2z6zq"
+git status
+```
+
+You should have a clean working directory.
+
+---
+
+## Step 2: Create a New Feature Branch
+
+Create and switch to a new branch:
+
+```bash id="1tkq6m"
+git checkout -b feature/rebase-example
+```
+
+---
+
+## Step 3: Create Multiple Commits (Messy History)
+
+Create your first change:
+
+```bash id="b0flg6"
+echo "Line 1" > changes.txt
+git add changes.txt
+git commit -m "feat: add first line"
+```
+
+Create a second change:
+
+```bash id="nd8f8y"
+echo "Line 2" >> changes.txt
+git add changes.txt
+git commit -m "feat: add second line"
+```
+
+Create a third change:
+
+```bash id="xyy70w"
+echo "Line 3" >> changes.txt
+git add changes.txt
+git commit -m "feat: add third line"
+```
+
+---
+
+## Step 4: View Commit History
+
+Check your commits:
+
+```bash id="e7b9x3"
+git log --oneline
+```
+
+You will see three separate commits.
+
+---
+
+## Step 5: Start Interactive Rebase
+
+To clean this up, rebase the last 3 commits:
+
+```bash id="o6o6f6"
+git rebase -i HEAD~3
+```
+
+This opens an interactive editor showing your last 3 commits.
+
+---
+
+## Step 6: Squash Commits
+
+In the editor:
+
+* Keep the first commit as `pick`
+* Change the next two from `pick` to `squash` (or `s`)
+
+Example:
+
+```text id="7gq6pt"
+pick abc123 feat: add first line
+squash def456 feat: add second line
+squash ghi789 feat: add third line
+```
+
+Save and close the editor.
+
+---
+
+## Step 7: Write a Clean Commit Message
+
+Git will now ask you to combine the commit messages.
+
+Replace them with a clean message:
+
+```text id="mk3a9t"
+feat: add all three lines to changes.txt
+```
+
+Save and close again.
+
+---
+
+## Step 8: Verify Clean History
+
+Check your log again:
+
+```bash id="j9c9hg"
+git log --oneline
+```
+
+You should now see **only one commit** instead of three.
+
+---
+
+## Step 9: Push the Cleaned Branch
+
+If this is your first push:
+
+```bash id="x6m4q0"
+git push -u origin feature/rebase-example
+```
+
+---
+
+## Step 10: If You Already Pushed Before (Important)
+
+If the branch was already pushed earlier, you must force push:
+
+```bash id="g6zj6p"
+git push --force
+```
+
+This rewrites history on the remote.
+
+Only do this:
+
+* On your own branch
+* Or after informing your team
+
+---
+
+## Final Understanding
+
+You have now:
+
+* Created multiple commits
+* Used interactive rebase
+* Squashed them into one clean commit
+* Improved your commit history
+
+---
+
+### Key Takeaways
+
+* Use `git rebase -i` to clean history
+* Use `squash` to combine commits
+* Keep commit messages clear and meaningful
+* Be careful with `--force` push on shared branches
+
+---
+
+This workflow is commonly used before merging code into main branches on GitHub to keep the repository clean and professional.
+
+
+### Why Cherry Pick is Useful
+
+In real projects, you often don’t want to merge an entire branch just to get one small fix. Sometimes another branch contains a useful commit (like a bug fix or config update) that you need immediately. **Git cherry-pick lets you take a single commit from one branch and apply it to another without merging everything else.** This is very useful for hotfixes, selective updates, and keeping branches clean in a team workflow on GitHub.
+
+---
+
+## Step 1: Make Sure You Are on Main and Up to Date
+
+Start on the main branch:
+
+```bash id="k9m1q0"
+git checkout main
+git pull
+```
+
+---
+
+## Step 2: Create a Feature Branch
+
+Create a new branch where the commit will be made:
+
+```bash id="w3x8p2"
+git checkout -b feature/cherry-demo
+```
+
+---
+
+## Step 3: Create a Commit You Will Cherry Pick Later
+
+Create a file with a “hotfix”:
+
+```bash id="p4n6v8"
+echo "prod config fix" > hotfix.txt
+```
+
+Stage and commit it:
+
+```bash id="a7d2m9"
+git add hotfix.txt
+git commit -m "Add prod config fix"
+```
+
+---
+
+## Step 4: Find the Commit ID
+
+Check the commit history:
+
+```bash id="z8c1v4"
+git log --oneline
+```
+
+You will see something like:
+
+```text id="l2q9s1"
+abc123 Add prod config fix
+```
+
+Copy the commit hash (this is what you will cherry-pick).
+
+---
+
+## Step 5: Switch Back to Main Branch
+
+Go back to main:
+
+```bash id="r6t3k8"
+git checkout main
+```
+
+Make sure it is updated:
+
+```bash id="u1m5x7"
+git pull
+```
+
+---
+
+## Step 6: Cherry Pick the Commit
+
+Now apply that specific commit onto main:
+
+```bash id="c9p4n6"
+git cherry-pick abc123
+```
+
+Replace `abc123` with your actual commit ID.
+
+What this does:
+
+* Takes only that commit
+* Applies it to your current branch (main)
+* Does NOT merge the whole feature branch
+
+---
+
+## Step 7: Push the Updated Main Branch
+
+Send the change to GitHub:
+
+```bash id="x7v2m1"
+git push origin main
+```
+
+Now the hotfix appears in main even though it came from another branch.
+
+---
+
+## Step 8: Verify the Result
+
+Check history:
+
+```bash id="q5n8d3"
+git log --oneline
+```
+
+You will see the cherry-picked commit in main.
+
+---
+
+## Final Understanding
+
+Cherry-pick is useful when you want to:
+
+* Take a single commit from another branch
+* Apply a hotfix without merging everything
+* Move specific changes between branches
+
+---
+
+### Key Idea
+
+* Merge = bring everything
+* Cherry-pick = bring one specific commit
+
+This makes cherry-pick a powerful tool in team workflows, especially when working with multiple branches and urgent fixes in GitHub.
+
+
+### Why `.gitignore` is Important
+
+In real projects, not every file should be tracked by Git. Files like **API keys, environment variables, passwords, logs, or large dependencies** should never be committed to a repository. The `.gitignore` file tells Git exactly which files or folders to ignore, helping you avoid security risks and unnecessary bloat in your repository on GitHub. It is one of the most important safety practices in version control.
+
+---
+
+## Step 1: Create a Sensitive File (Example `.env`)
+
+Create an environment file:
+
+```bash id="a9k2p1"
+touch .env
+```
+
+Add sensitive data:
+
+```bash id="d4m8x7"
+echo "AWS_ACCESS_KEY=123456SECRET" > .env
+```
+
+Check status:
+
+```bash id="v6n1q0"
+git status
+```
+
+At this point, Git is tracking the `.env` file (which is unsafe).
+
+---
+
+## Step 2: Create a `.gitignore` File
+
+Create the ignore file:
+
+```bash id="r3t9m5"
+touch .gitignore
+```
+
+Open and edit it:
+
+```bash id="h7x2c8"
+nano .gitignore
+```
+
+Add this line:
+
+```text id="k1p6z3"
+.env
+```
+
+Save and exit.
+
+---
+
+## Step 3: Verify That Git Ignores the File
+
+Now check status again:
+
+```bash id="m8c4v2"
+git status
+```
+
+The `.env` file should no longer appear as a tracked change.
+
+If it still shows, remove it from Git tracking:
+
+```bash id="s5d1n9"
+git rm --cached .env
+```
+
+---
+
+## Step 4: Commit the `.gitignore`
+
+Add and commit the ignore rules:
+
+```bash id="p2x7v4"
+git add .gitignore
+git commit -m "Add .gitignore to ignore .env files"
+```
+
+Push it:
+
+```bash id="u9k3m1"
+git push
+```
+
+Now Git will permanently ignore `.env` files going forward.
+
+---
+
+## Step 5: Test That It Works
+
+Try modifying `.env`:
+
+```bash id="c6n8x2"
+echo "NEW_SECRET=value" >> .env
+```
+
+Check status:
+
+```bash id="t4v9q0"
+git status
+```
+
+Nothing should appear. Git is ignoring it correctly.
+
+---
+
+## Step 6: Common `.gitignore` Use Cases
+
+### 1. Environment files (always ignore)
+
+```text id="e1m5x8"
+.env
+```
+
+---
+
+### 2. Node.js dependencies (very important)
+
+```text id="y7n2c6"
+node_modules/
+```
+
+This prevents huge folders from being pushed.
+
+---
+
+### 3. System or IDE files
+
+```text id="b3q8v1"
+.DS_Store
+.vscode/
+```
+
+---
+
+## Step 7: Key Safety Rule
+
+Before every commit, always run:
+
+```bash id="z0p6m3"
+git status
+```
+
+This ensures you are not accidentally committing:
+
+* API keys
+* passwords
+* credentials
+* large files
+* system junk
+
+---
+
+## Final Understanding
+
+`.gitignore` is essential because it:
+
+* Prevents sensitive data leaks
+* Keeps repositories clean and lightweight
+* Stops unnecessary files from being tracked
+* Protects you from accidentally exposing secrets on GitHub
+
+---
+
+### Core idea
+
+* `.env` = sensitive data → ignore it
+* `node_modules` = heavy files → ignore it
+* `.gitignore` = safety filter for your repository
+
+If used correctly, `.gitignore` prevents most common security mistakes developers make.
+
+
+### Why `git commit --amend` is Useful
+
+When working with Git, it’s common to make small mistakes in your most recent commit. You might forget to include a file, or realise your commit message is unclear or incorrect. Instead of creating a new commit and cluttering history, **`git commit --amend` lets you rewrite the last commit**—either by changing its message or adding missing changes. This keeps your commit history clean and accurate on GitHub.
+
+---
+
+## Step 1: Create Your First File and Commit
+
+Create a file:
+
+```bash id="a1k9p3"
+echo "Line 1" > notes.txt
+```
+
+Stage it:
+
+```bash id="b7m2x8"
+git add notes.txt
+```
+
+Commit it:
+
+```bash id="c4v6n1"
+git commit -m "feat: add notes file"
+```
+
+---
+
+## Step 2: Realise You Forgot Another File
+
+Now you realise you missed another file.
+
+Create it:
+
+```bash id="d9q3m7"
+echo "Metadata info" > meta.txt
+```
+
+Stage it:
+
+```bash id="e2x8c5"
+git add meta.txt
+```
+
+---
+
+## Step 3: Amend the Last Commit (Add Missing File)
+
+Instead of creating a new commit, amend the previous one:
+
+```bash id="f6n1v9"
+git commit --amend
+```
+
+This opens your commit editor.
+
+Now Git will:
+
+* Combine `notes.txt` + `meta.txt`
+* Allow you to update the commit message
+
+---
+
+## Step 4: Update the Commit Message
+
+Change the message to something clearer, for example:
+
+```text id="g3p8x2"
+feat: add notes file and metadata
+```
+
+Save and close the editor.
+
+---
+
+## Step 5: Verify the Amended Commit
+
+Check your history:
+
+```bash id="h7m4c9"
+git log --oneline
+```
+
+You will now see:
+
+* Only **one commit**
+* That commit includes both `notes.txt` and `meta.txt`
+
+---
+
+## Step 6: Understand What Happened
+
+`git commit --amend` effectively:
+
+* Replaces the last commit
+* Combines new staged changes with it
+* Lets you rewrite the message
+
+It does NOT create a new commit—it overwrites the last one.
+
+---
+
+## Step 7: Important Warning (If Already Pushed)
+
+If you already pushed the original commit to GitHub, you must force push after amending:
+
+```bash id="j8t5v1"
+git push --force
+```
+
+Only use this when:
+
+* Working on your own branch
+* You understand you are rewriting history
+
+---
+
+## Final Understanding
+
+`git commit --amend` is used to:
+
+* Fix mistakes in the last commit
+* Add forgotten files
+* Improve or correct commit messages
+* Keep history clean and professional
+
+---
+
+### Core Idea
+
+* Normal commit → creates a new entry
+* Amend → edits the last entry
+
+It is one of the most useful tools for cleaning up small mistakes before sharing work with others on GitHub.
+
+
+### Why Pre-Commit Hooks Are Useful
+
+Pre-commit hooks are a way to automatically run checks **before a commit is accepted into Git**. This helps prevent mistakes like bad formatting, missing newlines, secrets, or broken configuration files from ever entering your repository. Instead of relying on manual discipline, Git enforces rules automatically, which is especially important in team environments on GitHub. Think of it as a safety gate that validates your code before it becomes part of the project history.
+
+---
+
+## Step 1: Understand Where Git Hooks Live
+
+Inside any Git repository, hooks are stored in the hidden `.git` folder:
+
+```bash id="a1k2p9"
+git pull
+ls -la .git
+```
+
+Now check the hooks directory:
+
+```bash id="b7m3x1"
+ls .git/hooks
+```
+
+You will see sample scripts like:
+
+* `pre-commit.sample`
+* `pre-push.sample`
+* `post-commit.sample`
+
+These are executable shell scripts that run automatically at different Git events.
+
+---
+
+## Step 2: View a Default Hook (Optional)
+
+Example:
+
+```bash id="c4v8n2"
+cat .git/hooks/pre-commit.sample
+```
+
+This shows a basic script that runs before a commit is allowed.
+
+---
+
+## Step 3: Install the Modern Pre-Commit Framework
+
+Instead of editing raw shell scripts, modern workflows use the **pre-commit framework**.
+
+Install it:
+
+```bash id="d9x2m5"
+brew install pre-commit
+```
+
+Check version:
+
+```bash id="e6n1v7"
+pre-commit --version
+```
+
+---
+
+## Step 4: Create a Pre-Commit Configuration File
+
+Create the config file:
+
+```bash id="f3q9c8"
+touch .pre-commit-config.yaml
+```
+
+This file defines which checks should run before every commit.
+
+---
+
+## Step 5: Install Hooks Into the Repository
+
+Activate pre-commit in your repo:
+
+```bash id="g8m4v2"
+pre-commit install
+```
+
+Now Git will automatically run checks before every commit.
+
+---
+
+## Step 6: Add Example Code With Intentional Mistakes
+
+Create a file:
+
+```bash id="h1p7x3"
+echo "bad formatting line" > main.tf
+```
+
+Introduce formatting issues or invalid structure intentionally.
+
+Check status:
+
+```bash id="i5k2m9"
+git status
+```
+
+---
+
+## Step 7: Stage and Attempt a Commit
+
+```bash id="j9c4v6"
+git add main.tf
+git commit -m "Add terraform config"
+```
+
+At this point:
+
+* Pre-commit hooks automatically run
+* They inspect files before allowing the commit
+
+---
+
+## Step 8: What Happens When Hooks Run
+
+If something is wrong (for example):
+
+* formatting issues
+* missing newline
+* invalid Terraform syntax
+* linting errors
+
+The commit will FAIL and Git will stop it.
+
+You must fix the issues before committing again.
+
+---
+
+## Step 9: Example Fix and Re-Commit
+
+After fixing issues:
+
+```bash id="k3n8x1"
+git add main.tf
+git commit -m "Add terraform config (fixed)"
+```
+
+Now the pre-commit checks pass successfully.
+
+---
+
+## Step 10: Common Types of Pre-Commit Hooks
+
+Pre-commit can enforce many rules automatically, such as:
+
+### Formatting
+
+* Terraform formatting
+* Python formatting
+* YAML formatting
+
+### Linting
+
+* Terraform lint checks
+* YAML validation
+* JSON validation
+
+### Safety Checks
+
+* Prevent secrets or API keys from being committed
+* Detect large files accidentally added
+
+### Code Quality
+
+* Ensure consistent style across the project
+
+---
+
+## Step 11: Push After Passing Checks
+
+Once everything passes:
+
+```bash id="l6v2p9"
+git push
+```
+
+Now your code is safely stored in GitHub with automated quality checks enforced.
+
+---
+
+## Final Understanding
+
+Pre-commit hooks act as an **automatic gatekeeper before commits are saved**.
+
+They:
+
+* Prevent bad code from entering Git history
+* Enforce team coding standards
+* Catch mistakes early
+* Reduce review workload
+
+---
+
+### Core Idea
+
+* Without hooks → mistakes reach repository
+* With hooks → mistakes are blocked before commit
+
+This makes pre-commit hooks a key part of professional DevOps workflows.

@@ -1,0 +1,47 @@
+WHAT IS DNS AND ITS ROLE IN NETWORKING
+    - DNS (Domain Name System) is a system that translates human-readable domain names (like google.com) into IP addresses that computers use to identify each other on a network.
+    - Its main role is to make the internet easier to use, so users don’t have to remember numerical IP addresses.
+    - When a user enters a website, DNS queries a server to find the correct IP address and directs the request to the right destination.
+    - It works alongside protocols like IP to ensure data is sent to the correct device.
+    - Overall, DNS acts like a “phonebook of the internet,” enabling fast and efficient communication between devices.
+DNS COMPONENTS 
+    - DNS components overview: The DNS is made up of several parts that work together to translate domain names into IP addresses. Key components include resolvers (client-side request handlers), name servers (which store DNS records), and zone files (which contain the actual mappings).
+    - Name servers (what they are): Name servers are specialized servers that store and provide DNS records for domains. They answer queries about domain names by returning the corresponding IP address or other related information.
+    - How name servers work: When a user enters a domain, a DNS resolver sends a query through a hierarchy of name servers. This typically involves root servers, top-level domain (TLD) servers (like .com or .org), and authoritative name servers. The authoritative server holds the final answer and responds with the correct IP address.
+    - Zone files (what they are): Zone files are text-based files stored on authoritative name servers. They contain DNS records that define how a domain should be resolved.
+    - What zone files include: These files store records such as A records (mapping domain names to IP addresses), CNAME records (aliases), MX records (mail servers), and NS records (which define the authoritative name servers for the domain).
+    - Overall role: Name servers use the information in zone files to respond to DNS queries quickly and accurately, enabling users to access websites without needing to know IP addresses.
+DNS RECORDS
+    - DNS record are very important as they are the actual data entries stored in authoratative servers common types of these servers are a records are: 
+        - A record which maps domain names to IPv4 addresses such as (example.com → 192.168.1.10) what it does is tell the browser where the website is hosted think of it as "this domain (example.com) lives at this house 192.168.1.10. IPv4 are displayed as 4 decimal numbers seperated by dots each representing 8 bits of a 32-bit address.
+        - AAAA record are same as A record but for IPv6 addresses. IPv6 addresses exist because its supports more devices, IPv6 addresses are displayed in hexadecimal notation, designed to represent a much larger 128-bit address space compared to IPv4.-
+        - CNAME record also known as canonical name redirects one domain name to another ndomain name but doesnt point directly to an IP address for example (www.example.com → example.com)
+        - MX record control email routing for a domain and tells the the internet where to send emails for your domains.
+    - HOW DNS WORKS: DNS PROCESS
+    - DNS (Domain Name System) is the system that translates human-readable domain names into IP addresses that computers use to communicate. When you enter a domain like "example.com" into your browser, your device first checks its local cache to see if it already knows the IP address. If it does not, it sends a request to a DNS resolver, which is responsible for finding the correct IP address on your behalf.
+
+    - The resolver follows a hierarchical process to locate the answer. It begins by querying a root server, which directs it to the appropriate Top-Level Domain (TLD) server (such as `.com`). The TLD server then points the resolver to the authoritative name server for the domain. This authoritative server contains the actual DNS records and returns the correct IP address. The resolver sends this IP address back to your device, which then uses it to connect to the website’s server.
+
+    - Simple Flow Summary:
+    You → Cache → Resolver → Root → TLD → Authoritative → IP → Website
+
+    - A helpful way to understand DNS is to think of it like a phonebook. You know the name, such as `example.com`, but not the number. DNS looks up the corresponding number, such as `93.184.216.34`, and once you have it, you can connect to the server just like making a call.
+
+    Key components involved in this process include the resolver, which performs the lookup; the root server, which directs queries to the correct TLD; the TLD server, which points to the domain’s authoritative server; and the authoritative server, which provides the final answer. Overall, DNS works as a hierarchical lookup system that converts domain names into IP addresses through multiple coordinated steps.
+
+DNS TOOLS 
+    - dig (Domain Information Groper)
+        dig is a powerful and detailed DNS query tool used for troubleshooting and analysing DNS resolution. It provides full information about DNS responses, including records, TTL, and the servers involved in answering the query. For example, running dig example.com A will return the IPv4 address record along with detailed metadata. A common use case for dig is diagnosing DNS issues, verifying propagation, or tracing how a domain resolves using commands like dig +trace example.com.
+    - nslookup
+        nslookup is a simpler DNS lookup tool that is widely available and easy to use, making it ideal for quick checks. It allows you to query domain names and retrieve basic DNS records without the detailed output that dig provides. For example, nslookup example.com will return the IP address of the domain. It is commonly used for quick troubleshooting, checking if a domain resolves correctly, or verifying DNS configuration during setup.
+    - host
+        host is a lightweight and fast DNS lookup utility that provides clean and concise results. It is less verbose than dig and is useful when you want quick answers without extra detail. For example, host example.com will return the associated IP address or mail server information. A typical use case is performing quick checks in scripts or when you need a straightforward confirmation of DNS resolution.
+    - whois
+        whois is used to retrieve domain registration information rather than DNS records themselves. It shows details such as the domain owner, registrar, creation date, and expiry date. For example, whois example.com will return registration details for the domain. This tool is useful for investigating domain ownership, checking expiration dates, or verifying registrar information during audits or security checks.
+    - ping
+        ping is primarily a network connectivity tool, but it can also help confirm DNS resolution because it resolves a domain name to an IP address before sending packets. For example, ping example.com will show the resolved IP and test if the server is reachable. A common use case is quickly verifying that a domain resolves and that the server is accessible over the network.
+    - Online DNS tools
+        Online DNS tools such as Google Dig Tool, DNS Checker, and MXToolbox provide browser-based interfaces for running DNS queries from multiple global locations. For example, you can enter a domain and check A, MX, or TXT records across different countries. These tools are commonly used for checking DNS propagation, debugging issues across regions, and analysing configurations without needing command-line access.
+    - Key idea
+    DNS tools are essential for checking how domain names resolve, diagnosing issues, verifying configurations, and ensuring that DNS changes are correctly applied across the internet.g
+USING/ETC/HOSTS ON OUR LOCAL MACHINE

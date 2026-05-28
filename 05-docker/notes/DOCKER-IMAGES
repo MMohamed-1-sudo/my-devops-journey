@@ -1,0 +1,37 @@
+- UNDERSTANDING DOCKERFILE 
+    - Dockerfile is a series of instructions on how to build the docker image, each instruction  creates a layer in the image which makes it easy to track changes and optimise builds
+    sort of like a recipe for creating your containerized application providing step by step instructions on how to create a image, this means that you can re create the exact sdame 
+    enviroment every single time.
+    - 5 KEY COMMANDS
+        - The FROM instruction is the foundation of a Dockerfile. It defines the base image that your application will be built on, meaning it provides the operating system 
+        and required tools to run your app. For example, if you write FROM node:18, Docker will use a prebuilt image that already includes Node.js version 18 installed. 
+        This is important because everything in your container is built on top of this starting point, so without FROM, the Dockerfile would not know what environment to 
+        use.
+        - The WORKDIR instruction sets the working directory inside the container. It is like choosing a folder where all your application files and commands will run. 
+        For example, WORKDIR /app creates or moves into a folder called /app inside the container. After this is set, every command that follows will run inside this 
+        folder, which keeps the container organised and avoids everything being placed in the root directory.
+        - The COPY instruction is used to copy files from your local machine into the container. For example, COPY . . copies everything from your current project folder 
+        into the container’s working directory. A more efficient example is COPY package.json ., which only copies the package.json file. This is useful because it allows 
+        Docker to use caching more effectively and avoid repeating unnecessary steps when only your code changes.
+        - The RUN instruction is used to execute commands while the image is being built. It is mainly used to install dependencies or set up the environment. For example, 
+        RUN npm install installs all the dependencies listed in your package.json file. This step only happens during the image build process, not when the container is 
+        running, which is an important difference compared to CMD.
+        - The CMD instruction defines what should happen when the container starts. It is the command that launches your application. For example, CMD ["node", "app.js"] 
+        tells Docker to run the Node.js application using the app.js file when the container starts. Only one CMD is used in a Dockerfile, and if there are multiple, the 
+        last one will override the others.
+        - Order is very important in a Dockerfile because Docker builds images in layers and caches each step to improve performance. For example, a bad approach would be 
+        COPY . . followed by RUN npm install, because any change in your code would force Docker to reinstall everything again, which is slow. A better approach is COPY 
+        package.json . followed by RUN npm install, and then COPY . ., because package.json changes less often, allowing Docker to reuse cached layers and speed up the 
+        build process.
+        - When Docker builds an image, it follows each step in order. For example, in a Dockerfile with FROM node:18, WORKDIR /app, COPY package.json ., RUN npm install, 
+        \COPY . ., and CMD ["node", "app.js"], Docker will first load the Node.js base image, then create the /app folder, copy the package file, install dependencies, 
+        copy the rest of the project files, and finally set the command that runs the application. Each of these steps becomes a layer in the final image.
+        - Common mistakes in Dockerfiles include placing CMD in the middle instead of at the end, copying all files too early which breaks caching, not using WORKDIR which 
+        leads to messy file paths, and confusing RUN with CMD. For example, RUN npm install is used during the build process to install dependencies, while CMD ["node", "app.js"] is 
+        used at runtime to start the application.
+        - A simple way to remember Dockerfile structure is to think of it as a sequence: base image, working folder, files, setup, then run. In other words, Dockerfiles follow 
+        the logic of building an environment step by step until the application is ready to start.
+
+- WRITING A DOCKERFILE
+    
+- BUILING IMAGE (DOCKER BUILD)

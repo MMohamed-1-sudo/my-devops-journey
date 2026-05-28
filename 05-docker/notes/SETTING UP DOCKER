@@ -1,0 +1,134 @@
+## Step-by-Step Guide: Installing Docker and Verifying It Works
+
+![Image](https://images.openai.com/static-rsc-4/FKfgZ8UZ9lvn-KihnfcLumPTe3WZ2e8BgqLxXrEi7qW9fa8WHhkLOiQx8FceDKqijd2TXvD6Ixf21vk8csX2Xrs8X_XOJD__JoWgfGmmfuLGx4Wkrss1kalW-8GmHpgyE8GM9u9uU48D4s-NFvTp-cA3BmpBJCF5qQ3WdUWJOyOCEzFbxz5OraZUGJ1hrW_K?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/Jej97eVGRCqXm1vJbFJATfibhP-yay0y_MXwaq0S6VN4mrIhaaUnbMt-mvE8amTiuRvPCxn0o-lgTnIp1bR6H9QkbEnwWR7SvVWI1fKshiCQHzT3VFsVP7tBC2X0AavAN_nUFYLC1upIoRUOyJEV8i5LCgx27UhUXGvdqqaKhng6lGXGs9-RB1VW3vWSL8Iz?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/3QmWkS-vc8e2jiE6qWzbL3LB3vsE3lS8_5ItuEoRjT4A1TUWYSOT-kSL5jwggfvG-EcMGJ1dUk9vasMl6-ZwQ0jd2qd2A46vW2HXV1cIrzGMmeOc2BswE2iTkcGcpdjiROHpDe_IDLb0AbZvyDjErGdfLk_OY4ayUGUuoYxw7AdRPnS4zZV4JaoERKcQtwMo?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/ec5TiBmUth2S_TEtrauIocwvo9Qb9lCa10v_JRLgrfzWM-2MiqI_cYnG4GLACWkVX2d5RRq0ttyQjtLNWlQKKYtU0gew7EzvCVLTU4qKr61fFdapJvS72Fr-gPT6FZLHD_z6a8C7K49VFTeunyfGrTL5D5qMjqaPK1kQjNtCBEJlvDWPXOAvsqCUtgezrnXJ?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/VOH7I3H9E5WiC78aTQxYExKiNQv30WInUKkxZlvh1-XFAbEJenbtL51dtEXbk35hAPZrcm-u3ICMZYit-gdyTbuF70dfBrdKWyC8qEpnqsKAyfaaIulJaA5-LfayrjwEazit9EzsAr6Wohq5bYGsXRQ9WWalnlX5fZDem5gKxJZw-Yunb30tzL92hx3RhFqu?purpose=fullsize)
+
+![Image](https://images.openai.com/static-rsc-4/2gWY7ARwk0uXnmnKzR3Mk4D3FvfbpBA471Mn-GN0B580aBFFyd9C6E9D0upOaVmmmL9maG4HlxnkzYndcJdpuCMEghknowrojGgMA0Fps2jOLxlMig16Zw6NrNi87pnBtVw7XNuYFFuo8Lk3cLa9Qm_l34w-sDQlyzuSrIAiAbb8nNpItidRPqzbdtwk7All?purpose=fullsize)
+
+This guide will walk you through installing Docker on macOS, Windows, and Linux, and then show you how to verify that everything is working correctly using basic commands.
+
+---
+
+## 1. Install Docker on macOS
+
+First, go to the Docker website and download Docker Desktop for macOS. Make sure you select the correct version:
+
+* Apple Silicon (M1/M2/M3 Macs)
+* Intel chip (older Macs)
+
+Once the file is downloaded:
+
+1. Open the `.dmg` file
+2. Drag the Docker icon into the Applications folder
+3. Open Docker using Spotlight (Command + Space → type “Docker”)
+
+When Docker starts:
+
+* You will see a whale icon in the top menu bar
+* The Docker Desktop app will show a green status (running)
+
+---
+
+## 2. Install Docker on Windows
+
+1. Go to the Docker website
+2. Download Docker Desktop for Windows
+3. Run the installer and follow the setup instructions
+4. Once installed, open Docker Desktop
+
+You may need to enable **WSL (Windows Subsystem for Linux)** if prompted.
+
+---
+
+## 3. Install Docker on Linux (Ubuntu example)
+
+Open your terminal and run the following commands step by step:
+
+```bash
+sudo apt update
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+These commands:
+
+* Update your system packages
+* Install Docker
+* Start the Docker service
+* Enable Docker to run on startup
+
+---
+
+## 4. Verify Docker Installation
+
+After installation (on any OS), open your terminal and run:
+
+```bash
+docker --version
+```
+
+This command shows the installed Docker version. If you see a version number, Docker is installed correctly.
+
+Next, run:
+
+```bash
+docker info
+```
+
+This provides detailed information about your Docker environment, including system settings and configuration.
+
+---
+
+## 5. Test Docker with a Sample Container
+
+Run the following command:
+
+```bash
+docker run hello-world
+```
+
+What happens here:
+
+1. Docker checks if the image exists locally
+2. If not, it downloads it from Docker Hub
+3. It creates and runs a container
+4. You will see the message: “Hello from Docker”
+
+This confirms Docker is working correctly.
+
+---
+
+## 6. Check Containers
+
+To see running containers:
+
+```bash
+docker ps
+```
+
+To see all containers (including stopped ones):
+
+```bash
+docker ps -a
+```
+
+The “hello-world” container will usually appear as stopped because it only runs briefly to display the message.
+
+---
+
+## Summary
+
+* Install Docker Desktop (Mac/Windows) or use terminal (Linux)
+* Use `docker --version` to confirm installation
+* Use `docker run hello-world` to test it
+* Use `docker ps` and `docker ps -a` to view containers
+
+
