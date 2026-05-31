@@ -1,19 +1,5 @@
 ## Step-by-Step Guide: Installing Docker and Verifying It Works
 
-![Image](https://images.openai.com/static-rsc-4/FKfgZ8UZ9lvn-KihnfcLumPTe3WZ2e8BgqLxXrEi7qW9fa8WHhkLOiQx8FceDKqijd2TXvD6Ixf21vk8csX2Xrs8X_XOJD__JoWgfGmmfuLGx4Wkrss1kalW-8GmHpgyE8GM9u9uU48D4s-NFvTp-cA3BmpBJCF5qQ3WdUWJOyOCEzFbxz5OraZUGJ1hrW_K?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/Jej97eVGRCqXm1vJbFJATfibhP-yay0y_MXwaq0S6VN4mrIhaaUnbMt-mvE8amTiuRvPCxn0o-lgTnIp1bR6H9QkbEnwWR7SvVWI1fKshiCQHzT3VFsVP7tBC2X0AavAN_nUFYLC1upIoRUOyJEV8i5LCgx27UhUXGvdqqaKhng6lGXGs9-RB1VW3vWSL8Iz?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/3QmWkS-vc8e2jiE6qWzbL3LB3vsE3lS8_5ItuEoRjT4A1TUWYSOT-kSL5jwggfvG-EcMGJ1dUk9vasMl6-ZwQ0jd2qd2A46vW2HXV1cIrzGMmeOc2BswE2iTkcGcpdjiROHpDe_IDLb0AbZvyDjErGdfLk_OY4ayUGUuoYxw7AdRPnS4zZV4JaoERKcQtwMo?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/ec5TiBmUth2S_TEtrauIocwvo9Qb9lCa10v_JRLgrfzWM-2MiqI_cYnG4GLACWkVX2d5RRq0ttyQjtLNWlQKKYtU0gew7EzvCVLTU4qKr61fFdapJvS72Fr-gPT6FZLHD_z6a8C7K49VFTeunyfGrTL5D5qMjqaPK1kQjNtCBEJlvDWPXOAvsqCUtgezrnXJ?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/VOH7I3H9E5WiC78aTQxYExKiNQv30WInUKkxZlvh1-XFAbEJenbtL51dtEXbk35hAPZrcm-u3ICMZYit-gdyTbuF70dfBrdKWyC8qEpnqsKAyfaaIulJaA5-LfayrjwEazit9EzsAr6Wohq5bYGsXRQ9WWalnlX5fZDem5gKxJZw-Yunb30tzL92hx3RhFqu?purpose=fullsize)
-
-![Image](https://images.openai.com/static-rsc-4/2gWY7ARwk0uXnmnKzR3Mk4D3FvfbpBA471Mn-GN0B580aBFFyd9C6E9D0upOaVmmmL9maG4HlxnkzYndcJdpuCMEghknowrojGgMA0Fps2jOLxlMig16Zw6NrNi87pnBtVw7XNuYFFuo8Lk3cLa9Qm_l34w-sDQlyzuSrIAiAbb8nNpItidRPqzbdtwk7All?purpose=fullsize)
-
-This guide will walk you through installing Docker on macOS, Windows, and Linux, and then show you how to verify that everything is working correctly using basic commands.
-
 ---
 
 ## 1. Install Docker on macOS
