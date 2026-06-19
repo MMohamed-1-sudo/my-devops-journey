@@ -1,0 +1,15 @@
+DOCKER COMMANDS
+    - [docker images] This command lists all Docker images stored on your system, showing details like repository name, tag, image ID, creation date, and size. 
+    It helps you see what images you have and identify ones you might want to remove. 
+    - [docker inspect] This command provides detailed information about a specific image or container, including configuration, environment variables, and layers. 
+    It’s useful when you need deeper technical details.
+        command format [docker inspect <image_id>]
+    - [docker rmi] This command removes (deletes) a Docker image from your system to free up space. You can only remove images that are not being used by any containers.
+        command format [docker rmi <image_id>]
+    - [docker system prune] This command cleans up your Docker environment by removing unused data such as stopped containers, unused images, and networks. 
+    It’s a quick way to free up space.
+    - [docker ps] This command shows all currently running containers on your system, helping you monitor what’s active.
+    - [docker stop] This command stops one or more running containers using their container IDs.
+        command format [docker stop <container_id>]
+    - [docker rm] This command permanently removes stopped containers from your system, helping keep things clean and organized.
+        command format [docker rm <container_id>]

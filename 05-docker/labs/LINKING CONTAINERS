@@ -1,0 +1,70 @@
+GOAL: FLASK CONTAINER TALKS TO ANOTHER CONTAINER
+
+    STEP 1: CREATE A NETWORK
+        [docker network create my-network]
+        this creates a private network for the containers
+    
+    
+    STEP 2 RUN FIRST CONTAINER(database)
+        [docker run -d \
+        --name db \
+        --network my-network \
+         -e POSTGRES_PASSWORD=example \
+        postgres]
+        this starts the "POSTGRES" Container, names it db and connects it to "my-network" 
+    
+    
+    STEP 3 PREPARE YOUR FLASK APP
+        your app.py must look like this:
+        [from flask import Flask
+
+        app = Flask(__name__)
+
+        @app.route("/")
+        def home():
+        return "Flask connected to Docker network!"
+
+        if __name__ == "__main__":
+        app.run(host="0.0.0.0", port=5001)]
+
+    STEP 4 - BUILD FLASK IMAGE
+        [docker build -t flask-app .]
+    
+    STEP 5 RUN FLASK CONTAINER
+        [docker run -d \
+        --name web \
+        --network my-network \
+        -p 5001:5001 \
+        flask-app]
+    This runs app.py inside a container, names it web and connects it to the same network 
+
+    STEP 6 - LINK CONTAINERS
+        inside the flask app"app.py", you connect the database like this
+        [db_host = "db"]
+        WHY: docker automatically provides DNS 
+        db - resolvesto database container
+        web - resolves to flask container
+    
+    STEP 7 - TEST COMMUNICATION
+        enter flask container:
+        [docker exec -it web bash]
+        then test it :
+        [ping db]
+        if it worked containers are linked
+
+    TEST 8 - TEST YOUR APP
+        open: http://localhost:5001
+    
+
+    COMMON MISTAKES:
+        using localhost: 
+        - points to itself, not other containers 
+        Not using same network
+        - Containers wont see each other
+        Flask not using 0.0.0.0
+        - App wont be accessible 
+
+
+        IF FILE REMAINS EMPTY EVEN AFTER YOU EDITED IT YOU CA USE [nano dockerfile/requirments.txt] and add in the text there [Ctrl+X] press y and press enter.
+
+

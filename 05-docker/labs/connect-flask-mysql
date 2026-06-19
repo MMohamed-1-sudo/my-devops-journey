@@ -1,0 +1,81 @@
+GOAL: ALLOWING FLASK APP AND MYSQL DATABASE TO TALK USING A DOCKER NETWORK
+
+    STEP 1 - CREATE A NETWORK 
+        "docker network create flask-mysql-net"
+        this is the virtual switch bothy containers connect to.
+    
+    STEP 2 - RUN MySQL CONTAINER   
+        - [docker run -d \
+        --name mysql-db \
+        --network flask-mysql-net \
+        -e MYSQL_ROOT_PASSWORD=rootpass \
+        -e MYSQL_DATABASE=mydb \
+        mysql:8]
+
+        WHAT THIS DOES
+            [--name mysql-db]: this becomes your host name in flask 
+            [MYSQL_DATABASE=mydb] : auto-creates a database 
+            [rootpass]: root password
+    
+    STEP 3 - INSTALL MySQL DRIVER IN FLASK
+        add this to the requirements.txt and rebuild later
+        [flask
+        mysql-connector-python]
+
+    STEP 4 - UPDATE FLASK APP
+        replace app.py code with:
+        [from flask import Flask
+        import mysql.connector
+
+        app = Flask(__name__)
+
+        def get_connection():
+        return mysql.connector.connect(
+        host="mysql-db",
+        user="root",
+        password="rootpass",
+        database="mydb"
+        )
+
+        @app.route("/")
+        def home():
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("CREATE TABLE IF NOT EXISTS test (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50))")
+        cursor.execute("INSERT INTO test (name) VALUES ('Hello from Flask')")
+        conn.commit()
+
+        cursor.execute("SELECT * FROM test")
+        data = cursor.fetchall()
+
+        return str(data)
+
+        if __name__ == "__main__":
+        app.run(host="0.0.0.0", port=5002)]
+
+STEP 5 - BUILD FLASK IMAGE
+    - [docker build -t flask-app .]
+
+STEP 6 - RUN FLASK CONTAINER
+    - [docker run -d \
+    --name flask-app \
+    --network flask-mysql-net \
+    -p 5002:5002 \
+    flask-app]
+
+STEP 7 - TEST IT 
+    OPEN: 
+        - http://localhost:5002
+    YOU SHOULD SEE:
+        - [(1, 'Hello from Flask')]
+
+COMMON ERRORS (AND FIXES)
+    - "CANNOT CONNECT TO MySQL"
+    FIX: make sure both are on same network.
+        - [docker network inspect flask-mysql-net]
+    - "ACCESS DENIED FOR USER ROOT"
+    FIX: check passwords match
+        - password="rootpass"
+    - "MySQL NOT READY YET"
+    FIX: wait 10–15 seconds after starting MySQL, Sometimes Flask starts too fast.

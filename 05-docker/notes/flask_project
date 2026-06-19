@@ -1,0 +1,47 @@
+FLASK PROJECT DEAD ENDS AND HOW I OVER CAME 
+    - At the beginning, my main issue was that Docker itself was not properly running on my system. When I tried to 
+    run:
+        - [docker build -t flask-app .]
+    - I got an error saying it could not connect to the Docker daemon. This happened because the Docker CLI depends 
+    on the Docker Engine (daemon) running in the background, and on macOS this is managed by Docker Desktop. At that 
+    moment, Docker Desktop was either not fully started or not ready, so even though the docker command existed, 
+    there was no active backend to process requests. Later, when I ran docker info, it successfully showed server 
+    information like “Docker Desktop,” which confirmed that the daemon was now running. That is why Docker commands s
+    tarted working after that point.
+    - Once Docker was running correctly, I was able to create a network using:
+        - [docker network create flask-mysql-net]
+    - This worked because user-defined networks require a running Docker engine. This network is important because it
+     acts like a virtual switch that allows containers to communicate with each other using names instead of 
+     IP addresses.
+    - After that, I successfully started a MySQL container using:
+        - [docker run -d \
+            --name mysql-db \
+            --network flask-mysql-net \
+            -e MYSQL_ROOT_PASSWORD=rootpass \
+            -e MYSQL_DATABASE=mydb \
+            mysql:8]
+    - This worked because Docker automatically pulled the MySQL image from Docker Hub and created a container connected
+     to my custom network. The key part here is the --network flask-mysql-net flag, which allowed the database container
+      to be reachable by name (mysql-db) from other containers on the same network.
+    - Next, I built my Flask image using:
+        - [docker build -t flask-app .]
+    - This worked successfully because Docker reused cached layers from previous attempts. I saw “CACHED” steps because
+     Docker only rebuilds parts of the image that changed. Since my Dockerfile, app.py, and requirements.txt were already
+      valid, it did not need to reinstall dependencies or repeat earlier steps.
+
+    - After building the image, I ran my Flask container with:
+        -[docker run -d \
+        --name flask-app \
+        --network flask-mysql-net \
+        -p 5002:5002 \
+        flask-app]
+   - This successfully created and started the container. However, when I tried to run the same command again, Docker 
+   gave me a conflict error saying the container name /flask-app was already in use. This happened because Docker container
+    names must be unique, and even if a container is stopped, its name still exists until it is removed. 
+   - The final working setup succeeded because both containers were placed on the same Docker network (flask-mysql-net).
+    This allowed my Flask app to communicate with MySQL using the hostname mysql-db instead of an IP address or localhost.
+     Inside Docker, this works because Docker provides built-in DNS resolution for container names within the same network.
+   - In summary, my issues came from three main areas: first, Docker was not running initially, which prevented any commands 
+   from working. Second, empty or incomplete setup files caused build issues early on. Third, container naming conflicts
+    occurred because I tried to reuse the same container name without removing the old one. Once Docker was running, 
+    my files were correct, and the containers were properly networked, everything worked as expected.

@@ -3,3 +3,40 @@ WHY TROUBLESHOOT?
     - Another key reason for troubleshooting is to minimise downtime. In businesses, network failures can stop employees from working, disrupt services, and even lead to financial loss. Quick and effective troubleshooting allows problems to be resolved faster, keeping systems running and reducing the impact on users.
     - Troubleshooting also helps improve performance and reliability. By identifying bottlenecks, misconfigurations, or failing hardware, networks can be optimised to run more efficiently. It also helps prevent future issues by addressing underlying problems before they become more serious.
     - Overall, troubleshooting is essential because it keeps networks stable, ensures smooth communication, reduces downtime, and supports both everyday users and large organisations in maintaining reliable systems.   
+COMMON NETWORK ISSUES 
+    - connectivity loss is when you suddenly lose internet connection or hen you phone drops a call on you. this can be due to a variety of reasons such as hardware failer like cable issues and sometimes even problems with your network.
+    - Slow network performance for example waiting for for a page to load this can be cause by many issues but genrally network issues.
+    - IP address conflict this occours when two devices on the same network have the same IP address sort of like two house on the same street with the same door number this will cause issues 
+    - DNS resolutions failure are very common.
+    IDENTIFYING SYMPTOMS 
+        - Identifying symptoms is a cruial when troubleshooting network issues as a engineer, you neeed to observe, gather info and use right tools.
+        - first you need to observe the problem what actually happened, Is network slow ? Are my file servers full?
+        EXAMPLE OF CONNECTIVITY LOSS 
+            symptoms: device cant access the network
+            steps to diagnose:
+                - 1) check phyiscvial connects such as cables 
+                - 2) verify network configurations, checking on the router devices to make sure everything is configured corerectly
+                - 3) test with ping command to see if there has been a change in network settings or device that has been assigned the wrong IP address.
+        TROUBLESHOOTING WITH PING,TRACE-ROUTE, NSLOOKUP
+            - [ping] this command is usee to test connectivity between devices. The ping command is used to test whether your computer can communicate with another device on a network and how fast that connection is. For example, if you type “ping google.com” into the terminal, your computer sends a small message called an ICMP Echo Request to Google’s server, which then replies with an ICMP Echo Reply. The time it takes for this round trip is measured in milliseconds, so if you see “time=14ms,” it means the connection is quite fast. Ping can also show if there are connection problems; for instance, if some messages don’t come back, it indicates packet loss, which might explain slow internet or lag in online games. However, ping does not measure download speed, and some websites may block ping requests entirely, so no response doesn’t always mean the server is down.
+
+            
+            - [traceroute] this command tracks the path your date takes to reach certain destination for example if i search something in google.com i can use this command to check what path my network/data packets take.The traceroute command is used to track the path that data takes from your computer to a destination across a network. For example, if you type “traceroute google.com” (or “tracert google.com” on Windows), your computer sends packets that travel through multiple routers, called “hops,” before reaching the final server. Each hop represents a device along the route, and traceroute shows how long it takes to reach each one, such as “1 ms” for a nearby router or “20 ms” for one farther away. This helps identify where delays or problems occur; for instance, if one hop suddenly shows a very high time or fails to respond, it could indicate a network issue at that point. Unlike ping, which only measures the total round-trip time, traceroute provides a step-by-step view of the journey data takes across the internet.
+            
+            - [Nslookup] this command is a tool for quering DNS resolution, to find an IP address associated with domain name. The nslookup command is used to find the IP address associated with a domain name or to get information about DNS (Domain Name System) records. For example, if you type “nslookup google.com” into the terminal, your computer asks a DNS server to translate the domain name into an IP address, such as “142.250.x.x,” which is the actual address used to locate the server on the internet. Nslookup can also be used to troubleshoot DNS issues; for instance, if a website is not loading, running nslookup can show whether the domain is resolving correctly or if there is a problem with the DNS server. Unlike ping or traceroute, which test connectivity and routes, nslookup focuses specifically on how domain names are translated into IP addresses.
+
+        PRACTICAL EXAMPLE FOR TROUBLESHOOTING 
+            - When troubleshooting why you cannot access a website, the problem can seem very vague at first, so the best approach is to take a step back and work through it methodically. Start by checking your basic network connectivity to ensure your machine has an active internet connection. You can do this by using a command such as `ping google.com` or pinging a known IP address; if you receive a response, it confirms that your network connection is working.
+
+            - Next, verify that DNS is functioning correctly. You can use tools like `nslookup` or `dig` (for example, `nslookup google.com`) to confirm that the domain name is resolving to an IP address. If DNS is not resolving, this may indicate a DNS server issue. It is also worth checking your local hosts file to ensure there are no incorrect or overridden entries affecting the domain.
+
+            - After that, review your system and network configurations. Check firewall rules to ensure that no outgoing or incoming traffic is being blocked. Consider whether the issue might be related to your browser by restarting it or trying a different one. You should also check and, if necessary, clear your DNS cache, as outdated entries can sometimes cause resolution problems.
+
+            - Additionally, reviewing system logs can help identify underlying issues. Running a traceroute can also provide insight into where the connection may be failing by showing the path your network traffic takes to reach the destination.
+
+            - Overall, troubleshooting should be approached step by step, starting from basic connectivity and gradually moving towards more specific components such as DNS, local configuration, and network routing.
+
+
+
+
+

@@ -1,0 +1,79 @@
+WHAT IS DOCKER?
+    - Docker is a tool that lets you package an application and everything it needs into a single unit called container. 
+    - allowing your app run the same everywhere.
+THE PROBLEM DOCKER SOLVES
+    - BEFORE DOCKER: 
+        * "it works on my machine"
+        * different OS versions
+        * Missing libs and different configs 
+    - WITH DOCKER:
+    * App + Dependencies + configs = One package
+    * runs the same everywhere 
+WHAT IS A CONTAINER
+    - A CONTAINER IS:
+    * A running Instance of an image 
+    * its lightweight 
+    * its isolated from other containers
+    think of it as: 
+        -  IMAGE --> Blueprint
+        - CONTAINERS --> Running house built from that blueprint
+CONTAINERS VS VMs 
+    -  containers sharethe hosts opertaing system and are very lightweight highly efficeint and start in seconds
+    - Virtual machines have their own operating system and are very heavy in size of memory and take few minutes to start making them slow.
+CORE DOCKER CONCEPTS:
+    
+    A Docker image: is a read-only template that contains everything needed to run an application, including the operating system layer, runtime, libraries, dependencies, and application code. An image is built from a Dockerfile and is used to create containers. For example, the image python:3.10 contains Linux and Python preinstalled, nginx contains the NGINX web server, and a custom image like my-app:1.0 may include your Python code, installed packages from requirements.txt, and a command to start the app. When you run docker run, Docker takes an image and turns it into a running container.
+    
+    A Docker container: is a running instance of a Docker image that executes an application in an isolated environment while sharing the host system’s operating system kernel. A container is created from an image and includes the running process, filesystem, network, and configuration defined by the image. For example, running docker run nginx starts a container from the nginx image that serves web pages, running docker run python:3.10 python app.py starts a Python container executing a script, and stopping the container ends the application while the image remains unchanged and reusable.
+    
+    A Dockerfile:  is a text file containing step-by-step instructions that tell Docker how to build a Docker image, including which base image to use, which files to copy, what dependencies to install, and what command should run when the container starts. For example, a Dockerfile may start from python:3.10, copy application code into the image, run pip install -r requirements.txt to install dependencies, and define CMD ["python", "app.py"] so the app runs when the container starts. Docker reads the Dockerfile from top to bottom and uses it to create a reusable image.
+    
+    The Docker Engine:  is the core software that runs Docker, responsible for building images, starting and stopping containers, and managing networking and storage. It consists of a background service (the Docker daemon) that does the actual work and a command-line interface that users interact with using commands like docker build and docker run. For example, when you run docker build, the Docker Engine reads the Dockerfile and creates an image, and when you run docker run nginx, the Docker Engine creates and runs a container from the nginx image.
+
+WHAT IS A DOCKERFILE?
+
+A Dockerfile is a text file that tells docker:
+    * what base image to use 
+    * what files to copy
+    * what commmands to run 
+    * How to start the app.
+
+
+    EXAMPLE DOCKERFILE:
+
+    FROM python:3.10-slim
+    WORKDIR /app
+    COPY . .
+    CMD ["python", "app.py"]
+
+    WHATS HAPPENING:
+
+    1) FROM > CHOOSES A BASE IMAGE 
+    2) WORKDIR/ > STES WORKING DIRECTORY(without this you will work automatically from the root folder and isnt ideal)
+    3) COPY > COPIES CODE INTO CONTAINER
+    4) CMD > RUNS APP WHEN CONTAINER STARTS.
+
+
+    WHAT IS A BASE IMAGE? 
+
+    A BASE IMAGE IS A STARTING POINT OF YOUR DOCKER IMAGE:
+
+    EXAMPLES: 
+    - python:3.10
+    - node:18
+    - nginx
+    - ubuntu
+
+    A based image usually contains a OS(linux), runtime(Python,Node,Java) and other basic system tools.
+    You choose a base image by matching it to what your application needs to run, while keeping it secure, small, and compatible with your tooling. First, pick an image that already includes your app’s runtime, such as python:3.10 for a Python app, node:18 for a Node.js app, or openjdk:17 for a Java app, so you don’t have to install the runtime yourself. Second, prefer official images maintained by Docker, because they are regularly updated and well documented. Third, choose the smallest variant that still works, like -slim or -alpine, to reduce image size and attack surface, but only if your dependencies are compatible. Finally, consider production needs such as security updates, library compatibility, and debugging tools; for example, use python:3.10-slim for production and a fuller image like python:3.10 during development if you need more system utilities.
+
+HOW TO BUILD AN IMAGE?
+    [docker build -t my-app .]
+
+Docker: 
+    -  Reads Dockerfile Top to Bottom
+    -  executes each instruction
+    -  creates image layer
+    -  saves final image
+
+RUNNING A CONTAINER

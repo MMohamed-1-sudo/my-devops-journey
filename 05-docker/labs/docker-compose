@@ -1,0 +1,165 @@
+GOAL 
+    - THE GOAL OF DOCKER COMPOSE IS TO RUN TWO OR MORE CONTAINER TOGETHER AS A SINGLE APPLICATION USING A SINGLE CONMFIG FILE.
+
+    STEP 1 - CREATE PROJECT FOLDER
+        - [mkdir docker-compose-demo]
+        [cd docker-compose-demo]
+    
+    STEP 2 - CREATE THE COMPOSE FILE
+        - [touch docker-compose.yml]
+        open it and paste: 
+            [version: "3.9"
+
+            services:
+                web:
+                image: nginx:latest
+                ports:
+                    - "5002:5002"
+
+            db:
+                image: postgres:15
+                environment:
+                    POSTGRES_USER: user
+                    POSTGRES_PASSWORD: password
+                    POSTGRES_DB: mydb]
+    
+    STEP 3: UNDERSTAND WHAT I JUST WROTE
+        I DEFINED 2 SERVICES 
+        1. web
+            - runs ngin x
+            exposes port 5002:5002
+        which i will access in the browser
+    
+        2.db
+            - runs PostgreSQL
+            - uses environment variables to set it up
+        this is my database
+    
+    STEP 4 - START EVERYTHING
+        RUN: 
+            - [docker compose up]
+            OR 
+            - [docker compose up -d]
+                this runs docker compose in the backend
+    
+    STEP 5 - WHAT DOCKER COMPOSE DOES 
+        -  behind the scenes it pulls images (nginx + postgres)
+        - creates a network
+        - starts both containers 
+        - connects them together
+
+    STEP 6 - TEST IT 
+        open browser: 
+            - [http://localhost:5002]     
+            i should see welcome to nginx
+        i can then stop everythiing using 
+        [Ctrl + C] - [docker compose down]
+    
+    STEP 7 
+       check running containers/ logs 
+       - [docker ps] / [docker compose logs]
+    
+    STEP 8 - OPTIONAL  ADD STORAGE 
+       
+       right now my database will lose data when stopped.
+    
+        - [version: "3.9"
+
+        services:
+            web:
+                image: nginx:latest
+                ports:
+                 - "8080:80"
+
+             db:
+                image: postgres:15
+                environment:
+                     POSTGRES_USER: user
+                     POSTGRES_PASSWORD: password
+                     POSTGRES_DB: mydb
+                volumes:
+                 - db_data:/var/lib/postgresql/data
+
+        volumes:
+            db_data:]
+    
+    WHAT CHANGED:  
+    `   - i added volume 
+        - database data is now saved
+         
+    RUN DOCKER COMPOSE AGAIN 
+        [docker compose up -d]
+
+    
+    WHAT I LEARNT:
+        - Define multiple containers
+        - Start them together
+        - Use environment variables
+        - Persist data with volumes
+        - Use Docker networking
+    
+    USEFUL COMMANDS 
+        docker compose up -d        # start
+        docker compose down         # stop
+        docker compose ps           # see containers
+        docker compose logs -f      # live logs
+        docker compose down -v      # delete everything (including data) 
+
+
+TAKEAWAYS
+
+At first, I created a docker-compose.yml file using:
+    [touch docker-compose.yml]
+and immediately tried to run:
+    [docker compose up]
+but I got the error:
+    - "empty compose file"
+
+This happened because although the file existed, it had no content inside it. Docker Compose requires a valid configuration (services, images, etc.), so an empty file gives it nothing to execute. Once I opened the file with nano docker-compose.yml and added the correct configuration, this issue was resolved.
+
+Next, i ran:
+    [docker-compose up]
+and saw a warning:
+    - "the attribute `version` is obsolete"
+This happened because newer versions of Docker Compose no longer require the version field. It doesn’t break anything, but Docker warns that it will ignore it. This didn’t stop my setup from working, but it’s a reminder that Compose syntax has evolved.
+
+I also briefly hit the same Docker daemon issue again when I saw:
+    - "Cannot connect to the Docker daemon"
+
+This reminded me that Docker Desktop must always be running before using Docker commands. Once Docker was fully running again, the same command worked without any changes, which shows that the issue was environmental rather than a problem with my configuration.  
+
+After fixing those issues, I ran:
+    [docker-compose up]
+and this time it successfully built and started everything. I saw output like:
+    - " ✔ Network flask_project_default Created"
+        "✔ Container flask_project-db-1 Created"
+        "✔ Container flask_project-web-1 Created"
+
+This worked because Docker Compose automatically:
+    - created a network (flask_project_default)
+    - built my Flask image
+    - started both the Flask (web) and MySQL (db) containers
+    - connected them together
+Unlike before, I didn’t need to manually run docker network create or docker run commands. Compose handled all of that internally.
+
+when i ran: 
+    [docker compose up -d]
+i saw:
+    "✔ Container flask_project-db-1 Running"
+    "✔ Container flask_project-web-1 Running"
+This worked because the containers had already been created earlier, so Compose simply restarted them in detached mode (-d). This shows how Compose manages container lifecycle automatically.
+
+The most important thing I learned from this process is how much simpler Docker Compose makes everything. Before, I had to manually:
+    - create networks
+    - run MySQL
+    - run Flask
+    - manage container names
+Now, with Compose, all I need is:
+    [docker compose up]
+and docker automatically 
+    -  builds images 
+    - creates networks 
+    - starts containers 
+    - connects services using names like db
+
+In summary, my issues came from three main areas again: first, trying to run Docker Compose with an empty configuration file; second, occasional Docker daemon availability problems; and third, small command mistakes like running docker run without arguments. Once I fixed those and provided a valid docker-compose.yml, everything worked smoothly, and the setup became much easier to manage compared to manual Docker commands.

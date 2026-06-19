@@ -1,0 +1,83 @@
+GOAL: 
+    - build a simple flask web app(app.py)
+    - turn it into a docker container
+    - run it in the browser
+
+STEP 1 - CREATE PROJECT FOLDER AND CD INTO IT
+    "mkdir flask_project"
+    "cd flask_project"
+STEP 2 - CREATE YOUR APP
+    "touch app.py"
+    - OPEN IT AND ADD:
+        - "from flask import Flask
+
+            app = Flask(__name__)
+
+            @app.route("/")
+            def home():
+            return "Hello from Docker!"
+
+            if __name__ == "__main__":
+            app.run(host="0.0.0.0", port=5001)"
+    WHAT THIS DOES:
+        - creates a web server 
+        - / route returns text
+        - runs port 5001
+STEP 3 - TESTS LOCALLY 
+    - "python3 app.py"
+    open browser:
+    [http://localhost:500]
+    if this doesnt work docker wont either 
+
+STEP 4 - CREATE REQUIREMENT FILE 
+    "touch requirements.txt"
+    add: flask
+    WHY THIS MATTERS:
+        - docker needs to know what to install 
+
+STEP 5 - CREATE DOCKERFILE 
+    "touch Dockerfile"
+    add:
+    "FROM python:3.8-slim
+
+    WORKDIR /app
+
+    COPY requirements.txt .
+
+    RUN pip install -r requirements.txt
+
+    COPY . .
+
+    EXPOSE 5001
+
+    CMD ["python3", "app.py"]"
+
+    WHAT THIS DOES
+        - gets python as base image 
+        - sets working directory to the /app folder
+        - Installs all Python packages listed in requirements.txt 
+        - copies your code from computer into container
+        - EXPOSE PORT 5001
+        - runs your app when container starts
+
+STEP 6 - BUILD DOCKER IMAGE 
+    - "docker build -t flask-app ."
+
+STEP 7 - RUN CONTAINER
+    - "docker run -p 5001:5001 flask-app"
+
+STEP 8 - OPEN BROWSER
+    - http://localhost:5001
+you should see : 
+    - Hello from Docker!
+
+WHAT I DID 
+    - Built a web app, containerised it and exposed it.
+COMMON MISTAKES 
+    - Forgot 0.0.0.0
+    - wrong port
+    - docker not running 
+    - didnt rebuild after changes
+ 
+CODE ---- DOCKERFILE ---- IMAGE ---- CONTAINER ---- BROWSER
+    

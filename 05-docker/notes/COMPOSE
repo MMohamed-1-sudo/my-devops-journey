@@ -1,0 +1,3 @@
+INTRODUCTION
+    - Docker Compose is a tool that lets you run multiple containers together as one application using a single config file. Instead of running lots of long docker run commands, you define everything in a simple YAML file called "docker-compose.yml" think of it like i want these containers, configured like this all started together. imagine you have an app that needs a backend (node/python), a database (postgreSQL) and mayb a redis without docker compose, youd manually start each container and connect them, with docker compose you'd define everything once in a yml file run one command [docker compose up] and everything starts. 
+
