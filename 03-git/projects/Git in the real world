@@ -465,11 +465,7 @@ cat app.txt
 You will see conflict markers like:
 
 ```text
-<<<<<<< HEAD
-Main branch change
-=======
 Feature branch change
->>>>>>> feature-1
 ```
 
 This means Git cannot decide which version to keep.
