@@ -465,6 +465,7 @@ cat app.txt
 You will see conflict markers like:
 
 ```text
+Hello from main
 Feature branch change
 ```
 
