@@ -1,0 +1,21 @@
+SECURITY GROUPS 
+
+    - Security Groups in Amazon Web Services (AWS) act as virtual firewalls that control traffic to and from your resources, most commonly EC2 instances. They are one of the most important building blocks for securing workloads in AWS. 
+
+    - A security group controls inbound traffic ( what can come into an EC2 instance)  an outbound traffic  (what can leave the instance). by default all inbound traffic is blocked and all outbound traffic is allowed . You specifically define rules to allow specific traffic.
+
+    - Security group rules are allow-only. This means there are no deny rules. If traffic is not explicitly allowed by a rule, it is automatically denied. This makes security groups simpler and safer to manage.
+
+        each rule is defined by:
+
+            * PROTOCOLS (TCP, UDP, ICMP, etc.)
+            * PORT OR PORT RANGE (for example 22 for ssh, or 443 for https or 80 for http)
+            * SOURCE OF DESTINATION  (an IP address, CIDR range, or another security group)
+        
+        Security groups are stateful, which is a key concept. If you allow inbound traffic to your instance, the response traffic is automatically allowed back out. You do not need to create separate outbound rules for return traffic. 
+
+        Security groups are associated with the network interface of an EC2 instance. An instance can have multiple security groups attached, and all the rules are combined. If any security group allows the traffic, the traffic is permitted.
+
+        In practice, security groups help you follow the principle of least privilege. For example, a web server might allow HTTP and HTTPS from the internet, but only allow SSH access from your own IP address. This reduces exposure and improves security.
+
+        In short security groups define who can access you EC2 instances and on which ports, Mastering security groups is essential for building secure EC2 - based architectures in AWS. 
