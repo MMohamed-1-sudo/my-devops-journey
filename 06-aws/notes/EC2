@@ -1,0 +1,47 @@
+EC2 & COMPUTE
+
+    1) EC2 
+
+    2) CONTAINERS - ECS AND EKS
+
+    3) SEVERLESS - LAMBDA
+
+    4) HIGH Availability AND scalability
+
+ 
+    EC2
+
+        - EC2  stands for elastic compute Cloud and is part of IAAS also known as infrastructure as a service, which essentially means the renting of an AWS machine or service.
+        - EC2 is one of amazons highly popular services due to how flexible it is whether you are a start up or a large enterprise you can easlily scale up or own as needed and only pay for what you use.
+        - EC2 allows for you to rent virtual machine, choose an operating system and configure them based on your needs. It also allows for you to store them on virtual drives (EBS) along side your VM ( virtual machnes) you need somewhere to store yor data thats where EBS (Elastic block store) comes in sort of like a hard drive for EC2 instances. 
+        - When you've got multiple EC2 instances running at the same time you want to make sure that the traffic is shared evenly this is where Elastic load balances (ELB) comes in, it helps distribute the incoming requests to you instances so one machine isnt overloaded while others sit idle
+        - EC2 also provides (ASG) also known as auto scaling group which ca scale your instances up or don depending on how much you need allowing you to uses only what you need, this can be very cost affective 
+
+
+        EC2 SIZING AND CONFIGURATION OPTIONS
+
+            - When setting up an EC2 instance you have quite a few things to consider its not just about launching virtual machines with everything you want, there are multiple setting you can tweak to make sure it meets your needs.
+
+                - Firstly your operating system AWS allows you to choose from Linux, windows, Macos and thousands of specialized others. which OS ypu go for depends on what you application needs and what you are managing.
+                - Then you have Compute power and cores, here you decide how much compute power you need depending on you application.
+                - RAM , EC2 allows you to select how much memory or RAM your instance will have , more memory helps with handling more data in real time or running larger applications smoothly.
+                - Then comes storage AWS gives you many options for storage, do you have a network attached storage such as (EBS & EFS) think of EBS like the hard drive attcahed to your storage and think of EFS like shared storage , accessible from multiple instances. EC2 also provides EC2 instance store which is basically areware attached to the VM running you instance, this is fast but temporary meaning that if the instance is stopped you lose the data on it.
+                - NETWORK CARD, you can configrue the speed of the network depending on how much traffic you expect, you also get a public IP address if you want making your instance accessible from the internet.
+                - FIREWALLS rules, security groups known as SG's they act as firewalls for your instance, you can set up rules controlling who can access your instanceand which traffic can get through, which is super important as its securing your EC2 instance.
+                - BOOTSTRAP SCRIPT (configure at first launch) can also be known as EC2 user data, this can be used to install updates on software.
+
+                - TAKING THE TIME TO CONFIURE YOUR INSTANCE BASED ON YOUR APPLICATION IS VERY IMPORTANT, THE WRING SIZING CAN LEAD O UNDER PERFORMACE OR OVER PAYING FOR RESOURCE YOU DONT NEED.
+                
+
+
+            USER DATA 
+
+                - When launching an Amazon EC2 instance, you can provide a User Data script. User Data is a script that automatically runs the first time an EC2 instance starts. It is commonly used to bootstrap an instance, meaning it performs initial setup tasks without requiring manual intervention. This allows every new instance to be configured consistently as soon as it launches.
+
+                - User Data can automate a wide variety of setup tasks. For example, it can install the latest operating system updates and security patches, install software such as Nginx, Apache, Docker, or application dependencies, download files from the internet, retrieve configuration files, or deploy application code. By automating these tasks, the instance is fully configured and ready to use immediately after startup.
+
+                - One important characteristic of User Data is that it runs with root privileges, meaning it has full administrative access to the operating system. Because of this, the script can make system-wide changes, such as installing packages, modifying configuration files, and starting services. While this provides great flexibility, it also means that User Data scripts should be written carefully to avoid introducing security risks or configuration errors.
+
+                - By default, the User Data script runs only once, during the instance's initial boot. After the instance has been created, the script will not run again unless it is specifically configured to do so or the instance is recreated with new User Data. This makes it ideal for one-time initialization tasks rather than ongoing administration.
+
+                - For DevOps engineers, EC2 User Data is an essential automation tool. In environments where dozens or even hundreds of EC2 instances are deployed, manually logging into each server to perform setup tasks would be inefficient and time-consuming. Instead, User Data allows these tasks to be defined once and executed automatically on every new instance. This improves consistency, reduces manual effort, minimizes human error, and helps automate application deployments and infrastructure provisioning at scale.
