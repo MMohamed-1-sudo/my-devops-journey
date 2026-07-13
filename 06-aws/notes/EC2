@@ -1,0 +1,58 @@
+EC2 Notes
+=========
+
+Overview:
+- Amazon EC2 (Elastic Compute Cloud) provides scalable virtual servers called instances.
+- Instances run on AWS-managed hardware and support multiple OS types.
+- Key concepts: AMIs, instance types, EBS volumes, security groups, key pairs, VPC networking.
+
+Instance Launch Flow:
+1. Choose an AMI (Amazon Machine Image) for your OS and configuration.
+2. Select an instance type (vCPU, memory, storage, network performance).
+3. Configure instance details (VPC, subnet, IAM role, shutdown behavior, user data).
+4. Add storage volumes (EBS volumes, root volume size/type, additional volumes).
+5. Configure security group rules (allow SSH/RDP, HTTP, HTTPS, custom ports).
+6. Review and launch using a key pair for SSH access.
+
+Key EC2 Concepts:
+- AMI: Prebuilt image containing OS, applications, and settings.
+- Instance type: Defines CPU, RAM, storage, and networking.
+- EBS: Elastic Block Store, persistent block-level storage for EC2.
+- Security group: Virtual firewall controlling inbound/outbound traffic.
+- Key pair: SSH public/private key pair used for secure login.
+- Elastic IP: Static public IPv4 address for an instance.
+
+Instance States:
+- pending: EC2 is launching the instance.
+- running: Instance is active and accessible.
+- stopping: Instance is shutting down.
+- stopped: Instance is shut down but kept in AWS.
+- terminated: Instance is deleted and cannot be recovered.
+
+Storage Options:
+- EBS volumes: Persistent storage attached to instances.
+- Instance store: Ephemeral storage available only during instance lifecycle.
+- EBS snapshot: Point-in-time backup of a volume stored in S3.
+
+Networking:
+- VPC: Virtual Private Cloud where EC2 instances run.
+- Subnet: CIDR range inside a VPC, can be public or private.
+- Internet Gateway: Allows internet access for public subnets.
+- NAT Gateway: Enables outbound internet access for private instances.
+- Elastic Network Interface (ENI): Virtual NIC for an instance.
+
+Common CLI Commands:
+- aws ec2 describe-instances
+- aws ec2 run-instances --image-id <ami-id> --count 1 --instance-type t3.micro --key-name <key>
+- aws ec2 start-instances --instance-ids <id>
+- aws ec2 stop-instances --instance-ids <id>
+- aws ec2 terminate-instances --instance-ids <id>
+- aws ec2 create-snapshot --volume-id <vol-id>
+
+Best Practices:
+- Use IAM roles for instance permissions instead of hardcoded credentials.
+- Launch instances in private subnets when possible.
+- Keep security groups restrictive with least-privilege rules.
+- Use Auto Scaling for workload elasticity.
+- Monitor instances with CloudWatch for CPU, memory, disk, and network metrics.
+
