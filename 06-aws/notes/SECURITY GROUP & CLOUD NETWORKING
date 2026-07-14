@@ -71,4 +71,20 @@ SECURITY GROUPS
         - Think of a Security Group as a firewall that protects your EC2 instance by only allowing the network traffic you've explicitly approved.
 
 
+SECURITY GROUPS GOOD TO KNOW 
+
+    - SG's can be attached to multiple instances , they are also locked down to a region / VPC combinations.
+    - SG's live "outside" the EC2 meaning if traffic is blocked the EC2 instance wont see it.
+    - its good to maintain one seprate SG's for you ssh access and the IP addresses that can reach your instance.
+    - If your instances isnt accessible (time out), then its a security groups issue.
+    - if your application gives a "connection refused" error, then its an application error or its not launched. 
+    - all inbound traffic is blocked by default. 
+    - all outbound traffic is authorised by default. 
+
+
+
+            - Normally, security groups allow traffic based on IP addresses. However, AWS also lets you reference another security group instead of specifying individual IP addresses. This means you can create a rule that says, "Allow traffic from any EC2 instance that belongs to this security group." For example, if SG1 allows inbound traffic from SG2 on port 123, then any EC2 instance associated with SG2 can communicate with instances using SG1 on that port. AWS automatically handles which instances are included, so you don't need to know or manage their IP addresses.
+
+            - This is especially useful in dynamic environments where instances are frequently created or terminated, such as Auto Scaling Groups or microservices architectures. Since EC2 instances can receive new IP addresses when they are replaced, managing rules with IP addresses would require constant updates. By referencing security groups instead, access is based on group membership rather than IP addresses, making security easier to manage, reducing maintenance, and ensuring that only the intended groups of instances can communicate with each other.
+
 
