@@ -1,58 +1,89 @@
-EC2 Notes
-=========
+EC2 & COMPUTE
 
-Overview:
-- Amazon EC2 (Elastic Compute Cloud) provides scalable virtual servers called instances.
-- Instances run on AWS-managed hardware and support multiple OS types.
-- Key concepts: AMIs, instance types, EBS volumes, security groups, key pairs, VPC networking.
+    1) EC2 
 
-Instance Launch Flow:
-1. Choose an AMI (Amazon Machine Image) for your OS and configuration.
-2. Select an instance type (vCPU, memory, storage, network performance).
-3. Configure instance details (VPC, subnet, IAM role, shutdown behavior, user data).
-4. Add storage volumes (EBS volumes, root volume size/type, additional volumes).
-5. Configure security group rules (allow SSH/RDP, HTTP, HTTPS, custom ports).
-6. Review and launch using a key pair for SSH access.
+    2) CONTAINERS - ECS AND EKS
 
-Key EC2 Concepts:
-- AMI: Prebuilt image containing OS, applications, and settings.
-- Instance type: Defines CPU, RAM, storage, and networking.
-- EBS: Elastic Block Store, persistent block-level storage for EC2.
-- Security group: Virtual firewall controlling inbound/outbound traffic.
-- Key pair: SSH public/private key pair used for secure login.
-- Elastic IP: Static public IPv4 address for an instance.
+    3) SEVERLESS - LAMBDA
 
-Instance States:
-- pending: EC2 is launching the instance.
-- running: Instance is active and accessible.
-- stopping: Instance is shutting down.
-- stopped: Instance is shut down but kept in AWS.
-- terminated: Instance is deleted and cannot be recovered.
+    4) HIGH Availability AND scalability
 
-Storage Options:
-- EBS volumes: Persistent storage attached to instances.
-- Instance store: Ephemeral storage available only during instance lifecycle.
-- EBS snapshot: Point-in-time backup of a volume stored in S3.
+ 
+    EC2
 
-Networking:
-- VPC: Virtual Private Cloud where EC2 instances run.
-- Subnet: CIDR range inside a VPC, can be public or private.
-- Internet Gateway: Allows internet access for public subnets.
-- NAT Gateway: Enables outbound internet access for private instances.
-- Elastic Network Interface (ENI): Virtual NIC for an instance.
+        - EC2  stands for elastic compute Cloud and is part of IAAS also known as infrastructure as a service, which essentially means the renting of an AWS machine or service.
+        - EC2 is one of amazons highly popular services due to how flexible it is whether you are a start up or a large enterprise you can easlily scale up or own as needed and only pay for what you use.
+        - EC2 allows for you to rent virtual machine, choose an operating system and configure them based on your needs. It also allows for you to store them on virtual drives (EBS) along side your VM ( virtual machnes) you need somewhere to store yor data thats where EBS (Elastic block store) comes in sort of like a hard drive for EC2 instances. 
+        - When you've got multiple EC2 instances running at the same time you want to make sure that the traffic is shared evenly this is where Elastic load balances (ELB) comes in, it helps distribute the incoming requests to you instances so one machine isnt overloaded while others sit idle
+        - EC2 also provides (ASG) also known as auto scaling group which ca scale your instances up or don depending on how much you need allowing you to uses only what you need, this can be very cost affective 
 
-Common CLI Commands:
-- aws ec2 describe-instances
-- aws ec2 run-instances --image-id <ami-id> --count 1 --instance-type t3.micro --key-name <key>
-- aws ec2 start-instances --instance-ids <id>
-- aws ec2 stop-instances --instance-ids <id>
-- aws ec2 terminate-instances --instance-ids <id>
-- aws ec2 create-snapshot --volume-id <vol-id>
 
-Best Practices:
-- Use IAM roles for instance permissions instead of hardcoded credentials.
-- Launch instances in private subnets when possible.
-- Keep security groups restrictive with least-privilege rules.
-- Use Auto Scaling for workload elasticity.
-- Monitor instances with CloudWatch for CPU, memory, disk, and network metrics.
+        EC2 SIZING AND CONFIGURATION OPTIONS
 
+            - When setting up an EC2 instance you have quite a few things to consider its not just about launching virtual machines with everything you want, there are multiple setting you can tweak to make sure it meets your needs.
+
+                - Firstly your operating system AWS allows you to choose from Linux, windows, Macos and thousands of specialized others. which OS ypu go for depends on what you application needs and what you are managing.
+                - Then you have Compute power and cores, here you decide how much compute power you need depending on you application.
+                - RAM , EC2 allows you to select how much memory or RAM your instance will have , more memory helps with handling more data in real time or running larger applications smoothly.
+                - Then comes storage AWS gives you many options for storage, do you have a network attached storage such as (EBS & EFS) think of EBS like the hard drive attcahed to your storage and think of EFS like shared storage , accessible from multiple instances. EC2 also provides EC2 instance store which is basically areware attached to the VM running you instance, this is fast but temporary meaning that if the instance is stopped you lose the data on it.
+                - NETWORK CARD, you can configrue the speed of the network depending on how much traffic you expect, you also get a public IP address if you want making your instance accessible from the internet.
+                - FIREWALLS rules, security groups known as SG's they act as firewalls for your instance, you can set up rules controlling who can access your instanceand which traffic can get through, which is super important as its securing your EC2 instance.
+                - BOOTSTRAP SCRIPT (configure at first launch) can also be known as EC2 user data, this can be used to install updates on software.
+
+                - TAKING THE TIME TO CONFIURE YOUR INSTANCE BASED ON YOUR APPLICATION IS VERY IMPORTANT, THE WRING SIZING CAN LEAD O UNDER PERFORMACE OR OVER PAYING FOR RESOURCE YOU DONT NEED.
+                
+
+
+            USER DATA 
+
+                - When launching an Amazon EC2 instance, you can provide a User Data script. User Data is a script that automatically runs the first time an EC2 instance starts. It is commonly used to bootstrap an instance, meaning it performs initial setup tasks without requiring manual intervention. This allows every new instance to be configured consistently as soon as it launches.
+
+                - User Data can automate a wide variety of setup tasks. For example, it can install the latest operating system updates and security patches, install software such as Nginx, Apache, Docker, or application dependencies, download files from the internet, retrieve configuration files, or deploy application code. By automating these tasks, the instance is fully configured and ready to use immediately after startup.
+
+                - One important characteristic of User Data is that it runs with root privileges, meaning it has full administrative access to the operating system. Because of this, the script can make system-wide changes, such as installing packages, modifying configuration files, and starting services. While this provides great flexibility, it also means that User Data scripts should be written carefully to avoid introducing security risks or configuration errors.
+
+                - By default, the User Data script runs only once, during the instance's initial boot. After the instance has been created, the script will not run again unless it is specifically configured to do so or the instance is recreated with new User Data. This makes it ideal for one-time initialization tasks rather than ongoing administration.
+
+                - For DevOps engineers, EC2 User Data is an essential automation tool. In environments where dozens or even hundreds of EC2 instances are deployed, manually logging into each server to perform setup tasks would be inefficient and time-consuming. Instead, User Data allows these tasks to be defined once and executed automatically on every new instance. This improves consistency, reduces manual effort, minimizes human error, and helps automate application deployments and infrastructure provisioning at scale.
+                
+
+
+            EC2 INSTANCE TYPE 
+                -	Aws offers different types of EC2 instances depending on what your are trying to do.
+                
+                -	1) EC2 instance types define the kind of hardware your virtual machine uses. Not all EC2 instances are the same—Amazon Web Services offers different instance types so you can choose the right one for your workload. The goal is simple: use the right tool for the job.
+
+                -	2) General Purpose instances are the most commonly used. They provide a balanced mix of CPU, memory, and networking, making them suitable for web servers, small databases, development environments, and other everyday workloads.
+
+                -	3) Compute Optimized instances are designed for workloads that need a lot of processing power. These instances provide more CPU relative to memory and are ideal for tasks such as batch processing, high-performance computing, and heavy calculations.
+
+                -	4) Memory Optimized instances focus on providing large amounts of RAM. They are best for applications that need to hold a lot of data in memory, such as in-memory databases, big data processing, and certain high-performance workloads.
+
+                -	4) Storage Optimized instances are built for fast and high-throughput storage access. They are well suited for large datasets, data warehouses, and databases that require very fast read and write performance.
+
+                -	5) Accelerated Computing instances include specialized hardware such as GPUs and FPGAs. These are commonly used for machine learning, video rendering, scientific simulations, and other compute-intensive workloads that benefit from hardware acceleration.
+
+                -	6) HPC Optimized instances (High-Performance Computing) are designed for extremely demanding workloads. They combine powerful processors with high-speed networking, making them ideal for scientific modeling, simulations, and large-scale compute tasks.
+
+                -	7) AWS instance names follow a clear naming convention. For example, in M5.2xlarge, the M represents the instance class (General Purpose), the 5 indicates the generation, and 2xlarge defines the size, which determines how much CPU and memory the instance has.
+
+                -	8) Choosing the right EC2 instance type is a balancing act between performance and cost. If the instance is too small, your application may struggle. If it’s too large, you end up paying for resources you don’t need. The best choice matches your workload requirements as closely as possible. 
+
+
+            EC2 INSTANCES PURCHASING OPTIONS
+
+                - ON DEMAND INSTANCES: this instance type is optimal for shortterm/unpredictable workloads, where you want predictable prices and no long term commitments paying by the second making it highly flexible, it isnt always the cheapest option.
+
+                - RESERVED INSTANCES: this could be from 1-3 years, the longer it is the cheaper the price, this is optimal for when you are running a steady workload for a longer period of time this instance will offer a bigger discount in exchange for time commited. There are two types of reserved instances the standard one and a convertable resevered instances which give you flexablilty and change instance time overtime 
+
+                - Savings Plans provide discounted EC2 pricing in exchange for committing to a consistent amount of compute usage over a one-year or three-year term. They offer similar savings to Reserved Instances but with greater flexibility, allowing you to change instance families, instance sizes, operating systems, or AWS Regions while still receiving the discount. Savings Plans are an excellent choice for organizations with long-term workloads that may evolve over time.
+
+                - Spot Instances allow you to use unused EC2 capacity at significantly reduced prices, often up to 90% cheaper than On-Demand Instances. The trade-off is that AWS can interrupt or terminate a Spot Instance with short notice whenever the capacity is needed elsewhere. As a result, Spot Instances are best suited for fault-tolerant or interruptible workloads, such as batch processing, data analysis, image rendering, testing, and distributed computing.
+
+                - Dedicated Hosts provide an entire physical server that is dedicated exclusively to your AWS account. Because you have visibility into the underlying hardware, Dedicated Hosts are commonly used to meet software licensing requirements or regulatory and compliance obligations that require applications to run on dedicated physical hardware.
+
+                - Dedicated Instances also run on hardware dedicated to a single AWS customer, meaning the underlying server is not shared with other AWS accounts. However, unlike Dedicated Hosts, you do not have control or visibility over the specific physical server on which your instances are running. Dedicated Instances are typically used when workload isolation is required for security or compliance purposes without needing direct management of the host.
+
+                - Capacity Reservations allow you to reserve EC2 capacity in a specific Availability Zone for a specified instance type. This ensures that capacity will always be available when you need to launch instances, even during periods of high demand. Capacity Reservations are particularly useful for business-critical applications that require guaranteed availability and cannot risk failing to launch due to insufficient EC2 capacity.
+
+                - Selecting the appropriate purchasing option can significantly reduce costs while meeting your application's availability and performance requirements. On-Demand Instances are best suited for short-term or unpredictable workloads, Savings Plans are ideal for long-term workloads that require flexibility, Reserved Instances are appropriate for predictable long-term usage, Spot Instances provide the lowest cost for interruptible workloads, Dedicated Hosts and Dedicated Instances are designed for isolation and compliance, and Capacity Reservations guarantee compute capacity when availability is critical.
