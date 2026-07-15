@@ -71,4 +71,66 @@ SECURITY GROUPS
         - Think of a Security Group as a firewall that protects your EC2 instance by only allowing the network traffic you've explicitly approved.
 
 
+SECURITY GROUPS GOOD TO KNOW 
 
+    - SG's can be attached to multiple instances , they are also locked down to a region / VPC combinations.
+    - SG's live "outside" the EC2 meaning if traffic is blocked the EC2 instance wont see it.
+    - its good to maintain one seprate SG's for you ssh access and the IP addresses that can reach your instance.
+    - If your instances isnt accessible (time out), then its a security groups issue.
+    - if your application gives a "connection refused" error, then its an application error or its not launched. 
+    - all inbound traffic is blocked by default. 
+    - all outbound traffic is authorised by default. 
+
+
+
+            - Normally, security groups allow traffic based on IP addresses. However, AWS also lets you reference another security group instead of specifying individual IP addresses. This means you can create a rule that says, "Allow traffic from any EC2 instance that belongs to this security group." For example, if SG1 allows inbound traffic from SG2 on port 123, then any EC2 instance associated with SG2 can communicate with instances using SG1 on that port. AWS automatically handles which instances are included, so you don't need to know or manage their IP addresses.
+
+            - This is especially useful in dynamic environments where instances are frequently created or terminated, such as Auto Scaling Groups or microservices architectures. Since EC2 instances can receive new IP addresses when they are replaced, managing rules with IP addresses would require constant updates. By referencing security groups instead, access is based on group membership rather than IP addresses, making security easier to manage, reducing maintenance, and ensuring that only the intended groups of instances can communicate with each other.
+
+
+    CLASSIC PORTS
+
+            - SSH (Secure Shell) - Port 22
+
+                SSH is used to securely connect to and manage Linux servers remotely through the command line. As a cloud engineer, you'll often use SSH to configure EC2 instances, install software, and troubleshoot issues. Because SSH provides administrative access, you should only allow port 22 from trusted IP addresses to keep your servers secure.
+
+            - FTP (File Transfer Protocol) - Port 21
+
+                FTP is used to transfer files between computers and servers. However, FTP does not encrypt data, meaning usernames, passwords, and files can be intercepted. For this reason, FTP has largely been replaced by more secure alternatives.
+
+            - SFTP (SSH File Transfer Protocol) - Port 22
+
+                SFTP is the secure version of FTP. It transfers files over an encrypted SSH connection, which is why it also uses port 22. SFTP is the preferred method for securely uploading and downloading files to a server.
+
+            - HTTP (Hypertext Transfer Protocol) - Port 80
+
+                HTTP is the protocol used to access standard websites. It allows web browsers to communicate with web servers, but the data is not encrypted. Because information is sent in plain text, HTTP is mainly used for non-sensitive web traffic or to redirect users to HTTPS.
+
+            - HTTPS (Hypertext Transfer Protocol Secure) - Port 443
+
+                HTTPS is the secure version of HTTP. It encrypts data using TLS (Transport Layer Security), protecting information such as passwords, payment details, and personal data while it travels across the internet. Nearly all modern websites use HTTPS to provide secure communication.
+
+            - DNS (Domain Name System) - Port 53
+
+                DNS translates human-friendly domain names, such as google.com, into IP addresses that computers use to communicate. Without DNS, you would have to remember the IP address of every website you wanted to visit. It is an essential service for accessing websites and cloud resources.
+
+            - RDP (Remote Desktop Protocol) - Port 3389
+
+                RDP is used to remotely connect to and manage Windows servers through a graphical desktop interface. In AWS, administrators commonly use RDP to access Windows EC2 instances. Like SSH, access to port 3389 should be restricted to trusted IP addresses.
+
+            - SMTP (Simple Mail Transfer Protocol) - Port 25
+
+                SMTP is the protocol used to send emails between mail servers. It handles outgoing email traffic and is commonly used by email services and applications that send notifications. Many cloud providers, including AWS, restrict port 25 by default to help prevent spam.
+
+            - MySQL - Port 3306
+
+                Port 3306 is the default port used by MySQL database servers. Applications connect to this port to store, retrieve, and manage data in a MySQL database. For security, access is usually limited to application servers rather than being open to the public internet.
+
+            - PostgreSQL - Port 5432
+
+                Port 5432 is the default port used by PostgreSQL databases. Like MySQL, applications use this port to communicate with the database and perform queries. In production environments, access is typically restricted so that only authorized applications or servers can connect
+
+
+    IPv4  VS  IPv6
+
+        - 
