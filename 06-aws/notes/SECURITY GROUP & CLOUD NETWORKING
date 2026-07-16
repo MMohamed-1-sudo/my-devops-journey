@@ -131,6 +131,10 @@ SECURITY GROUPS GOOD TO KNOW
                 Port 5432 is the default port used by PostgreSQL databases. Like MySQL, applications use this port to communicate with the database and perform queries. In production environments, access is typically restricted so that only authorized applications or servers can connect
 
 
-    IPv4  VS  IPv6
+    IPv4 PUBLIC AND PRIVATE 
 
-        - 
+            - PUBLIC IP ADDRESS 
+                - A public IP address is an IP address that is accessible from the internet. it allows your resources, such as EC2 instances to send and recieve traffic from users anywhere in the world, for example when you launch a web server that hosts a website it will typically have a public IP address so that users acn access it through their web browser, when someone visits your website , their request is Sent to your instances public IP, because public IPs are reachable from the internet they should be protected using security groups and firewalls 
+            
+            - PRIVATE IP ADDRESSES
+                - A private IP address is only accessible within a private network , such as an AWS VPC and cannot be reached directly from the interneta private IP is commonly use for resouces that do not need public access, for eample a database server usally has only a private IP beacuse only your application servers sgould be able to communicate with it and using private IPs improves security by keeping 
