@@ -1,0 +1,35 @@
+WHAT IS EBS (ELASTIC BOCK STORE)
+
+    - Amazon Elastic Block Store (EBS) is a persistent block storage service for Amazon EC2 instances. Think of it as a virtual hard drive that you attach to an EC2 instance to store your operating system, applications, files, and databases, Unlike the memory (RAM) inside an EC2 instance, data stored on an EBS volume remains even if the instance is stopped or restarted, making it ideal for storing important data.
+
+    HOW EBS WORKS ?
+
+        - When you launch an EC2 instance, AWS creates and attaches an EBS volume to it. This volume acts just like the hard drive in a physical computer. The EC2 instance reads and writes data to the EBS volume while it is running. If you stop the instance, the data on the EBS volume is still there. When you start the instance again, it continues using the same volume with all of its data intact, Think of it as a network USB stick.
+
+WHAT IS AMI ?
+
+    - An AMI stands for Amazon machine image which acts as a pre configured template that aws uses to launch EC2 instances. it contains everything an instance needs to start running, including the operating system, software, configuration settings and storage information, You can think of an AMI as a blueprint or golden image for an EC2 instance. Instead of installing an operating system and configuring a server from scratch every time, you simply launch an instance from an AMI, and AWS creates the server for you.
+
+    - AMI typically consists of an operating system such as linux/ubuntu, installed software and applications like nginx/docker, config files, root EBS (or a snapshot of it) and launch permissions to determine who can yuse the AMI.
+
+    HOW AMI WORKS?
+
+        - When you launch an EC2 instance, AWS asks you to choose an AMI.The AMI acts as the template, and AWS creates a new EC2 instance using the information stored inside it. The instance receives its own CPU, memory, networking, and EBS volume, but its operating system and initial configuration come directly from the AMI, Think of it as making copies from a master template. Every instance launched from the same AMI starts with the same operating system and software, ensuring consistency across your infrastructure.
+
+        An example would be imagine youve configured an EC2 instance witch unbuntu 24.04, docker installed, nginx, your application code deployed and secuirty setting configured. Instead of repeating this setuo everytime you need another srver, you may create an AMi from the configured instance, Later, whenever you launch a new EC2 instance using that AMI, it will already include Ubuntu, Docker, Nginx, your application, and all of your configurations. This saves time and ensures every server is configured exactly the same. 
+
+
+
+WHAT IS AMAZON EFS?
+
+    Amazon EFS stands for Elastic file system and is a fully managed, scaleable file storage service that can be shared by multiple EC2 intstances at the same time, unlike Amazon EBS, which is typiacally atccehd to  single EC2 instance, EFS acts as a shared network drive that many EC2 instances can access simultaneously. this makes it ideal mfor applications that require multiple servers to read and write the same files.
+
+    - HOW EFS WORKS? 
+
+        - When you create an EFS file system, AWS makes it available over the network using the file system (NFS) protocol. Any EC2 with the correct network access and permissions can mount the file system and use it just like a local directory, Because EFS is managed by AWS service you dont need to worry about managing storage servers or increacing disk capacity. as you add or remove files< EFS automatically grows or shrinks to match your storage needs. 
+
+        - think of it like a shared drive , imagine your working in an office with several employees, each employee has their own computer, instead of storing files on each computer, everyone saves their work to a shared network drive and every employee can access the same files, and changes are immediately visable to everyone else.
+
+    - WHY IS AMAZON EFS IMPORTANT.
+
+        - Amazon EFS makes it easy for multiple EC2 instances to access and share the same files without the need to manually copy or synchronize data between servers. This simplifies application management, ensures all instances always have access to the latest files, and supports highly available, scalable architectures. EFS is commonly used for shared application data, website content, content management systems (CMS), user home directories, machine learning datasets, and persistent shared storage for containers running on Amazon ECS or Amazon EKS.
