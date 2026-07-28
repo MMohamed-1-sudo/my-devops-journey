@@ -1,3 +1,361 @@
 SCALABILITY AND HIGH AVAILABLIITY 
 
     scalability means than an application/ system can handle greater loads by adapting, there are two types of scalablity vertical and horizontal scalablity (elasticity) 
+
+SCALABILITY AND HIGH AVAILABLIITY 
+
+    - scalability means than an application/ system can handle greater loads by adapting, there are two types of scalablity vertical and horizontal scalablity (elasticity). Vertical scaling means increasing the resources of a single EC2 instance. Instead of adding more servers, you upgrade the existing one to a larger instance type,for example, suppose your application is running on a t3.micro instance. As more users start using the application, the CPU and memory become overloaded. Instead of adding another server, you stop the instance and change it to a larger type, such as a t3.large or m6i.xlarge, which provides more CPU power and RAM, increasing the resources of a single server instead of adding more servers. For example, you might start with one EC2 instance that has 2 vCPUs and 2 GB of RAM. After vertically scaling, that same EC2 instance could be upgraded to 8 vCPUs and 32 GB of RAM. The application remains on a single server, but because the server is now more powerful, it can handle a larger workload and support more users or requests. 
+    
+    Advantages and disadvantages
+    
+        - Vertical scaling has several advantages. It is simple to implement, does not require redesigning the application, and works well for applications that cannot easily run across multiple servers, such as some databases. However, it also has some disadvantages. Every EC2 instance has a maximum size, so there is a limit to how much you can scale. Upgrading to a larger instance type may require stopping and restarting the instance, which can cause downtime. Additionally, because the application runs on a single server, if that server fails, the application becomes unavailable.
+
+    SCALING
+
+        VERTICAL SCALABILITY 
+
+            - Vertical scalability means increasing the resources of a single server rather than adding more servers. Instead of creating additional instances, you make your existing instance more powerful by upgrading its CPU, memory, or storage. For example, if your application is running on a t2.micro EC2 instance, you could vertically scale it by upgrading to a t2.large instance. The application still runs on a single server, but that server now has more computing power to handle a larger workload.
+            
+            - Vertical scaling is commonly used for non-distributed applications, particularly databases such as Amazon RDS and Amazon ElastiCache. These services allow you to increase the size of an instance to improve performance, support more users, or process larger and more complex workloads. Because everything continues to run on one machine, vertical scaling is often the simplest way to improve performance without changing the application's architecture.
+            
+            - However, vertical scaling has its limits. Every instance type has a maximum amount of CPU, memory, and storage that can be allocated. Once you reach the largest available instance size, you can no longer continue scaling up and must consider other approaches, such as horizontal scaling.
+            
+            - A useful analogy is to think of an employee in a company. Imagine a junior employee representing a t2.micro instance. As their responsibilities increase, they are promoted to a senior role, giving them more tools and greater capacity to handle additional work. This is similar to upgrading an EC2 instance to a larger instance type. Eventually, though, even the most capable employee can only handle so much work. At that point, the only solution is to hire more people and distribute the workload among them. This is exactly how horizontal scaling works.
+            
+            - In many cases, vertical scaling is the first step organizations take when an application needs more performance because it is simple and requires minimal changes. However, for applications that need to support very large workloads or continue growing beyond the limits of a single machine, horizontal scaling eventually becomes the better long-term solution.
+
+
+        HORIZONTAL SCALING
+
+            - Horizontal scalability means increasing the number of servers, instances, or systems to handle a larger workload. Instead of making one machine more powerful like in vertical scaling, horizontal scaling adds more machines and distributes the workload across them. This is the foundation of distributed systems, where multiple smaller instances work together instead of relying on a single powerful server. Each instance handles a portion of the workload, allowing applications to support much larger amounts of traffic and requests.
+            
+            - Horizontal scaling is commonly used in modern web applications and cloud-based systems because it improves both performance and reliability. If one instance fails, other instances can continue handling requests, which helps maintain availability and adds resilience to the system. For example, if a website experiences a sudden increase in traffic, additional EC2 instances can be launched to handle the extra demand. Once traffic decreases, those additional instances can be removed to reduce costs. This ability to automatically increase and decrease resources is why horizontal scaling is often referred to as elastic scaling.
+            
+            - Cloud platforms like AWS make horizontal scaling easier through services such as Amazon EC2 Auto Scaling Groups, which can automatically add or remove instances based on demand. This allows applications to adapt to changing workloads without requiring manual intervention.
+            
+            - A useful analogy is a call center. Imagine one person answering all incoming calls. This is similar to vertical scaling, where you make one server more powerful, but there is still a limit to how much work one person can handle. With horizontal scaling, instead of giving one person more tools, you hire additional people to answer calls. Each person handles a portion of the workload, increasing the overall capacity of the call center. Similarly, each EC2 instance represents another worker handling part of the application's traffic.
+
+            - As demand grows, more instances can be added to distribute the workload. This makes horizontal scaling essential for applications that experience unpredictable or fluctuating traffic. It is not only about handling growth but also about improving fault tolerance, because if one instance fails, the remaining instances can continue running the application smoothly.
+
+
+    HIGH AVAILABILITY
+
+        - High availability (HA) is a key concept in cloud architecture that ensures an application or system remains available even if part of the infrastructure fails. It works by running the application across multiple locations so that if one location experiences an outage, another can continue serving users with little or no downtime. In AWS, high availability is typically achieved by deploying applications across at least two Availability Zones (AZs), which are physically separate data centers within the same Region.
+
+        - High availability often goes hand in hand with horizontal scaling because multiple application instances are required across different Availability Zones. This redundancy allows the application to continue operating even if an entire Availability Zone becomes unavailable due to a power failure, network issue, or hardware outage.
+
+        - There are two common approaches to high availability: passive and active. In a passive setup, a primary resource runs in one Availability Zone while a standby resource is maintained in another. For example, Amazon RDS Multi-AZ deployments keep a synchronized standby database ready to take over automatically if the primary database fails. In an active setup, multiple application instances run simultaneously across different Availability Zones, and traffic is distributed between them. If one instance or Availability Zone fails, traffic is automatically redirected to the remaining healthy instances, ensuring uninterrupted service.
+
+        - A simple analogy is a call center operating from two buildings in different cities. If one building loses power or experiences a network outage, the second building continues handling customer calls. Similarly, high availability ensures that your application remains accessible even when one part of your infrastructure is unavailable.
+
+
+HOW HIGH AVAILABLITY AND SCALABILITY APPLY TO EC2?
+
+    - The first type of scaling is vertical scaling, also known as scaling up. This involves increasing the size of a single EC2 instance by adding more CPU, memory, or storage. For example, you might start with a small t2.nano instance with 0.5 GB of RAM and 1 vCPU. As your workload grows, you can move to a much larger instance type with significantly more computing power. However, vertical scaling has a limit because there is a maximum instance size available.
+
+    - Once you reach that limit, or if you need to support more users, you can use horizontal scaling, also known as scaling out. Instead of making one server larger, you add more EC2 instances to share the workload. In AWS, this is commonly achieved using an Auto Scaling Group (ASG), which automatically launches additional instances when demand increases and terminates them when demand decreases. This allows your application to handle changing traffic efficiently while optimizing costs.
+
+    - Horizontal scaling is typically combined with a Load Balancer, which distributes incoming traffic across all healthy EC2 instances. This prevents any single instance from becoming overloaded and improves both performance and reliability.
+
+    - To achieve high availability, EC2 instances should be deployed across multiple Availability Zones (AZs). If one Availability Zone experiences an outage, instances in the remaining Availability Zones continue serving users. Auto Scaling Groups can be configured to launch instances across multiple AZs, while a Load Balancer automatically routes traffic to healthy instances regardless of which Availability Zone they are in. This ensures that your application remains available even if an instance or an entire Availability Zone fails.
+
+    - In practice, these concepts work together. You might begin with a single EC2 instance and use vertical scaling as demand grows. As your application continues to expand, you can adopt horizontal scaling with an Auto Scaling Group to add more instances automatically. By placing those instances across multiple Availability Zones and using a Load Balancer to distribute traffic, you create an application that is both scalable and highly available. This combination of vertical scaling, horizontal scaling, and high availability is one of the key reasons cloud infrastructure is so flexible and resilient.
+
+        WHAT IS LOAD BALANCING?
+
+            - Load balacing is the process of distributing incoming  traffic across multiple servers or EC2 instances, Instead of sending every request to a single server, a load balancer sits between users and the applications, directing each request to each available instances. this prevents any single instance being overwhelmed also helping applications handle more users efficiently.
+
+            - A simple way to think of it would be thinking of it like a restraunt, if there is only one chef preparing every meal, orders quickly pile up and customers have to wait. however if there are several chefs and a manager assigning each new order to the next available chef , the workload is shared evenly, the food is prepared fatser and no single chef beacome overwhelmed. In this analogy the chefs are the EC2 instances the manageris the load balancer and the custmers are the users.
+
+            - In AWS, this role is performed by Elastic Load Balancing (ELB). The load balancer sits between your users and your EC2 instances, receiving all incoming requests and forwarding them to healthy instances. It continuously performs health checks to determine which instances are available. If an instance becomes unhealthy or fails, the load balancer automatically stops sending traffic to it and redirects requests to the remaining healthy instances. This keeps your application responsive and highly available without requiring any manual intervention.
+
+            WHAT IS A REVERSE PROXY?
+
+                - A reverse proxy also sits between users and your application, but it can do more than simply distribute traffic. In addition to load balancing, it can inspect incoming requests and make routing decisions based on factors such as the URL path, hostname, or HTTP headers. For example, requests to /images could be sent to one group of servers, while requests to /api are routed to another. This makes reverse proxies particularly useful for applications built using multiple services or microservices.
+
+            AWS APPLICATION LOAD BALANCER 
+
+                - The Application Load Balancer (ALB) in AWS combines both roles. It functions as a load balancer by distributing traffic across multiple EC2 instances, while also providing reverse proxy capabilities through advanced routing features.
+
+                - For example, imagine your application is running on three EC2 instances behind an Application Load Balancer. As users access your application, the load balancer spreads requests across all three instances. If one instance fails, health checks detect the failure, and traffic is automatically routed only to the remaining healthy instances. Users continue accessing the application without noticing the failure.
+
+                - Load balancing is a fundamental building block of scalable and highly available cloud applications. By distributing traffic, monitoring instance health, and automatically redirecting requests when failures occur, it helps ensure your application remains fast, reliable, and resilient as demand grows.
+
+
+
+            WHY USE A LOAD BALANCER? 
+
+                - A load balancer does much more than simply distribute traffic. It plays a key role in improving the scalability, availability, and reliability of your application.
+            
+                - The primary purpose of a load balancer is to spread incoming traffic across multiple EC2 instances. By sharing the workload, it prevents any single instance from becoming overloaded and helps deliver consistent performance to users.
+
+                - A load balancer also provides a single point of access for your application. Instead of connecting directly to individual EC2 instances, users connect to the load balancer using its DNS name. The load balancer then determines which backend instance should handle each request, hiding the complexity of your infrastructure.
+
+                - Another important feature is automatic failover. If an EC2 instance becomes unhealthy or stops responding, the load balancer automatically stops sending traffic to it and redirects requests to the remaining healthy instances. This helps keep your application available without requiring manual intervention.
+
+                - To support this, load balancers perform continuous health checks on your instances. They regularly monitor each instance and only send traffic to those that are healthy. If an instance recovers, it can automatically begin receiving traffic again.
+
+                - Load balancers can also handle SSL/TLS termination. Instead of each EC2 instance managing HTTPS encryption and decryption, the load balancer processes secure connections on behalf of your application. This simplifies certificate management and allows your instances to focus on serving application requests.
+
+                - In some applications, users need to remain connected to the same backend server throughout their session. This feature, known as sticky sessions or session persistence, uses cookies to route a user's requests to the same EC2 instance when required.
+
+                - Load balancers are also designed for high availability. They can distribute traffic across EC2 instances running in multiple Availability Zones. If one Availability Zone experiences an outage, traffic is automatically routed to healthy instances in the remaining zones, helping your application stay online.
+
+                - Finally, load balancers can separate public and private traffic. For example, one load balancer can receive requests from internet users, while another handles communication between internal services. This improves both security and traffic management in larger architectures.
+
+                - Overall, a load balancer is an essential component of modern cloud applications. It distributes traffic, monitors instance health, handles failover, supports secure HTTPS connections, and improves both scalability and high availability.
+
+
+
+            WHY USE AN ELASTIC LOAD BALANCER?
+
+                - An Elastic load balancer is an AWS service that automatically distributes incoming application traffic across multiple resouces, such as EC2 instances, to ensure appliactios remian available, scalable and reliable.Instead of users connecting directly to a single EC2 instance, they connect to the ELB. The ELB then decides which healthy instance should handle each request, preventing any one server from becoming overloaded.An ELB spreads incoming requests across multiple EC2 instances rather than sending all traffic to one server.
+
+                - Without an Elastic load balancers ysers would connect straght to your EC2 instance, if many users access the applicationat once, the single server can become overloaded. With ELB traffic is shared evenly, improvong performance and response times.
+
+                - ELB continueouly performs health checks on EC2 intances, if one inistance beocmes unhealthy or fails, the ELB automatically stops sending traffic to it and redirects requests to the remaining healthy instances and users can contues using the applications with little to issue4s
+                
+                - ELB enables scalability by working closely with auto scaling groups, when demand increases the ASG launches additional EC2 instances. the ELB automatically detects these new healthy instances and begins routing traffic to them, when demand decreaces, the ASG removes unnesseccary instances and the ELB stops sending traffic to them, this allows your application to scale automatiacally based on user demand.
+
+                - ELB improves security by acting as the public entry point to your application, instead of exposing your EC2 instances directly to the internet, you can configure their security groups to accept traffic only from the ELB's security group. this prevents users from by passing the load balancers and connecting directly from to your servers. ELB also supports HTTPS/SSL/TLS 
+
+                - ELB goes hand in hand with high availablity as ELB distrabutes ytraffic across EC2 instances running in multi AZ zones, if onbe AZ  experiences an outage, the ELB automatically routes traffic to healthy instances in the remaining Availability Zones, improving fault tolerance and availability.
+
+            SUMMARY
+                - An Elastic Load Balancer (ELB) is a fully managed AWS service that sits between users and your application, intelligently distributing incoming traffic across multiple healthy EC2 instances. By balancing traffic, performing health checks, integrating with Auto Scaling, and supporting deployments across multiple Availability Zones, an ELB helps ensure your applications remain fast, highly available, secure, and scalable.
+
+
+
+        TYPES OF LOAD BALANCERS 
+            - AWS offers several types of load balancers, each designed for different workloads and networking requirements. While they all distribute incoming traffic across multiple resources to improve performance and availability, they operate at different layers of the network and provide different features depending on the application.
+            
+            - The Classic Load Balancer (CLB), introduced in 2009, is the original generation of AWS load balancer. It supports HTTP, HTTPS, TCP, and SSL traffic and is suitable for basic applications. However, it lacks many of the advanced routing capabilities and performance improvements found in newer load balancers, so AWS generally recommends using the newer options for modern deployments.
+            
+            - The Application Load Balancer (ALB), released in 2016, operates at Layer 7 (the Application Layer) and is designed for HTTP, HTTPS, and WebSocket traffic. It can make intelligent routing decisions based on request content, such as URLs, headers, query parameters, and cookies, making it ideal for modern web applications, APIs, microservices, and containerised applications.
+        
+            - The Network Load Balancer (NLB), introduced in 2017, operates at Layer 4 (the Transport Layer) and is built for high-performance, low-latency TCP, UDP, and TLS traffic. It is capable of handling millions of requests per second, making it well suited for applications that require high throughput and minimal latency, such as real-time gaming, financial trading platforms, and other performance-critical services.
+            
+            - The Gateway Load Balancer (GWLB) operates at Layer 3 (the Network Layer) and uses the IP protocol. Rather than balancing web traffic, it is designed to deploy, scale, and manage third-party virtual network appliances, such as firewalls, intrusion detection systems (IDS), and traffic monitoring tools, making it the preferred choice for advanced networking and security architectures.
+
+            - In most cases, ALB is the best choice for modern web applications, NLB is ideal for high-performance network traffic, and GWLB is used for security and networking appliances. Although the Classic Load Balancer is still available, AWS recommends using the newer generation of load balancers because they provide greater scalability, flexibility, and more advanced routing features.
+            
+        LOAD BALANMCER SECURITY GROUP
+
+            - Security groups act as virtual firewalls that control the inbound and outbound traffic to AWS resources. When using an Application Load Balancer (ALB) with EC2 instances, it is common practice to use a two-tier security group configuration. This ensures that traffic is routed securely while protecting your backend servers from direct access.
+
+            - The first security group is attached to the load balancer. Its purpose is to allow users to connect to your application from the internet. Typically, it allows HTTP (port 80) and HTTPS (port 443) traffic from 0.0.0.0/0, which means it accepts requests from any IP address on the internet. The load balancer acts as the application's public entry point, receiving all incoming traffic before deciding where it should be sent.
+            
+            - The second security group is attached to the EC2 instances behind the load balancer. Unlike the load balancer, these instances are not exposed directly to the internet. Instead of allowing traffic from any IP address, their security group only allows inbound traffic from the load balancer's security group. This means the EC2 instances will only accept requests that have already passed through the load balancer, preventing users from bypassing it and connecting directly to the servers.
+            
+            - This two-tier security group setup creates a secure flow of traffic. Users send requests to the load balancer, the load balancer verifies the traffic against its security group rules, and then forwards legitimate requests to one of the healthy EC2 instances. Because the EC2 instances only trust traffic coming from the load balancer, they remain protected from direct external access while still being able to serve user requests.
+    
+            - A useful way to think about this is to imagine the load balancer as the front door of a secure office building. Visitors can enter through the front door, but they cannot walk directly into every office. Instead, security directs them to the correct room. Similarly, the load balancer receives all incoming traffic, checks that it is allowed, and forwards it only to the appropriate EC2 instance. The EC2 instances never communicate directly with internet users—they only communicate with the trusted load balancer.
+    
+            - This architecture is widely used in AWS because it improves both security and scalability. The load balancer provides a single, secure entry point for users, while the EC2 instances remain shielded from direct internet access. At the same time, the load balancer can distribute traffic across multiple instances, helping applications remain highly available, secure, and able to handle increasing workloads.
+
+
+        WHAT IS A APPLICATION LOAD BALANCER 
+            
+            - An Application Load Balancer (ALB) is one of AWS's most commonly used load balancers and is designed for modern web applications. It operates at Layer 7 (the Application Layer) of the OSI model, meaning it understands HTTP and HTTPS traffic. Unlike lower-layer load balancers, an ALB can inspect the contents of a request, such as URLs, headers, cookies, query strings, and host names, allowing it to make intelligent routing decisions based on the request itself rather than simply forwarding network traffic.
+
+            - One of the ALB's biggest advantages is its ability to distribute traffic across multiple target groups. These target groups can contain EC2 instances, containers running on Amazon ECS, or AWS Lambda functions, making the ALB highly flexible for different application architectures. It can even route traffic to multiple applications running on the same server, which is especially useful in containerised environments where several services may share a single EC2 instance.
+        
+            - The ALB supports modern protocols such as HTTP/2 and WebSockets. HTTP/2 improves application performance by allowing multiple requests to be sent over a single connection, reducing latency and improving efficiency. WebSocket support enables persistent, two-way communication between clients and servers, making the ALB ideal for real-time applications such as chat applications, online gaming, live dashboards, and collaboration tools.
+            
+            - One of the most powerful features of an ALB is its advanced routing capabilities. It supports path-based routing, allowing requests such as /users, /posts, and /comments to be directed to different target groups. It also supports host-based routing, where requests for different domains, such as blog.example.com and shop.example.com, can be routed to separate applications using the same load balancer. Additionally, the ALB supports header-based and query string routing, enabling traffic to be directed based on information such as device type, browser, or URL parameters. These features provide fine-grained control over how requests are handled and are ideal for personalised applications and complex web architectures.
+        
+            - The ALB is particularly well suited to microservices and container-based applications. In environments such as Docker or Amazon ECS, multiple services often run on different ports of the same server. The ALB supports dynamic port mapping, allowing it to automatically route requests to the correct container regardless of which port it is using. This makes it much easier to deploy, scale, and manage containerised applications.
+        
+            - Compared to the older Classic Load Balancer (CLB), the ALB is far more efficient and cost-effective. A CLB typically requires a separate load balancer for each application, whereas a single ALB can manage multiple applications using its intelligent routing features. For example, a company running separate Users, Posts, and Comments microservices can use one ALB to route /users requests to one service, /posts to another, and /comments to a third. This reduces infrastructure costs, simplifies management, and makes the ALB the preferred load balancer for modern cloud-native applications.
+
+                APPLICATION LOAD BALANCER (HTTP BASED TRAFFIC)
+
+                    -  Step 1: A User Sends an HTTP Request
+                            - Imagine a user visits your website:
+                                https://mywebsite.com/users
+                            - The browser creates an HTTP request containing information such as:
+                                * The URL (/users)
+                                * The HTTP method (GET, POST, PUT, etc.)
+                                * Headers (browser type, authentication tokens, content type)
+                                * Cookies
+                                * Query strings (e.g. /users?id=123)
+                            
+                            - This request is sent to the Application Load Balancer.
+                                                User
+                                                │
+                                            HTTP Request
+                                                │
+                                                ▼
+                                        Application Load Balancer
+                    
+                    - Step 2: The ALB Reads the Request
+                        
+                        - Unlike a Network Load Balancer, an ALB doesn't just look at the destination IP address and port.
+
+                        - Because it operates at Layer 7 (Application Layer), it can inspect the contents of the HTTP request.
+                        
+                        - For example, it can examine:
+                            
+                            * The URL path (/users)
+                            * The hostname (api.example.com)
+                            * HTTP headers
+                            * Cookies
+                            * Query string parameters
+                            * The HTTP method (GET, POST, DELETE, etc.)
+
+                        - This allows the ALB to make intelligent routing decisions.
+
+                    - Step 3: The Listener Receives the Request
+
+                        - Every ALB has one or more listeners.
+                        
+                        - A listener waits for traffic on a specific protocol and port.
+                        
+                            - For example:
+                            Protocol	Port
+                                HTTP	80
+                                HTTPS	443
+
+                        - If a user visits:
+                            https://mywebsite.com
+                        - The HTTPS listener on port 443 receives the request.
+
+                    - Step 4: The ALB Evaluates Routing Rules
+
+                        - Once the listener receives the request, the ALB checks its listener rules.
+
+                        - These rules determine where the request should go.
+                
+                            For example:
+                                Request	 | Target Group
+                                /users/*	Users Service
+                                /orders/*	Orders Service
+                                /products/*	Products Service
+                        - If the request is:
+                            https://mywebsite.com/orders
+                
+                        - the ALB matches the /orders/* rule and forwards the request to the Orders target group.
+
+
+                    - Step 5: The Target Group Receives the Request
+
+                        - Each routing rule points to a target group.
+
+                        - A target group contains the resources that run your application, such as:
+                            * EC2 instances
+                            * ECS containers
+                            * Lambda functions
+                            * IP addresses
+                                Example:
+                                Orders Target Group
+
+                                - EC2 Instance A
+
+                                - EC2 Instance B
+
+                                - EC2 Instance C
+
+                    - Step 6: The ALB Chooses a Healthy Target
+        
+                        - Before forwarding the request, the ALB checks which targets are healthy.
+                                * EC2 A ✓ Healthy
+
+                                * EC2 B ✓ Healthy
+
+                                * EC2 C ✗ Unhealthy
+                        - If one server fails its health checks, the ALB skips it and sends the request to one of the healthy servers instead.
+
+                    - Step 7: The Application Processes the Request
+                    
+                        - The selected EC2 instance receives the HTTP request.
+        
+                            - For example:
+                                
+                                * GET /orders
+    
+                        - The application processes the request, retrieves any required data, and generates a response.
+        
+                    - Step 8: The Response is Sent Back
+
+                        The EC2 instance sends its response back to the ALB.
+        
+                        The ALB then forwards the response to the user's browser.
+                                User
+
+                                ▲
+
+                                Response
+
+                                ▲
+
+                                Application Load Balancer
+
+                                ▲
+
+                                EC2 Instance
+
+                        - To the user, everything appears to come from a single application, even though multiple servers may be working behind the scenes.
+
+
+                        - Example: A Microservices Application
+                            
+                            - Suppose you have an online store with three services:
+                                    - /users
+                                    - /products
+                                    - /orders
+                
+                            - The ALB can inspect each HTTP request and route it to the correct service.
+                                                User
+                                                │
+                                                ▼
+                                    Application Load Balancer
+                                    │         │          │
+                                    ▼         ▼          ▼
+                                /users     /products   /orders
+                                    │            │           │
+                                    ▼            ▼           ▼
+                                Users App   Products App  Orders App
+                            - A request for /users goes to the Users service, while /orders is sent to the Orders service. This is called path-based routing and is one of the ALB's most powerful features.
+
+
+            - ALB GOOD TO KNOW
+
+                - One useful feature of an Application Load Balancer (ALB) is that AWS automatically assigns it a DNS hostname in the format name.region.elb.amazonaws.com. This hostname provides a public endpoint that clients use to access your application. If you want users to access your application using a custom domain name, such as www.example.com, you can create a DNS record in Amazon Route 53 (or another DNS provider) that points your domain to the ALB's DNS hostname.
+
+
+                - Another important concept is that an ALB terminates the client connection. This means the user's connection ends at the load balancer, and the ALB establishes a new connection to the EC2 instance or other target. As a result, your application does not see the client's public IP address directly. Instead, it sees the private IP address of the ALB, which acts as the intermediary between the client and your application.
+            
+                - To ensure your application can still identify the original client, the ALB automatically adds several HTTP headers to the forwarded request. The most important is X-Forwarded-For, which contains the client's original IP address. This is commonly used for logging, geolocation, rate limiting, security auditing, and detecting suspicious activity. The ALB also adds X-Forwarded-Port, which indicates the port the client used to connect (such as 80 or 443), and X-Forwarded-Proto, which identifies whether the original request used HTTP or HTTPS. These headers are useful for applications that need to redirect users, enforce HTTPS, or record connection details.
+            
+                - A key point to remember is that if your application needs the client's real IP address, it must be configured to read the X-Forwarded-For header rather than relying on the source IP of the incoming connection. This is a common practice in AWS architectures because all client requests pass through the ALB before reaching the backend servers. Understanding how the ALB handles client connections and forwards this information is important for building secure, scalable, and well-monitored web applications.
+
+
+
+NETWORK LOADBALANCING
+
+    - A Network Load Balancer (NLB) is an AWS load balancer designed to distribute Layer 4 (Transport Layer) traffic across multiple targets, such as EC2 instances. Unlike an Application Load Balancer (ALB), which understands HTTP and HTTPS requests, an NLB works with TCP, UDP, and TLS traffic. It makes routing decisions based on network information, such as the source IP address, destination IP address, port number, and protocol, rather than inspecting the contents of the request. This makes it much faster and more efficient for handling large volumes of network traffic.
+    
+    - An NLB sits between users and your application, accepting incoming network connections and forwarding them to healthy targets. It continuously performs health checks on registered EC2 instances and automatically stops sending traffic to any instance that becomes unhealthy. By distributing connections across multiple healthy instances, the NLB helps improve high availability, fault tolerance, and application reliability, ensuring users experience little or no disruption if a server fails.
+
+    - One of the biggest advantages of an NLB is its high performance. Because it operates at Layer 4 and does not inspect HTTP requests, it can process millions of connections per second with very low latency. It also supports static IP addresses, making it ideal for applications that require fixed IPs, such as systems protected by firewalls or applications that rely on IP whitelisting. This is a key difference from an ALB, which uses a DNS name rather than static IP addresses.
+
+    - Network Load Balancers are commonly used for high-throughput, low-latency applications, including real-time gaming, financial trading platforms, Voice over IP (VoIP), messaging systems, IoT applications, and database connections. They are the preferred choice whenever an application requires fast, efficient handling of TCP, UDP, or TLS traffic without the advanced HTTP routing capabilities provided by an Application Load Balancer. In contrast, if an application needs features such as path-based routing, host-based routing, or routing based on headers and cookies, an Application Load Balancer (ALB) is generally the better option.
+
+        STICKY SESSIONS
+
+            - Sticky sessions, also known as session affinity, are a feature of load balancers that ensure a user's requests are consistently sent to the same backend server for the duration of their session. Under normal circumstances, a load balancer distributes each new request across all healthy servers. However, when sticky sessions are enabled, the load balancer remembers which server handled a user's first request and continues routing all subsequent requests to that same server.
+
+            - Sticky sessions are useful when an application stores session data locally on an individual server. For example, after a user logs into a website, the server may store information such as their login status, shopping cart, or user preferences in its local memory. If the next request is sent to a different server, that server will not have access to the user's session data, which could result in the user being logged out or losing the contents of their shopping cart. By keeping the user connected to the same server, sticky sessions ensure a consistent experience.
+
+            - Application Load Balancers (ALBs) implement sticky sessions using cookies. When a user first connects, the ALB selects a healthy target and returns a cookie to the user's browser. On every subsequent request, the browser sends this cookie back to the ALB, allowing it to identify which server previously handled the user's session and route the request back to that same server. This process continues until the cookie expires or the session ends.
+
+            - If the server handling a user's session becomes unhealthy or fails, the load balancer detects the failure through its health checks and automatically routes the user's requests to another healthy server. However, if the application stores session data only on the original server, the user may lose their session and be required to log in again because the new server does not have access to the previous session information.
+
+            - Sticky sessions are beneficial for applications that rely on locally stored session data, but they also have some disadvantages. Because users remain connected to the same server, traffic may not be distributed evenly across all available instances. This can reduce the effectiveness of load balancing and make it more difficult to scale applications as demand increases.
+
+            - For this reason, modern cloud applications generally avoid relying on sticky sessions. Instead, they store session data in a shared session store, such as Amazon ElastiCache (Redis), Amazon DynamoDB, or a database. This allows every EC2 instance to access the same session information, meaning any healthy server can process a user's request. As a result, traffic is distributed more evenly, applications scale more effectively, and users continue to have a seamless experience even if individual servers are added, removed, or replaced.
+
+
+    SSL/TLS - BASICS
+
+        - 
