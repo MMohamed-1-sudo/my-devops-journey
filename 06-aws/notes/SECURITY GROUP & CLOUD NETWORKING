@@ -138,3 +138,29 @@ SECURITY GROUPS GOOD TO KNOW
             
             - PRIVATE IP ADDRESSES
                 - A private IP address is only accessible within a private network , such as an AWS VPC and cannot be reached directly from the interneta private IP is commonly use for resouces that do not need public access, for eample a database server usally has only a private IP beacuse only your application servers sgould be able to communicate with it and using private IPs improves security by keeping 
+HOW THEY WORK TOGETHER 
+
+                - In many AWS architectures, both public and private ip address work together, for example imagine your hosting a web application your web server has a public IP so users can access your website and your database server has a private IP because it only needs to communicate with the web server, not the users on the internet The web server receives requests from the internet using its public IP, processes those requests, and then communicates with the database using the database's private IP.
+
+                AWS Example
+            
+                    Imagine you launch two EC2 instances:
+                        - EC2 Instance 1 (Web Server)
+                            * Public IP: 3.15.42.18
+                            * Private IP: 10.0.1.25
+                        - EC2 Instance 2 (Database Server)
+                            * Private IP: 10.0.2.15
+                            * No public IP
+                    - A user on the internet connects to 3.15.42.18 to access your website. The web server then connects to the database using 10.0.2.15, which is only reachable inside the VPC.
+
+    ELASTIC IP'S
+
+        - An elastic IP address is a static public IPv4 address that you can allocate to your AWS account and assign to an EC2 instance or other supported AWS resouces, unlike normal IP address which acn change when an instance is stopped or started an Elastic IP remains  yours until you choose to release it goiving you a permanent public IP address.
+
+        WHY ARE THEY IMPORTANT?
+
+            - Normally you launch an EC2 instance witha public IP address, AWS automatically  assign you one However, if you stop and start that instance, AWS may assign it a different public IP address. This can be a problem if users, applications, or DNS records rely on your servers public IP. Elastic IP solves this by providing a fixed address that doesnt change even if the instance is restarted or replaced.
+
+        HOW ELASTIC IPS WORK 
+
+            - When you allocate an Elastic IP, AWS reserves that public IP address for your accountyou can then accociate it with an EC2 instance. If that instance fails or needs replacing, you can simply detach the Elastic IP and attach it to another instance. From the user's perspective, the public IP never changes, allowing traffic to continue reaching your application with minimal disruption.
