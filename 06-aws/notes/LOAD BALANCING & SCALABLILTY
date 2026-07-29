@@ -331,7 +331,7 @@ HOW HIGH AVAILABLITY AND SCALABILITY APPLY TO EC2?
 
 
 
-NETWORK LOADBALANCING
+NETWORK LOAD BALANCING
 
     - A Network Load Balancer (NLB) is an AWS load balancer designed to distribute Layer 4 (Transport Layer) traffic across multiple targets, such as EC2 instances. Unlike an Application Load Balancer (ALB), which understands HTTP and HTTPS requests, an NLB works with TCP, UDP, and TLS traffic. It makes routing decisions based on network information, such as the source IP address, destination IP address, port number, and protocol, rather than inspecting the contents of the request. This makes it much faster and more efficient for handling large volumes of network traffic.
     
@@ -358,4 +358,21 @@ NETWORK LOADBALANCING
 
     SSL/TLS - BASICS
 
-        - 
+        - Understanding TLS and SSL are important beacuse they are the technologies that encrypt data sent over the internet, ensuring that information exchanged between a user and a server remains private and secure.
+
+        - WHAT ARE SSL/TLS? 
+            - SSL stands for secure sockets layer and TLS stands for Transport layer security , are cryptographic protocols that establish a secure, encrypted connection a client (such as a web browser) and a server (like AWS an ALB), there primary purpose is to protect data while it is being transmittedover the internet. this prevents attckers from reading or modifyingsensative information, such as passwords, credit card details or personal info.
+
+        - WHY DO YOU NEED SSL/TLS 
+            -  when you browse a website without encryption, all communication is sent in plain text, if someone intercepts the traffic on the network, thye can read everything bening transmitted. With TLS/SSL that same info is encrypted before it is sent and evemn if a attacker intercepts the traffic it is unreadable.
+        
+        - HOW DOES TLS WORK?
+            - when you visit a secure website, your browser and the server perform a TLS handshake before any application data is exchanged. 
+            - during this process: 
+                - The browser connects to the server 
+                - the server sends its TLS certifcates 
+                - the broswer verifies that the certifcate is valid and trusted.
+                - the browser and server agresson an encryption method and generate shared encrytion keys.
+                - an encryted connection is established.
+                - All future communication is encrypted
+            only after the handshake is complete does the browser begin sending requests such as login credntials or payment details 
