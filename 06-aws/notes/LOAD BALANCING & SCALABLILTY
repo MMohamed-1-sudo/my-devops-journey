@@ -361,10 +361,10 @@ NETWORK LOAD BALANCING
         - Understanding TLS and SSL are important beacuse they are the technologies that encrypt data sent over the internet, ensuring that information exchanged between a user and a server remains private and secure.
 
         - WHAT ARE SSL/TLS? 
-            - SSL stands for secure sockets layer and TLS stands for Transport layer security , are cryptographic protocols that establish a secure, encrypted connection a client (such as a web browser) and a server (like AWS an ALB), there primary purpose is to protect data while it is being transmittedover the internet. this prevents attckers from reading or modifyingsensative information, such as passwords, credit card details or personal info.
+            - SSL stands for secure sockets layer and TLS stands for Transport layer security , are cryptographic protocols that establish a secure, encrypted connection between a client (such as a web browser) and a server (like AWS an ALB), there primary purpose is to protect data while it is being transmitted over the internet. this prevents attckers from reading or modifying sensative information, such as passwords, credit card details or personal info.
 
         - WHY DO YOU NEED SSL/TLS 
-            -  when you browse a website without encryption, all communication is sent in plain text, if someone intercepts the traffic on the network, thye can read everything bening transmitted. With TLS/SSL that same info is encrypted before it is sent and evemn if a attacker intercepts the traffic it is unreadable.
+            -  when you browse a website without encryption, all communication is sent in plain text, if someone intercepts the traffic on the network, they can read everything being transmitted. With TLS/SSL that same info is encrypted before it is sent and even if a attacker intercepts the traffic it is unreadable.
         
         - HOW DOES TLS WORK?
             - when you visit a secure website, your browser and the server perform a TLS handshake before any application data is exchanged. 
@@ -372,7 +372,65 @@ NETWORK LOAD BALANCING
                 - The browser connects to the server 
                 - the server sends its TLS certifcates 
                 - the broswer verifies that the certifcate is valid and trusted.
-                - the browser and server agresson an encryption method and generate shared encrytion keys.
+                - the browser and server agree on a encryption method and generate shared encrytion keys.
                 - an encryted connection is established.
                 - All future communication is encrypted
-            only after the handshake is complete does the browser begin sending requests such as login credntials or payment details 
+            only after the handshake is complete does the browser begin sending requests such as login credntials or payment details. 
+
+        -   WHAT IS A TLS CERTIFICATE? 
+            - A TLS certificate is a digital certificate that proves the identity of a website or server it typically contains information such as:
+                - the websites domain name
+                - the orginsation that owns it 
+                - the certificates expiry date 
+                - A public encryption key 
+                - The digital signature of a trusted Certificate Authority (CA).
+
+            - WHEN YOUR BROWSER RECEIVES THE CERTIFICATE, IT CHECKS: 
+                - is it issues by a trusted certificate authority?
+                - has it expired?
+                - Does it match the website your visiting? 
+            - If these checks pass, the browser trusts the server and continues the secure connection.
+
+        HTTPS USES TLS
+            - when you see [https://example.com] the "S" stands for secure, "HTTPS" is simply "HTTP" running over TLS encryption without TLS "HTTP" data is is unencrypted with TLS "HTTPS" data is encrypted.
+
+        TLS IN AWS
+            - AWS services, including an Application load blancer (ALB) supports TLS to secure client connections for example:
+
+                      User
+                       │
+                     HTTPS
+                       │
+                       ▼
+            Application Load Balancer
+                       │
+                 HTTP or HTTPS
+                      ▼
+                EC2 Instance
+
+
+        A common setup is TLS termination at the Application load balancer. The encrypted HTTPS connection ends at the the Load balancer, which decrypts the traffic. The application load balancer can then forward the request to the EC2 instance using either "HTTP" (within a trusted private network) or "HTTPS" if end to end encyption is required, This simplifies certificate management because the TLS certificate is installed on the ALB rather than on every EC2 instance.
+
+
+        SSL - SERVER NAME INDICATION
+            - Server Name Indication (SNI) is a feature of the TLS protocol that allows a client, such as a web browser, to tell a server which website it wants to access during the TLS handshake. This is important when multiple HTTPS websites are hosted on the same server or Application Load Balancer (ALB) using a single public IP address. Without SNI, the server would have no way of knowing which SSL/TLS certificate to present, meaning only one secure website could typically be hosted per IP address.
+
+            - For example, imagine you have three websites—www.shop.com, www.blog.com, and **www.api.com**—all hosted behind a single AWS Application Load Balancer with one public IP address. Each website has its own SSL/TLS certificate, but because they all share the same IP address, the ALB needs a way to determine which certificate to use. During the TLS handshake, the client's browser includes the hostname it wants to visit, such as www.shop.com. The ALB reads this hostname through SNI and presents the matching SSL/TLS certificate. If another user visits www.blog.com, the ALB instead presents the certificate for that website.
+
+            - SNI makes hosting multiple secure websites much more efficient. Without it, each HTTPS website would often require its own public IP address and dedicated SSL/TLS certificate. With SNI, many websites can securely share a single IP address while still using their own individual certificates. This simplifies infrastructure, reduces costs, and makes it easier to manage multiple applications behind the same load balancer.
+
+            - AWS Application Load Balancers fully support SNI by allowing you to attach multiple SSL/TLS certificates to a single HTTPS listener. When an HTTPS request arrives, the ALB examines the hostname provided during the TLS handshake and automatically selects the correct certificate before establishing the secure connection. This enables organizations to host many secure websites behind one load balancer without requiring additional public IP addresses.
+
+            - A useful way to think about SNI is to imagine a large office building with one street address but many different companies inside. When you enter the building, you tell the receptionist which company you're visiting, and they direct you to the correct office. Similarly, when a browser connects to an HTTPS website, it tells the load balancer which hostname it wants to reach, and the load balancer presents the correct SSL/TLS certificate for that website.
+
+            Key Takeaways
+
+                - Server Name Indication (SNI) is a TLS extension that allows a client to specify the hostname it wants to access during the TLS handshake.
+                - It enables multiple HTTPS websites to share a single public IP address while using separate SSL/TLS certificates.
+                - Application Load Balancers use the hostname provided through SNI to present the correct certificate to the client.
+                - SNI simplifies infrastructure, reduces the need for multiple public IP addresses, and is widely used by AWS to securely host multiple websites behind a single Application Load Balancer.
+
+
+            CONNECTION DRAINING 
+
+                -  Connection Draining also known as de-registration delay is a feature that allows a load balancer to gracefully remove a server from service without interuppting active user connections, intead of immediately stopping all traffic to a server, the load balancer allows existing requests to finish while preventing any new requests from being sent to that server . This ensures users dont experience interupted downloads, failed uploads or dropped sessions during maintenance, deployments, or when an instance becomes unhealthy.
