@@ -1,0 +1,53 @@
+WHAT'S AN AUTO SCALING GROUP?
+    - An auto scaling group is a free AWS service that automatically launches and terminates EC2 intances to ensure your application always has the right amount of computing 
+    capacity, rather then manually adding and removing servers as demand changes an auto scaling group does this automatically based on rules you've define, This helps maintain
+    application performance, improve availablilty, and reduce costs by only running number of instances you actually need.
+
+    - WHY DO WE NEED AUTO SCALING
+        -  Imagine your website normally receives 1,000 visitors per hour, so two EC2 instances are enough to handle the traffic, During a major sale, traffic suddenly increases to 10,000 visitors per hour. Without Auto Scaling, your existing servers may become overloaded, causing slow response times or even application failures.An Auto Scaling Group detects the increased demand and automatically launches additional EC2 instances to distribute the workload. Once traffic returns to normal, it terminates the extra instances so you're no longer paying for unused capacity.
+
+    - HOW DOES AUTO SCALING GROUP WORK 
+        - An Auto Scaling Group continuously monitors your application's performance using metrics from Amazon CloudWatch.
+
+            When a scaling policy is triggered:
+
+                - If demand increases, the ASG launches additional EC2 instances (scale out).
+                - If demand decreases, the ASG terminates unnecessary EC2 instances (scale in).
+
+            For example, you could configure a policy that says:
+
+                - If average CPU utilization exceeds 70% for five minutes, launch another EC2 instance.
+                - If average CPU utilization falls below 30% for ten minutes, terminate one EC2 instance.
+
+            This allows your infrastructure to automatically adapt to changing workloads.
+
+    -  AUTO SCALING WITH A LOAD BALANCER
+        -   Auto Scaling Groups are commonly used together with an Application Load Balancer (ALB).
+            example below: 
+                                Internet
+                                  │
+                                  ▼
+                         Application Load Balancer
+                              │      │      │
+                              ▼      ▼      ▼
+                          EC2-1  EC2-2  EC2-3
+                                     ▲
+                                     │
+                             Auto Scaling Group
+
+        - The Auto Scaling Group manages the EC2 instances, while the Application Load Balancer distributes incoming traffic across all healthy instances.When the ASG launches a new EC2 instance, it is automatically registered with the load balancer. If an instance is terminated, it is automatically deregistered so it no longer receives traffic.
+
+    DESIRED / MINIMUM AND MAXIMUM CAPACITY
+        - Every auto scaling group has three important settings:
+            * MINIMUM capacity  (The smallest number of EC2 instances that must always be running.)
+            * DESIRED capacity  (The number of EC2 instances AWS tries to maintain under normal conditions.)
+            * MAXIMUM capacity  (The largest number of EC2 instances the ASG is allowed to launch.)
+        
+        - Under normal conditions, the ASG keeps 3 instances running. If traffic increases, it can launch up to 8 instances. If demand falls, it won't reduce the number of instances below 2, ensuring the application remains available.
+
+    HEALTH CHECKS 
+        -  Auto scaling regularly checks health of EC2 intstances, if an instance crashes, become unreachableor fails health checks. the Auto Scaling Group automatically terminates it and launches a replacement to maintain the desired capacity, This helps keep your application highly available without manual intervention.
+        
+
+    
+        
