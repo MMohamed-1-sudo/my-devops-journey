@@ -48,6 +48,21 @@ WHAT'S AN AUTO SCALING GROUP?
     HEALTH CHECKS 
         -  Auto scaling regularly checks health of EC2 intstances, if an instance crashes, become unreachableor fails health checks. the Auto Scaling Group automatically terminates it and launches a replacement to maintain the desired capacity, This helps keep your application highly available without manual intervention.
         
+    LAUNCH TEMPLATE
+        - A Launch Template is an AWS resource that acts as a blueprint for launching EC2 instances.Instead of manually specifying the instance configuration every time you create a new EC2 instance, you define the settings once in a Launch Template. Services such as Auto Scaling Groups, EC2, and EC2 Fleet can then use that template to launch identical instances whenever needed, A Launch Template ensures that every EC2 instance is created with the same configuration, making deployments faster, more consistent, and less prone to human error.
+    
+        WHY DO WE NEED A LAUNCH TEMPLATE?
+            - imagine you have a auto scaling group that needs to launch new EC2 instance whenever traffic increases, the auto scaling group knows when to launch a new instance, but it doesnt know how to configure it. 
 
+            - it need sto answer questions such as:
+
+                * Which Amazon Machine Image (AMI) should be used?
+                * What EC2 instance type should be launched?
+                * Which security group should be attached?
+                * Which SSH key pair should be used?
+                * Which subnet should the instance be placed in?
+                * Should a user data script run when the instance starts?
+
+            the launch template provides all of this information
     
         
