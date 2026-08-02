@@ -1,0 +1,17 @@
+INFRASTRUCTURE AS CODE:
+
+    - Infrastructure as Code (IaC) is the practice of managing and provisioning infrastructure using code instead of manually creating resources through a cloud provider's web console. In a production environment, engineers write configuration files—often called scripts or templates—that describe the infrastructure they want to create. These configurations are commonly written in tools such as Terraform or AWS CloudFormation.
+    
+    - Once the infrastructure code has been written, it is deployed to a cloud provider such as Amazon Web Services (AWS), Microsoft Azure, or Google Cloud Platform (GCP). Rather than manually creating resources like virtual machines, networks, or databases, the Infrastructure as Code tool communicates with the cloud provider and provisions everything automatically.
+    
+    - You might wonder how Terraform is able to work with so many different cloud providers, especially if you've only used AWS so far. The reason is that Terraform is a cloud-agnostic tool.
+    
+    - A cloud-agnostic tool is not tied to a single cloud provider. Instead, Terraform can manage infrastructure across multiple platforms, including AWS, Azure, Google Cloud Platform, Kubernetes, HashiCorp Vault, and many others. This makes it a flexible solution for organizations that use multiple technologies or cloud environments.
+    
+    - Terraform achieves this by using providers, which are plugins downloaded from the Terraform Registry. Each provider contains the logic needed to communicate with a specific platform through its APIs. For example, the AWS provider knows how to create AWS resources, while the Azure provider knows how to create Azure resources. When Terraform runs, it uses the appropriate provider to make API calls and provision the infrastructure defined in your code.
+
+INFRASTRUCTURE ORCHESTRATION VS CONFIG MANAGEMENT:
+
+WHAT IS TERRAFORM 
+
+TIPS FOR USING TERRAFORM 
