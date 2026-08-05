@@ -1,0 +1,138 @@
+AWS IAM also known as Identity and Access Management 
+
+    USER & GROUPS 
+
+    POLICIES
+
+    MULTI FACTOR AUTHENTICATION 
+
+    ACCESS 
+
+
+AWS IAM is the security service that controls who can access which AWS resources, and what they’re allowed to do.
+
+
+USERS & GROUPS 
+
+    - IAM  users are people within your orginisation and can be grouped, an IAM users are not just people but can also be computer programs. each user gets a username and a password to log in to AWS or keys for programs. a new IAM user can do nothing until you allow it. for example  "mohamed" without permission he cant access services. also when you create a new aws account this account acts a the root account giving it full access to every AWS service which isnt ideal,m we should never use the root account for day to day task which is why we create user accounts each user gets their won login and password and certain permissions.
+
+    - To make managing users easier we can orginise users in to groups, think of groups like a team like developers, operations, or even audit teams and instead of assigning permissions to each person we can assign to groups 
+
+POLICIES 
+    - Users or Groups can be assigned JSON documents called policies, these policies define the permissions of the users. In AWS you apply the least privilege principle (dont give more permisssions than a user needs). 
+
+    below is an example of a json file:
+
+    [{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ViewEC2Only",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "UploadToS3Only",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": "arn:aws:s3:::mohamed-bucket/*"
+    }
+  ]
+    }]
+
+POLICIES INHERITENCE 
+
+    - In AWS Identity and Access Management (IAM), policy inheritance means that when a user belongs to one or more groups, they automatically receive all the permissions attached to those groups, and their effective access is the combined set of permissions from every group they are in, which is why a user in both Developers and DevOps inherits permissions from both. An **inline policy** is different because it is attached directly to a single user and is not shared with or inherited by other users in the same group, making it useful for granting very specific, individual permissions. Together, this allows IAM to be flexible: groups handle common access through inheritance, while inline policies are used sparingly to fine-tune or extend permissions for special cases without changing group-wide access.
+
+    POLICY STRUCTURE 
+
+    - In AWS Identity and Access Management (IAM), every policy follows a clear and consistent JSON structure that defines permissions in a predictable way. At the top of the policy is the Version, which specifies the policy language version used by AWS; although it looks like a date, it simply represents a standard format that AWS has kept stable for years. Some policies may also include an optional Id, which acts as an identifier to give the policy a name or provide additional context, but it is not required for the policy to function.
+
+    - The core of an IAM policy is the Statement block, which contains one or more individual permission rules. Each statement can optionally include a Sid (statement ID), which is just a label to help humans identify or reference that specific rule. The most important field inside a statement is the Effect, which clearly states whether the action is being allowed or denied. This is where AWS decides if access should be granted or blocked.
+
+    - Within each statement, the Principal defines who the policy applies to, such as a specific user, role, or AWS account. The Action then specifies what operations are permitted or denied, such as uploading or downloading objects from an S3 bucket. The Resource limits where those actions can be performed, for example restricting access to a single S3 bucket rather than all buckets in the account.
+
+    - Finally, policies can include an optional Condition block, which adds extra rules that must be met for the permission to apply, such as requiring the request to come from a specific IP address or within a certain time range. Altogether, this structure allows IAM policies to precisely define who can do what, on which resources, and under what circumstances, giving AWS its powerful and fine-grained access control system.
+
+
+
+    PASSWORD POLICY
+
+    -  a password policy is used to control how IAM user passwords are created and managed across an AWS account. Instead of defining permissions like a typical IAM policy, a password policy focuses specifically on account security rules for user authentication. These rules apply globally to all IAM users in the account and help enforce consistent, secure password practices.
+
+    - One important part of the IAM password policy is password reuse prevention, which stops users from repeatedly using the same old passwords. This reduces the risk of compromised credentials being reused indefinitely and forces users to regularly choose new, stronger passwords. By enforcing these rules centrally, AWS ensures that individual users cannot weaken security through poor password habits.
+
+    In real-world and production environments, however, password policies are often less critical because organizations commonly rely on Single Sign-On (SSO) or other centralized authentication systems. With SSO, users authenticate through an external identity provider that typically enforces stronger security controls, reducing reliance on IAM user passwords altogether. This approach lowers the risk of weak or reused passwords and simplifies access management at scale.
+
+    For personal or small-scale AWS accounts, strong password policies are still essential. Using complex passwords combined with multi-factor authentication (MFA) provides a solid baseline for security. Overall, IAM password policies exist to secure IAM users, but in modern production setups, they are usually complemented or replaced by more advanced identity and access management solutions like SSO.
+
+
+
+MULTI FACTOR AUTHENTICATION (MFA)
+
+  - (MFA) adds an extra layer of security by requiring users to provide something they know, such as a password, and something they have, such as a device or security key. This means that even if a password is compromised, an attacker still cannot access the account without the second factor, making MFA one of the most effective protections for AWS accounts.
+
+  - AWS supports several types of MFA devices to suit different security needs and user preferences. The most common option is virtual MFA devices, which are mobile apps like Google Authenticator, Authy, or Microsoft Authenticator. These apps generate time-based, one-time codes that are entered during login, are easy to set up, cost nothing, and can store multiple tokens on a single phone, making them ideal for most users and administrators.
+
+  - For users who prefer physical security, AWS also supports U2F security keys such as the YubiKey from Yubico. These devices plug into a computer’s USB port and authenticate the user without requiring a code, offering a fast and convenient login experience. A single U2F key can be used across multiple IAM and root accounts, which makes it especially useful for administrators managing several environments.
+
+  - AWS also supports hardware MFA tokens, including third-party devices such as those provided by Gemalto, which generate a new code every 30 seconds. These are often used in environments where mobile phones are restricted or not allowed. In addition, AWS provides specialized hardware MFA options for AWS GovCloud (US), which are designed to meet strict government security requirements. Overall, AWS offers flexible MFA options for every scenario, but the key takeaway remains the same: enabling MFA is essential because it provides a level of security that passwords alone cannot achieve.
+
+
+
+ACCESS 
+
+  - In AWS Identity and Access Management (IAM), access keys are credentials used by applications, scripts, and command-line tools to access AWS programmatically, rather than through the web console. An access key is made up of two parts: an access key ID, which acts like a username, and a secret access key, which acts like a password. Together, they allow tools such as the AWS CLI or SDKs to authenticate requests to AWS services.
+
+  - Access keys are typically created for IAM users, not for humans logging into the console, and they should only be used when programmatic access is required. The permissions associated with an access key are not defined by the key itself but by the IAM policies attached to the user or group that owns the key. This means the key can only perform actions that the user is explicitly allowed to perform, following the same least-privilege rules as any other IAM identity.
+
+  - Because access keys are powerful and long-lived, they must be handled carefully. Best practice is to never hardcode access keys into source code or commit them to repositories, as this is a common cause of security breaches. Instead, keys should be stored securely, rotated regularly, and replaced with IAM roles whenever possible, especially for services running on AWS such as EC2, Lambda, or CI/CD pipelines.
+
+  - In modern production environments, access keys are increasingly avoided in favor of temporary credentials provided by IAM roles or Single Sign-On solutions. However, understanding access keys remains important for troubleshooting, legacy systems, and local development. The key takeaway is that access keys enable programmatic AWS access, but they must be tightly controlled, carefully stored, and used only when no safer alternative exists.
+
+
+AWS CLI (Command line interface)
+
+  - CLI is a powerful tool that allows you to interact with AWS services directly from your terminal instead of using the web-based management console. Using the CLI means you do not need to log in to the console every time you want to manage resources, which makes it especially useful for engineers who prefer working in a command-line environment or need to perform tasks quickly.
+
+  - The AWS CLI provides direct access to the public APIs of AWS services, meaning almost anything you can do in the console can also be done with a command. This includes managing S3 buckets, launching and configuring EC2 instances, and working with many other AWS services. For example, simple commands like copying files to an S3 bucket or listing bucket contents can be executed in seconds, making everyday operations faster and more efficient.
+
+  - One of the biggest advantages of the AWS CLI is its support for automation. Instead of repeatedly clicking through the console, you can write scripts that run commands automatically to handle repetitive tasks. This makes the CLI an essential tool for DevOps workflows, where automation, consistency, and speed are critical. It is also open source and available on GitHub, allowing users to review the code or contribute to its development, which further strengthens its reliability and flexibility.
+
+AWS SDK (Software development Kit)
+
+  - The AWS SDK (Software Development Kit) is a collection of language-specific libraries that allow developers to interact with AWS services programmatically using their preferred programming language, such as Python, JavaScript, Java, Go, PHP, or C++. Instead of manually managing resources through the AWS Management Console, developers can write code that communicates directly with AWS services. For example, an application can automatically upload files to Amazon S3, launch EC2 instances, or retrieve data from DynamoDB with just a few lines of code. The SDK handles the underlying API requests, making it much easier to integrate AWS services into applications without having to build the communication logic from scratch. AWS also provides SDKs for mobile platforms like Android and iOS, as well as embedded devices. An interesting fact is that the AWS Command Line Interface (CLI) is built on top of the Python AWS SDK, Boto3, meaning that every AWS CLI command uses the SDK behind the scenes to communicate with AWS. In short, the AWS SDK enables developers and DevOps engineers to automate tasks, manage cloud resources, and build applications that integrate seamlessly with AWS services.
+
+
+IAM ROLES for services
+
+  -  Sometimes AWS services need to perform actions on your behalf. For example, an EC2 instance may need to read files from an Amazon S3 bucket, or a Lambda function may need to write logs to Amazon CloudWatch. Rather than storing AWS access keys or passwords inside your application, AWS uses IAM roles to provide secure access.
+
+  -  An IAM role grants temporary permissions to an AWS service, allowing it to access other AWS resources without using long-term credentials. Instead of hard-coding sensitive credentials into your applications, the service automatically assumes the role and receives temporary security credentials. This makes IAM roles a much more secure and manageable way to grant permissions.
+  - There are several common use cases for IAM roles. An EC2 instance role allows an EC2 instance to securely access services such as Amazon S3, DynamoDB, or Systems Manager. A Lambda execution role gives a Lambda function the permissions it needs to interact with other AWS services, such as reading from DynamoDB or writing logs to CloudWatch. Similarly, CloudFormation service roles enable AWS CloudFormation to create, modify, and manage AWS resources across your account without requiring you to provide permanent credentials.
+  - In summary, IAM roles provide AWS services with temporary, secure access to other AWS resources. They eliminate the need to store long-term credentials, improve security by using temporary credentials, and allow you to control exactly what actions each service is permitted to perform. Whenever an AWS service needs to interact with another AWS service, the recommended approach is to use an IAM role.
+
+IAM SECURITY TOOLS
+  - AWS provides two valuable IAM security tools that help you manage users, monitor credentials, and enforce security best practices: the IAM Credentials Report and the IAM Access Advisor.
+  
+  - The IAM Credentials Report is an account-level report that provides a snapshot of all IAM users and the status of their credentials. It includes information such as whether a user has a password or access keys, whether multi-factor authentication (MFA) is enabled, when the password was last changed, and other credential-related details. This report gives administrators a comprehensive overview of the security posture of their AWS account, making it easier to identify outdated credentials, users who are not using MFA, and other potential security risks.
+  - The IAM Access Advisor works at the individual user, group, or role level. It shows which AWS services an identity has permission to access and, more importantly, when each service was last accessed. This information helps administrators identify unused permissions and remove unnecessary access. By regularly reviewing Access Advisor, organizations can apply the principle of least privilege, ensuring that users and services have only the permissions they need to perform their tasks.
+  
+  - In summary, both tools improve the security of an AWS account by providing greater visibility into user credentials and permissions. The IAM Credentials Report offers a high-level view of credential security across the entire account, while the IAM Access Advisor helps administrators review and refine permissions for individual users, groups, and roles, reducing unnecessary access and strengthening overall security.
+
+ BEST PRACTICES 
+
+  - Do not use the Root account for day to day taks except for AWS IAMusers account setups 
+  - follow the rule of one AWS user = One physical user.
+  - assign users to groups the assign permissions to groups.
+  - create a strong password policy 
+  - use and enfore the use of a Multi Factor Authentication
+  - create and use roles for giving permissions to AWS services 
+  - use access keys for programmatic Access (CLI/SDK) 
+  - Audit permissions of your accountusing IAM credentials report and IAM Access advisor.
+  - NEVER SHRE IAM USERS OR ACCESSS KEYS.  
