@@ -1,0 +1,79 @@
+ - WHAT ARE CONTAINERS
+        - Dockers is a tool that lets you create, run, and manage containers by acting as the engine between your applications and the operating system. It packages an application with everything it needs—code, libraries, and dependencies—into an isolated container that runs the same on any machine, whether it’s your laptop or a production server. Docker uses a Docker Engine on top of the host operating system, making containers lightweight since they share the OS instead of needing a full one like virtual machines. For example, if you build a Node.js web app, Docker can package it with the exact Node version and dependencies so it runs perfectly on another developer’s computer or in the cloud; similarly, you could run a database like MySQL in one container and a backend API in another, and they won’t interfere with each other. This isolation and consistency are why Docker is so important in modern development and DevOps, as it allows you to build once and run anywhere reliably.
+
+    - BENIFIT OF CONTAINERS 
+        - One of the main benefits of containers is isolation. Each container has its own environment, which means applications are separated from one another and from the underlying system. This prevents conflicts and ensures that applications run smoothly without interfering with each other. For example, one application might require Python 2.7 while another needs Python 3.8. Normally, these different versions could cause issues if installed on the same system, but containers keep them completely separate, allowing both applications to run without any problems.
+        
+        - Another important benefit is consistency. Containers provide a consistent environment for applications, meaning the application will behave the same way no matter where it is deployed. This helps eliminate the common issue known as “it works on my machine.” This problem occurs when an application runs correctly on one developer’s computer but fails on another system due to differences in operating systems, dependencies, or configurations. For instance, an application developed on a Windows laptop may not work properly on a Mac. Containers solve this by packaging everything the application needs, including dependencies and configurations, so it can be moved from one machine to another and still run in exactly the same way.
+        
+        - Finally, containers are highly efficient compared to traditional virtual machines. Containers share the host operating system’s kernel, rather than running a full operating system for each application. This reduces overhead and allows more containers to run on the same hardware. As a result, containers start up much faster and use fewer resources. In contrast, virtual machines created using tools like VirtualBox require a full operating system to boot up, which takes more time and consumes more system resources. Containers avoid this by relying on the host system, making them lightweight and faster to use.
+    - OVERVIEW OF DOCKER
+        Docker is a open platform for devloping, shipping and runnning applicatiosn for containers and simplifyes the process of managing containers, making it easier to build, deploy and run applications.
+        Docker has many cruial components which make it as powerful as it is. 
+            - Docker engine is the core service that runs and manages containers sort of like an engine of a car powering the whole thing, it is responsoble for creating and running conatainers based on the intructions in whats called docker file and docker images.
+            - Docker hub is a repository where you can find and share conatainer images its like the app store or google play for ddocker images, you can pull community images or share your own images.
+            - Docker compose is a tool for deinfing and running multi conatainers docker application
+        - DOCKER IMAGES
+            - A Docker image is essentially a packaged snapshot of an application and its environment. It includes all the necessary components required for the application to run, such as system tools, libraries, and runtime. Because everything is included in the image, there is no need to install dependencies separately on different machines. This makes it easy to share and deploy applications reliably.
+            - Docker images are read-only, meaning they do not change once they are created. When you run an image, Docker creates a container, which is a running instance of that image. You can think of an image as a class or template, and a container as the actual running object created from it. Multiple containers can be created from the same image, and each one will behave the same way.
+            - Another important feature of Docker images is that they are built in layers. Each layer represents a set of changes, such as installing software or adding files. These layers are cached and reused, which makes building and updating images faster and more efficient. This layered structure also reduces storage usage because shared layers do not need to be duplicated.
+        - DOCKER FILE
+            - A Dockerfile is essentially a script that tells Docker how to build an image step by step. Instead of manually setting up an environment, developers write instructions in the Dockerfile, and Docker follows those instructions to create a consistent image. This makes the process of setting up applications faster, repeatable, and less prone to errors.
+            - Each line in a Dockerfile represents a command. For example, it can specify a base image to start from, copy application files into the image, install dependencies, and define how the application should run. These instructions are executed in order, and each one creates a new layer in the final image. This layered approach improves efficiency because unchanged layers can be reused.
+            - Dockerfiles are important because they ensure consistency across environments. If multiple developers use the same Dockerfile, they will all generate identical Docker images. This helps avoid issues caused by differences in setup. 
+
+DOCKER ON OPEERATING SYSTEM 
+
+        - Docker allows you to run multiple applications on a single operating system by packaging each application into its own isolated container. Imagine you have a server, such as an Amazon EC2 instance or your local computer. Instead of installing every application directly onto the operating system, you first install the Docker Engine (also called the container runtime). Docker Engine is responsible for creating, starting, stopping, and managing containers on that host.
+
+        - Once Docker is installed, each application runs inside its own container. For example, one container might run a Java application, another might run an Nginx web server, and another might run a MySQL database. Although these containers are isolated from one another, they all share the host machine's CPU, memory, storage, and networking resources. Most importantly, they all share the same operating system kernel. This means each container has its own processes, files, libraries, and dependencies, but they do not need to include an entire operating system.
+
+        - This isolation is one of Docker's biggest advantages. Every container includes the specific libraries and runtime versions its application requires, so different applications cannot interfere with one another. For example, you could run Java 8 in one container and Java 21 in another without worrying about version conflicts, because each container has its own independent environment.
+        
+        - Because containers share the host operating system rather than running a complete guest operating system, they are much more lightweight than virtual machines. They start in seconds, use less memory and CPU, and allow you to run many more applications on the same hardware. This makes containers highly efficient for modern cloud environments.
+    
+        - Another major benefit of Docker is consistency. Since a container packages the application together with all of its dependencies, it behaves the same way regardless of where it is deployed. Whether you run the container on your laptop, a testing server, or a production environment in AWS, the application will run consistently because the container always contains the same software and configuration.
+
+        - Without Docker, you would install applications like Java, Nginx, and MySQL directly onto the server's operating system. Over time, this can lead to dependency conflicts, incompatible software versions, and configuration differences between environments. Docker solves these problems by giving each application its own isolated container while still allowing all containers to efficiently share the host operating system. This approach makes applications easier to develop, test, deploy, and maintain.
+
+
+WHERE ARE DOCKER IMAGES STORED 
+    - A Docker image is a read-only template or blueprint for creating a container. It contains everything an application needs to run, including the application code, runtime, libraries, dependencies, and configuration files. Once you build a Docker image, it becomes a portable package that can be used to create identical containers on any machine running Docker.
+   
+    - After building a Docker image, you need somewhere to store it so it can be reused or shared. Docker images are stored in container registries (also called repositories). A repository is like a folder that stores different versions of Docker images. These repositories can be either public, where anyone can access the images, or private, where only authorized users have permission to view or download them.
+
+    - The most popular public registry is Docker Hub. Docker Hub is the largest repository for Docker images and is often compared to GitHub, except it stores container images instead of source code. It contains thousands of pre-built images, including popular software such as Ubuntu, Nginx, MySQL, Redis, and Python. Rather than building these images yourself, you can simply download (or pull) them from Docker Hub and immediately use them to create containers.
+
+    - For organizations using AWS, Docker images are commonly stored in Amazon Elastic Container Registry (ECR). Amazon ECR is a fully managed container registry that integrates with AWS services such as Amazon ECS, Amazon EKS, and AWS Fargate. It provides a secure location for storing Docker images and allows teams to manage access using AWS Identity and Access Management (IAM). Images stored in ECR can be either private, where only authorized AWS users can access them, or public, allowing anyone to download them through Amazon's public image gallery.
+
+    - The choice between a public and private repository depends on how the images will be used. Public repositories are ideal for open-source projects or commonly used images that anyone can download. In contrast, private repositories are designed for organizations that need to protect proprietary applications and ensure only approved users or services can access their container images.
+
+    TYPICAL WORKFLOW
+
+            Build Docker Image
+                    │
+                    ▼
+                Store Image
+            (Docker Hub or Amazon ECR)
+                    │
+                    ▼
+                Pull Image
+                    │
+                    ▼
+            Run as a Docker Container
+
+
+        Key Points to Remember:
+
+        * A Docker image is the blueprint used to create a container.
+        * Images are stored in container registries (repositories).
+        * Docker Hub is the world's largest public registry for Docker images.
+        * Amazon ECR is AWS's managed container registry, commonly used with ECS, EKS, and Fargate.
+        * Public repositories allow anyone to download images.
+        * Private repositories restrict access to authorized users and are commonly used by businesses to securely store production applications.
+
+
+
+    DOCKER VS VMs
+
+        - 
