@@ -1,0 +1,69 @@
+WHAT IS SERVERLESS
+    - serveless means yopu run application without having to manage the underlying servers yourself (the server still exist AWS manages them for you) while you focus on the application.
+
+SERVELSS SEVERS IN AWS:
+
+    - AWS LAMBDA
+        - AWS Lambda is one of the core AWS serverless services. It allows you to run code without having to manage servers. You simply write your code as a function, upload it to Lambda, and AWS takes care of running 
+        it whenever it is triggered.You don't need to provision EC2 instances, install operating systems, or worry about scaling the servers. AWS automatically provides the compute capacity required to run your function.
+    - DYNAMODB
+        - Amazon DynamoDB is a fully managed, serverless NoSQL database. It is designed to store and retrieve data very quickly and can automatically scale as your application's demand increases.Because it is 
+        managed by AWS, you don't need to provision or maintain database servers. You simply create your tables and work with your data while AWS handles the underlying infrastructure.
+    - AWS COGNITO
+        - Amazon Cognito is used to manage user authentication and sign-up for applications. It allows users to create accounts, log in, and authenticate themselves without you having 
+        to build the entire authentication system from scratch. For example, if you are building a website, Cognito can handle the process of users creating an account and logging in before accessing your application.
+    - AWS API GATEWAY 
+        - Amazon API Gateway acts as a bridge between your users or applications and your backend services. It allows you to create, publish, monitor, and manage APIs. common serverless architecture is to have API 
+        Gateway receive a request and then trigger a Lambda function. For example, a user might request information from your application, API Gateway receives the request, and Lambda processes it.
+    - AMAZON S3
+        - Amazon S3 (Simple Storage Service) is used to store files and objects such as images, videos, documents, backups, and static website content.S3 is considered a serverless service because you don't have 
+        to manage storage servers. You simply create a bucket and upload your data. AWS manages the underlying infrastructure and automatically provides the storage capacity you need.
+    - AWS SNS & SQS
+        - Amazon SNS (Simple Notification Service) is a messaging service used to send notifications and messages between different parts of an application. For example, an application could use SNS to send 
+        notifications to users or notify another service that an event has occurred.SNS is commonly used in event-driven architectures, where one event can trigger actions in other parts of the system.
+        - Amazon SQS (Simple Queue Service) is used to create message queues between different services.Instead of one application communicating directly with another, the first application can place 
+        a message into an SQS queue. Another service can then retrieve and process that message. This helps applications work independently and prevents one service from becoming overwhelmed when there 
+        are large amounts of traffic.
+    - AWS KINESIS DATA FIREHOSE
+        - Amazon Kinesis Data Firehose is used to collect and deliver streaming data to AWS services for analysis and storage, For example, an application could continuously generate logs or other data. 
+        Firehose can take this streaming data and deliver it to destinations such as Amazon S3 or other AWS analytics services, This makes it useful for applications that need to process data in near 
+        real time without managing the underlying servers.
+    - AURORA SERVERLESS
+        - Amazon Aurora Serverless is a serverless version of Amazon Aurora, which is a relational database.Instead of manually managing database capacity, Aurora Serverless can automatically adjust 
+        the database's compute capacity based on demand. This makes it useful for applications where database traffic can increase or decrease significantly.
+    - STEP FUNCTIONS
+        - AWS Step Functions is used to create and manage workflows involving multiple AWS services.For example, you might have a workflow where one Lambda function processes a 
+        payment, another Lambda function sends an email, and another updates a database. Step Functions allows you to connect these different steps together, control the order
+        in which they run, and monitor the workflow.
+    - FARGATE
+        - AWS Fargate is a serverless compute option for running containers, Normally, when running containers with Amazon ECS, you could use EC2 instances underneath them. 
+        With Fargate, you don't need to manage those EC2 instances. You provide your container and its configuration, and AWS manages the underlying compute infrastructure. 
+        This allows you to focus on your containers and applications rather than managing servers.
+
+
+
+HOW THESE SERVICES CAN WORK TOGETHER
+
+    - A serverless web application can use several AWS services working together. A user can first sign up or log in using Amazon Cognito, while the application's static content, such as HTML, CSS, 
+    JavaScript, and images, can be stored in an S3 bucket. When the user interacts with the application, their request can be sent to API Gateway, which passes the request to an AWS Lambda function. 
+    Lambda then processes the request and can, for example, store or retrieve data from DynamoDB. If the application needs to send notifications or process tasks asynchronously, SNS and SQS can also be 
+    integrated into the architecture. Overall, the flow could look like User → Cognito → S3/API Gateway → Lambda → DynamoDB, with Lambda also communicating with services such as SNS and SQS. The key idea is 
+    that these services allow you to build and scale applications while AWS manages most of the underlying infrastructure. Serverless doesn't mean there are no servers; it means AWS manages the servers for you
+     while you focus on your application, code, data, and configuration.
+
+
+WHY AWS LAMBDA (EC2 VS LAMBDA)
+    - AMAZON EC2 gives you virtual servers in the cloud. You choose the instance type, including the amount of CPU, memory, storage, and other resources you need. Because you are running a virtual machine, 
+    you are responsible for managing the operating system, installing software, applying updates, and managing the infrastructure. EC2 instances typically continue running even when they are not receiving 
+    requests, so you can still be charged while the server is idle. If your application needs to scale, you can manually add or remove instances or configure an Auto Scaling Group to handle this automatically.
+
+    - AWS Lambda, on the other hand, is a serverless compute service, meaning you don't manage the underlying servers. Instead, you upload your code as a function and Lambda runs it when it is triggered. 
+    ambda is designed for relatively short-running tasks, with a maximum execution time of 15 minutes per invocation. It is particularly useful for event-driven applications, where something happens and that event
+     triggers your function, such as a file being uploaded to S3 or a request being sent through API Gateway. Lambda also scales automatically, so if your application receives more requests, AWS automatically 
+     runs more instances of your function. You are charged based on the compute resources and execution time used rather than paying for an idle server.
+
+    - In summary, EC2 gives you more control over the server and infrastructure, but also requires more management, while Lambda abstracts away the servers and allows you to focus mainly on your code. EC2 is generally 
+    better for long-running applications and workloads that require greater control over the operating system, while Lambda is ideal for short, event-driven workloads that need automatic scaling.
+
+
+    
