@@ -64,5 +64,44 @@ WHAT'S AN AUTO SCALING GROUP?
                 * Should a user data script run when the instance starts?
 
             the launch template provides all of this information
+
+  
+    AUTO SCALING GROUPS AND CLOUD WATCH ALARMS 
+
+        - WHAT ARE CLOUD WATCH ALARMS 
+            - A cloudwatch alarm monitors a cloudwatch metric and automatically takes actions, when the metric reaches a threshopld you define,  Think of cloudwatch alarm as the decision-maker for your auto scaling group. It continuouly watchs metric such as cpu utilization, network traffic, or memory usage (if configured), and it tells the auto scaling group when its time to add or remove EC2 instances.
+
+
+        - WHY DO WE NEED CLOUDWATCH ALARMS?
+            - Imagine your application normally runs 2 EC2 instancesand suddenly hundreds of users visit your website at the same time, causing cpu utilization to rise to 85%
+
+            without cloudwatch alarms: 
+                * AWS doesnt know that your servers are under heavy load 
+                * your application may become slow or unresponsive 
+            With cloudwatch alarms:
+                * The alarm detects that CPU usage has exceeded the threshold.
+                * It triggers a scaling policy.
+                * The Auto Scaling Group launches another EC2 instance to handle the increased traffic.
+
+                Users Visit Website
+                        │
+                        ▼
+            EC2 CPU Utilization Increases
+                        │
+                        ▼
+            CloudWatch Collects Metrics
+                        │
+                        ▼
+            CloudWatch Alarm Triggered
+                        │
+                        ▼
+                Scaling Policy Runs
+                        │
+                        ▼
+        Auto Scaling Group Launches New EC2 Instance
+                        │
+                        ▼
+        Load Balancer Begins Sending Traffic
+
     
         
