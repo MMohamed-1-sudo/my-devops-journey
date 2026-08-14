@@ -76,4 +76,275 @@ WHERE ARE DOCKER IMAGES STORED
 
     DOCKER VS VMs
 
-        - 
+        -         - Docker containers and Virtual Machines (VMs) are both used to run applications in isolated environments, but they work in very different ways. The main difference is that VMs virtualize the hardware, while Docker containers virtualize the operating system environment.
+
+        - VIRTUAL MACHINES
+            - A Virtual Machine is essentially a complete computer running inside another physical computer. A hypervisor allows multiple VMs to share the same physical server, while each VM has its own guest operating system, such as Ubuntu or Windows. Each VM is allocated its own CPU, memory, storage, and other resources from the host machine, Because every VM includes a complete operating system, VMs are relatively large and resource-intensive. They also take longer to start because the entire guest operating system needs to boot. For example, if you have five VMs running on one physical server, you could have five separate operating systems running at the same time.
+
+        - DOCKER CONTAINERS
+            -  Docker takes a different approach. Instead of creating an entire virtual computer, Docker runs applications inside containers. Containers share the host machine's OS kernel, while keeping the application's processes, files, libraries, and dependencies isolated from other containers.
+
+            - Docker uses the Docker Engine to create and manage these containers. Because containers don't need to include an entire operating system, they are much more lightweight than VMs. This means you can run many containers on the same server while using considerably fewer CPU and memory resources.
+            For example, you could have:
+            
+            Host Operating System
+                    │
+            Docker Engine
+                    │
+             ┌──────┼──────┐
+             ▼      ▼      ▼
+            Nginx  Java   MySQL
+        Container Container Container
+
+        Each container has its own application and dependencies, but they all share the host's operating system kernel.
+
+
+
+    HOW DOCKER WORKS FROM DOCKERFILE TO CONTAINERS
+
+        - getting started with Docker begins with a Dockerfile, a dockerfile is essentially recipe or blueprint for creating a docker image. it contains instructions that tell docker what your application needs, what files to include, what dependancie to install, and what command should run when container starts. 
+
+            - for example a simple dockerfile should look like this:
+
+                            FROM python:3.12
+
+                            COPY app.py /app/app.py
+
+                            RUN pip install flask
+
+                            CMD ["python", "/app/app.py"]
+
+        - FROM
+            - The FROM instruction defines the base image that Docker will use to build your image. For example, FROM python:3.12 starts with an image that already contains Python 3.12. This means you don't need to install Python yourself. The base image provides the operating system, runtime, or software environment that your application needs.
+        - COPY
+            - The COPY instruction copies files from your local machine into the Docker image. For example, COPY app.py /app/app.py takes the app.py file from your computer and places it inside the image at /app/app.py. This allows your application code to become part of the Docker image.
+        - RUN
+            - The RUN instruction executes commands during the Docker image build process. For example, RUN pip install flask, it intsalls flask into the image. You can also use RUN to install packages and dependencies, create directories, configure software, or compile application code. Remember that RUN happens when the image is being built, not when the container starts.
+        - CMD
+            -The CMD instruction tells Docker which command to execute when the container starts. For example, CMD ["python", "/app/app.py"] tells Docker to start the Python application when a container is created from the image.
+
+
+    STEP 2: BUILD DOCKER IMAGE
+        once you have creeated yor Dockerfile, you can use it to build Docker image for example [docker build -t my-app .]
+        HERES WHAT EACH PART MEANS:
+            - docker build  → Build an image
+            -t my-app       → Give the image the name "my-app"
+            .               → Use the current directory as the build context
+
+        docker looks for the dockerfile in the current directory and follows instuctions.
+    
+    STEP 3: RUN THE CONTAINER
+
+        - An image by itself isnt running anything. its a template that can be used to create containers. You can creatye and start a container from your image using: [docker run my-app]
+
+        the process is:
+            Dockerfile
+                 │
+                 ▼
+            Docker Image
+                 │
+                 ▼
+            Docker Container
+                 │
+                 ▼
+            Application Running
+            
+            So you can think of it like this:
+                Dockerfile → Image → Container
+                The Dockerfile is the recipe.
+                The image is the packaged application.
+                The container is the running instance of that image.
+
+    STEP 4: PUSH THE IMAGE TO A REGISTRY
+
+        You dont have to keep your docker image only on your computer, you can push it to a container registry such as Docker hub or Amazon ECR using the command [docker push], the registry stores your docker image so that it can be accessed later this is particularly important when deploying applications to the cloud for example you coud build an image on you laptop using [docker build -t my-app .] push it to amazon ECR [docker push], Then an AWS service such as ECS can pull that image and run it.
+
+
+    THE COMPLETE DOCKER WORKFLOW 
+
+                Write Application
+                       │
+                       ▼
+                  Dockerfile
+                "Recipe/Blueprint"
+                       │
+                       │ docker build
+                       ▼
+                  Docker Image
+               "Packaged Application"
+                       │
+                ┌──────┴──────┐
+                │             │
+                ▼             ▼
+           docker run     docker push
+                │             │
+                ▼             ▼
+           Container       Registry
+                │             │
+                ▼             │
+            Application       │
+              Running         │
+                              │
+                         docker pull
+                              │
+                              ▼
+                        Another Machine
+
+
+CONTAINER RELATED SERVICE
+    - AMAZON ELASTIC CONTEAINER SERVICE ECS is AWS's container orchestration service. It allows you to run, manage, and scale Docker containers without having to build your own container management system. You can tell ECS how many containers you want to run and which Docker images they should use, and ECS manages the containers for you.
+
+    - AMAZON ELASTIC KUBERENETES SERVICE EKS is AWS's managed Kubernetes service. Kubernetes is an open-source platform used to manage and orchestrate containers. With EKS, AWS manages the Kubernetes control plane, allowing you to use Kubernetes features such as scaling, load balancing, and automated container management without having to manage the control plane yourself.
+    
+    - AWS FARGATE is a serverless compute service for running containers with ECS or EKS. With Fargate, you don't need to create or manage EC2 instances. Instead, you specify the resources your containers need, such as CPU and memory, and AWS manages the underlying infrastructure for you.
+   
+    - AMAZON ECR is a service used to store and manage Docker container images. Think of ECR as AWS's version of Docker Hub. You can build an image, push it to ECR, and then services such as ECS or EKS can pull the image and run it.
+
+    SIMPLE WAY TO REMEMBER
+        ECR → stores your Docker images
+        ECS → manages your containers
+        EKS → manages containers using Kubernetes
+        Fargate → runs containers without you managing servers
+
+
+
+
+
+AMAZON ECS LAUNCH TYPE
+    - Amazon ECs allows you to run containers using different launch types. the launch types determines where your containers run and who is responsible for managing the underlying infrastructure. The two main options are EC2 and fargate.
+
+
+    ECS EC2 LAUNCH TYPES
+        - With the EC2 launch type, your containers run on Amazon EC2 instances that you manage. You are responsible for launching, configuring, maintaining, patching, and scaling the EC2 instances. Each EC2 instance runs the ECS Agent, which connects the instance to the ECS cluster and allows ECS to manage the containers running on it. Once the EC2 instances are registered with the ECS cluster, ECS manages the container lifecycle. It can start, stop, replace, and schedule containers on your EC2 instances. The main advantage of the EC2 launch type is that you have more control over the underlying servers, which can be useful when you need specific instance types, custom configurations, or particular security and compliance requirements.
+    
+    ECS FARGATE LAUNCH TYPE
+        - With the Fargate launch type, you don't have to manage EC2 instances at all. AWS manages the underlying servers and infrastructure for you. You simply tell Fargate what your container needs, such as CPU, memory, networking, and the Docker image, and AWS takes care of running it. Fargate is therefore considered serverless container compute. You define a task definition that describes how your container should run, and then ECS/Fargate launches the required tasks. If you need more containers, you simply increase the number of tasks, and AWS handles the underlying infrastructure automatically.
+
+    EC2 vs Fargate
+    
+        The easiest way to remember the difference is:
+            EC2 launch type = You manage the servers, ECS manages the containers.
+            Fargate launch type = AWS manages the servers, ECS manages the containers.
+            So, choose EC2 when you need more control over the infrastructure, and choose Fargate when you want to run containers without having to worry about managing servers.
+
+
+
+
+EC2 INSTANCE PROFILE
+    The EC2 Instance Profile is used with the ECS EC2 launch type. When your ECS containers are running on EC2 instances, the ECS Agent running on those instances needs permission to communicate with AWS services. The Instance Profile provides the IAM permissions that the ECS Agent needs. For example, the ECS Agent may need to communicate with ECS, retrieve Docker images from Amazon ECR, send container logs to CloudWatch, or access sensitive information from AWS Secrets Manager or SSM Parameter Store. The Instance Profile gives the EC2 instance the permissions required to perform these tasks securely.
+
+
+ECS TASK ROLE
+    - The ECS Task Role controls what an individual ECS task/container is allowed to access while it is running. You define this role in the ECS Task Definition. Different applications can have different permissions depending on what they need to do. For example, one container might need permission to read files from S3, while another container might need permission to read and write to DynamoDB. Instead of giving every container access to all AWS services, you create separate Task Roles with only the permissions each application requires.
+The Key Difference
+    EC2 Instance Profile → permissions for the ECS Agent/EC2 infrastructure.
+
+    ECS Task Role → permissions for the application running inside the ECS task.
+
+This follows the principle of least privilege: give each component only the permissions it actually needs. This improves security because if one container is compromised, it doesn't automatically have permission to access every AWS service.
+ 
+    EXAMPLES
+        - Step 1 — You create an ECS cluster. If you're using the EC2 launch type, this cluster is made up of EC2 instances where your containers will actually run.
+
+        - Step 2 — The EC2 instance needs permissions. Each of those instances runs the ECS Agent, which needs to communicate with various AWS services — talking to ECS itself, pulling images from ECR, sending logs to CloudWatch, and retrieving secrets. It gets these permissions through an IAM role attached via an EC2 Instance Profile. In other words, the Instance Profile gives the ECS Agent and the underlying EC2 infrastructure the permissions they need to function.
+        
+        - Step 3 — ECS needs a Docker image. Say your application image lives in Amazon ECR. Pulling that image also requires permission, and again it's the EC2 Instance Profile that supplies it.
+
+        - Step 4 — ECS starts your task. With the image pulled, ECS starts your application as a task — for example, a container running a Python application. At this point, the application itself may need to reach other AWS services, such as S3. This is a different problem from anything the Instance Profile solves, and it's where the ECS Task Role comes in.
+
+        - Step 5 — You give the task its own IAM role. You create an ECS Task Role and specify it in the Task Definition alongside things like the Docker image, CPU, and memory. Whatever permissions you attach to that role — say, S3 read access — are what the container gets to use when it runs.
+
+        - Step 6 — Different tasks can have different permissions. Imagine two applications: Task A only needs to read from S3, while Task B needs read/write access to DynamoDB. Because each task has its own Task Role, you don't have to give both containers access to everything — you can scope each one to exactly what it needs. This is the security principle of least privilege in action.
+
+        - The easiest way to remember it: ask who's asking for permission. If it's the ECS Agent or the EC2 instance itself, that's the Instance Profile — infrastructure permissions. If it's your application or container asking to reach an AWS service, that's the Task Role — application permissions.
+
+AMAZON ECS LOAD BALANCER INTERGRATIONS
+    - AWS offers several types of load balancers, and choosing the right one for your ECS cluster really depends on your use case. The Application Load Balancer (ALB) is the go-to choice for most ECS setups. It operates at Layer 7 (the Application Layer), so it understands HTTP and HTTPS traffic, which makes it ideal for web apps, microservices, and anything HTTP-based. ALB also supports path-based routing, meaning it can direct traffic to different containers based on the request path — for example, sending `/api` requests to one service and `/frontend` requests to another, each running as its own ECS task or container.
+
+    - The Network Load Balancer (NLB) operates a layer lower, at Layer 4 (the Transport Layer), working directly with TCP and UDP traffic. That makes it extremely fast, with high throughput and low latency. NLB is the right choice for high-performance use cases like gaming applications or real-time messaging systems, or when you need to pair it with AWS PrivateLink to securely connect VPCs. The trade-off is that it lacks ALB's application-layer features like path-based routing, since it isn't aware of HTTP at all — it just moves traffic at the connection level.
+
+    - Finally, there's the Classic Load Balancer (CLB) — the original AWS load balancer, but now fairly limited compared to ALB and NLB. It doesn't support Fargate and lacks the modern routing features that ALB provides, so it's really only relevant for legacy systems that still depend on it. For new applications, you should default to ALB, and reach for NLB only when you have specific high-performance or low-level networking needs. CLB exists mainly for backward compatibility and isn't recommended for anything new.
+
+
+AMAZON ECS SERVICE AUTOSCALING
+    - Auto scaling in ECS works at two levels — scaling your tasks (containers) and scaling your underlying infrastructure (EC2 instances, if you're using the EC2 launch type). Here's how it flows step by step.
+
+    - Step 1 — You define a baseline service. You start with an ECS Service running a certain number of tasks — say, 2 copies of your container. This is your desired count, and ECS will always try to keep this many tasks running.
+
+    - Step 2 — You decide what metric should drive scaling. ECS Service Auto Scaling (built on Application Auto Scaling) needs something to react to. Common metrics include CPU utilization, memory utilization, or ALB request count per target. For example, you might say "scale based on average CPU utilization."
+
+    - Step 3 — You create a scaling policy. There are generally two approaches:
+
+        * Target tracking — you pick a target value (e.g., "keep average CPU at 50%") and AWS automatically adds or removes tasks to hold that target.
+
+        * Step scaling — you define specific thresholds and how many tasks to add or remove when each threshold is crossed (e.g., "if CPU > 70%, add 2 tasks").
+
+    - Step 4 — CloudWatch monitors the metric. CloudWatch continuously tracks the chosen metric across your running tasks. When the metric crosses your defined threshold or drifts from your target, it triggers an alarm.
+
+    - Step 5 — Application Auto Scaling adjusts the task count. Based on the alarm, ECS increases or decreases the desired count of tasks in the service. If traffic spikes and CPU climbs, it launches more tasks; if load drops, it scales back down (respecting cooldown periods so it doesn't flap up and down constantly).
+
+    - Step 6 — If you're on EC2 launch type, the cluster itself may need to scale too. More tasks means more containers need somewhere to run. If your existing EC2 instances don't have enough capacity (CPU, memory, or available ports), the new tasks will sit in a pending state. This is where EC2 Auto Scaling — often via ECS Capacity Providers — comes in. A capacity provider watches cluster-level resource utilization and triggers the underlying Auto Scaling Group to launch new EC2 instances when tasks can't be placed, or terminate instances when they're underused.
+
+    - Step 7 — Tasks get placed on available capacity. Once new EC2 instances register with the cluster (or if you're on Fargate, capacity is provisioned automatically with no EC2 management needed), ECS places the pending tasks onto them.
+    
+    - Step 8 — The cycle continues. As load rises and falls, this loop — CloudWatch metric → alarm → task count adjustment → (EC2 capacity adjustment if needed) → task placement — keeps repeating, keeping your service right-sized without manual intervention.
+    
+    - The key distinction to remember: Service Auto Scaling controls how many tasks run. Cluster/Capacity Provider Auto Scaling controls how much EC2 infrastructure exists to run them on. On Fargate, you only worry about the first one, since AWS manages the underlying compute for you.
+
+    TARGET TRACKING - scale based on targetvalue for specfic cloud watch metric
+    STEP SCALING - scale based on specfic cloud watch alarm
+    SCHEDULED SCALING - scale based on specified date/time (predictable changes)
+
+
+
+AMAZON ECR
+    - Amazon ECR is essentially a cloud storage system built specifically for Docker images — think of it as a container image hub on AWS, because that's exactly what it is. It lets you store, manage, and pull Docker images directly within AWS, and it's designed to integrate seamlessly with ECS.
+
+    - ECR gives you two types of repositories. Private repositories are for your internal and sensitive Docker images, while public repositories are for open-source or publicly shareable images, like the ones available in the Amazon ECR Public Gallery. You can use it both to manage your own images and to pull public images that others have shared.
+
+    - The integration with ECS is where ECR really shines. Deploying a Docker image to an ECS cluster is straightforward — you configure your ECS tasks to pull images from ECR automatically, and the whole handoff happens behind the scenes. Under the hood, ECR is backed by Amazon S3, which keeps your images stored securely. Access is controlled through IAM, so only authorized users and services can reach your private images — which is also the first place to check if something isn't pulling correctly.
+
+    - Beyond the basics, ECR has a few features worth knowing. It offers vulnerability scanning, so it can automatically check your images for known security issues. It supports versioning through image tags, which is handy when you're rolling out updates and need to track which version is which. And it includes lifecycle management, which can automatically clean up old, unused images so you're not paying to store things you no longer need.
+
+
+AMAZON EKS OVERVIEW
+    - Amazon EKS stands for Elastic kubernetes services, this service lets you run kubernetes on AWS withouthaving to manage the underlying cluster infrasturcture yourself. its fully managed meaning AWS handles the heavy lifting such as updates patching and scaling the kubernetes control plane. The reason this matters is Kubernetes itself — it's an open-source container orchestration system that automates the deployment, scaling, and management of containerized applications. If you're already working with containers, Kubernetes helps you manage them at scale, and EKS makes running it on AWS straightforward.
+
+    - A natural question is how EKS compares to ECS, since they both accomplish similar goals. ECS is AWS-specific — it has a simpler API and integrates tightly with AWS services, but it doesn't run outside AWS. EKS, by contrast, is built on Kubernetes, which means workloads running on it can be ported more easily to other platforms like Google GKE or Azure AKS. So if you're already invested in Kubernetes, or want to stay cloud-agnostic going forward, EKS is the better starting point.
+
+    - EKS also supports different launch types depending on how much infrastructure you want to manage yourself. With EC2, you manage your own worker nodes while EKS handles the Kubernetes control plane. With Fargate, AWS runs your containers in a serverless manner, so there's no need to provision or manage EC2 instances at all.
+
+    - A common use case is migration: if your company is already running Kubernetes on-premises or on another cloud and wants to move to AWS while keeping that same Kubernetes-based environment, EKS is a natural fit. Because Kubernetes is cloud-agnostic by design, workloads can move across environments fairly easily. If you're operating across multiple regions, you'd typically deploy one EKS cluster per region to handle that.
+
+    - On top of this, EKS integrates with CloudWatch Container Insights, giving you visibility into logs, metrics, and performance across your clusters — which makes troubleshooting and optimizing workloads much easier.
+
+    - In short, EKS is the right choice when you want the power and portability of Kubernetes on AWS, without having to manage the control plane yourself.
+
+
+    AMAZON EKS NODE TYPES 
+
+        - when you use Amazon EKS, you need somewhere for your kubernetes workloads, or pods, to run. EKS gives your three main options: Managed node groups, self managed nodes and aws fargate.
+
+        -   MANAGED NODES GROUPS 
+            - With managed node groups, AWS manages the underlying EC2 worker nodes for you. EKS handles tasks such as provisioning, updating and maintaining the nodes, reducing the amount of infrastructure management you need to do. The nodes are a ppart of an auto scaling group, allowing the number of nodes to increace or decreace depending on your workload.You can use On-Demand or Spot EC2 instances, depending on your cost and availability requirements.
+
+        - SELF-MANAGED NODES
+            - With self managed nodes, you are responsible for creating and managing the EC2 instances yourself and registering them with your EKS cluster. This gives you more control over the underlying infrastructure. You can use EKS-optimized AMIs or create your own custom AMIs with specific software and configurations. 
+            - The advantage is greater customization and control, but the downside is that you have more responsibility for maintenance, updates, scaling, and configuration.
+        AWS FARGATE
+            - AWS Fargate provides a serverless way to run Kubernetes workloads with EKS. Instead of running your Pods on EC2 worker nodes, AWS manages the underlying infrastructure for you. You simply define the resources your Pods require, such as CPU and memory, and Fargate runs them without you having to manage servers.
+            - This is the simplest option from an infrastructure-management perspective because there are no EC2 worker nodes for you to maintain but isnt always the cheapest.
+
+         Simple Way to Remember
+        
+            - Managed Node Groups → AWS manages the EC2 nodes.
+            - Self-Managed Nodes → You manage the EC2 nodes.
+            - Fargate → No nodes for you to manage; AWS manages the infrastructure.   
+
+
+
+
+
+    
+
+
