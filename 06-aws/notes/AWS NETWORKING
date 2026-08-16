@@ -1,0 +1,16 @@
+Amazon VPC
+
+    - Amazon VPC (Virtual Private Cloud) is your own private network inside AWS. It allows you to control how your AWS resources communicate with each other and with the internet. Think of a VPC as building your own network in the cloud, where you can place resources such as EC2 instances, databases, and load balancers.
+
+    - Inside a VPC, you create subnets, which divide your network into smaller sections. You can have public subnets that can communicate with the internet and private subnets that are isolated from direct internet access. For example, you might place an Application Load Balancer in a public subnet so users can access your application, while keeping your EC2 instances and databases in private subnets for security.
+
+    - A VPC also contains components that control how network traffic moves through your environment. Route tables determine where traffic should go, while an Internet Gateway allows resources in public subnets to communicate with the internet. A NAT Gateway allows resources in private subnets to make outbound connections to the internet without allowing the internet to directly initiate connections to those resources.
+
+    - You also have Security Groups, which act as virtual firewalls around resources such as EC2 instances, and Network ACLs, which control traffic entering and leaving subnets. Together, these components allow you to control and secure communication within your AWS environment.
+
+    - For example, a typical application could have an Internet → Load Balancer → EC2 → Database architecture. The load balancer could sit in a public subnet, while the EC2 instances and database sit in private subnets. This means users can access the application without being able to directly access the servers or database.
+
+    - The key thing to remember is that a VPC is the foundation of networking in AWS. It gives you control over your IP addresses, subnets, routing, internet connectivity, and network security, allowing you to build secure and highly available cloud applications.
+
+
+    UNDERSTANDING CIDR (classless Inter-Domain Routing) a method for allocating IP addresses.
