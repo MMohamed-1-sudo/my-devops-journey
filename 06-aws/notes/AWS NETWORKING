@@ -14,3 +14,177 @@ Amazon VPC
 
 
     UNDERSTANDING CIDR (classless Inter-Domain Routing) a method for allocating IP addresses.
+
+        - CIDR stands for Classless Inter-Domain Routing. It is a method used to define IP address ranges. You will commonly see CIDR notation in AWS, especially when working with VPCs, subnets, and Security Groups. CIDR looks like an IP address followed by a slash and a number, such as 192.168.0.0/24.
+
+        - The number after the slash tells you how large the IP range is. For example, 192.168.0.0/32 represents one specific IP address, while 0.0.0.0/0 represents all IPv4 addresses. The smaller the number after the slash, the larger the IP range.
+
+        - A CIDR has two main components: the base IP address and the prefix length. The base IP is the starting point of the range, such as 10.0.0.0 or 192.168.0.0. The number after the slash tells us how many bits are fixed and how many are available to change. For example, /32 fixes all 32 bits, giving you one IP address, while /0 fixes none, giving you the entire IPv4 address space.
+
+        - The number of IP addresses doubles every time the prefix decreases by 1. For example, /32 gives 1 IP, /31 gives 2, /30 gives 4, /29 gives 8, and /28 gives 16. So, 192.168.0.0/30 gives you a total of 4 IP addresses.
+
+        - Some common CIDR ranges you'll see in AWS are /16 and /24. A /24 contains 256 total IP addresses, while a /16 contains 65,536 total IP addresses. This is particularly important when designing a VPC because you need to decide how much IP address space your VPC and its subnets will require.
+
+        - You can also think about CIDR in terms of octets. An IPv4 address has four octets: 192.168.0.0. With /8, the first octet is fixed and the remaining three can change. With /16, the first two are fixed and the last two can change. With /24, the first three are fixed and only the last octet can change. With /32, everything is fixed, meaning you're referring to one specific IP address.
+
+        - Understanding CIDR is important when designing AWS networks. When creating a VPC, you'll need to choose a CIDR range for the VPC and then divide that range into smaller CIDR ranges for your public and private subnets.
+
+
+    VPC SUBNETS (IPv4)
+
+        - Subnets in AWS work in the same way as the subnetting concept you learned in networking. A subnet is essentially a smaller network inside your VPC. You can create multiple subnets within a VPC and place them across different Availability Zones (AZs). This helps you separate your resources and improve redundancy, fault tolerance, and high availability.
+
+        - Subnets can be either public or private. A public subnet is designed to have a route to the internet through an Internet Gateway, while a private subnet does not have direct inbound internet access. For example, you might put your web servers in public subnets and your databases in private subnets.
+    
+        - One important AWS-specific rule is that AWS reserves 5 IP addresses in every subnet, meaning you cannot use all the IP addresses provided by the CIDR range. For example, a 10.0.0.0/24 subnet contains 256 total IP addresses, but 5 are reserved by AWS, leaving 251 usable IP addresses.
+        
+        - The reserved addresses are the first four and the last IP address in the subnet. For 10.0.0.0/24, 10.0.0.0 is reserved for the network address, 10.0.0.1 is used by the VPC router, 10.0.0.2 is used for Amazon-provided DNS, and 10.0.0.3 is reserved by AWS for future use. 10.0.0.255 is also reserved. AWS does not support traditional broadcast traffic, but the address is still reserved.
+    
+        - This is important when deciding how large your subnet needs to be. For example, a /27 subnet contains 32 IP addresses, but after AWS reserves 5, only 27 are usable. So if you need 29 usable IP addresses, /27 isn't large enough. You would need a /26 subnet, which provides 64 total IP addresses and 59 usable addresses after AWS's 5 reserved addresses are removed.
+
+    The key thing to remember: when designing AWS subnets, don't just look at the total number of IP addresses provided by the CIDR. Always subtract 5 addresses because AWS reserves them.
+
+    INTERNET GATEWAY (IGW)
+
+        - An Internet Gateway (IGW) allows resources inside your VPC, such as EC2 instances or other resources with IP addresses, to communicate with the internet. It acts as the connection between your VPC and the outside world, allowing resources to send and receive internet traffic.
+
+        - An Internet Gateway is horizontally scalable, highly available, and redundant. This means it can handle increasing amounts of traffic and is designed without a single point of failure that you need to manage yourself.
+
+        - When you create a VPC, an Internet Gateway is not automatically created. You need to create one separately and attach it to your VPC. A VPC can have only one Internet Gateway attached at a time, and an Internet Gateway can be attached to only one VPC at a time.
+
+        - However, simply attaching an Internet Gateway does not automatically give your resources internet access. You also need to configure the route table associated with the subnet. For example, a public subnet would typically have a route such as 0.0.0.0/0 → Internet Gateway. This tells the subnet where to send traffic destined for the internet.
+
+        - So the important thing to remember is: Internet Gateway provides the connection to the internet, while the route table determines where the traffic goes. Both work together to give resources in a public subnet internet connectivity.
+
+
+BASTION HOST 
+
+    - A Bastion Host is a server that acts as a secure middleman for accessing resources inside a private subnet. For example, you might have an EC2 instance in a private subnet that you want to keep hidden from the internet. This could be a backend server or another sensitive system that you still need to access for maintenance.
+
+    - The Bastion Host is placed in a public subnet, which means you can connect to it from your computer using SSH. Once you're connected to the Bastion Host, you can then use it to connect to the private EC2 instance. So instead of connecting directly to the private server, the connection looks like: Your computer → Bastion Host → Private EC2.
+
+    - Security Groups are used to control this access. The Bastion Host's Security Group should only allow SSH connections from trusted IP addresses, such as your company's public IP. The private EC2 instance's Security Group can then allow SSH connections only from the Bastion Host, rather than allowing SSH from the entire internet.
+
+    - The main purpose of a Bastion Host is therefore to provide a controlled entry point into your private network. It allows you to manage private EC2 instances without giving those instances direct exposure to the internet.
+
+
+NAT GATEWAY
+    -  A NAT Gateway allows resources such as EC2 instances in a private subnet to connect to the internet. For example, a private EC2 instance might need to download software updates or call an external API. The instance can send that traffic through the NAT Gateway, but the internet cannot start a connection back to that private EC2 instance.
+
+        - The basic setup looks like this:
+
+                    Private EC2
+                        ↓
+                    Route Table
+                        ↓
+                    NAT Gateway
+                        ↓
+                    Internet Gateway
+                        ↓
+                    Internet
+
+    - The important distinction is between an Internet Gateway and a NAT Gateway. An Internet Gateway provides a path between your VPC and the internet, while a NAT Gateway allows private resources to use that path for outbound connections without making those resources directly reachable from the internet.
+    -A NAT Gateway is also managed by AWS, so you don't have to maintain an EC2 instance, install updates, or manage the NAT software yourself. However, it costs money based on hourly usage and the amount of data processed, so large amounts of traffic through a NAT Gateway can increase your AWS bill.
+    - NAT Gateways are specific to an Availability Zone. For high availability, you would normally create a NAT Gateway in each AZ and have the private subnets in each AZ use their local NAT Gateway. Also, a NAT Gateway must be placed in a public subnet and requires an Internet Gateway to reach the internet.
+    - One thing to remember is that a NAT Gateway is not used by resources in the same subnet where the NAT Gateway itself is located. Typically, the NAT Gateway sits in a public subnet, while your EC2 instances sit in private subnets.
+
+        The simple way to remember it
+
+            - Internet Gateway:
+                "Allows a VPC to connect to the internet."
+            - NAT Gateway:
+                "Allows private resources to go out to the internet without allowing the internet to come in to them."
+            So if you have a private EC2 instance that needs to download updates or access an external API, you would typically use:
+            
+            Private EC2 → NAT Gateway → Internet Gateway → Internet.
+
+    - A NAT Gateway and a NAT Instance both allow resources in private subnets to access the internet, but they work very differently. The main difference is that a NAT Gateway is a fully managed AWS service, while a NAT Instance is an EC2 instance that you manage yourself.
+    
+    - In terms of availability, a NAT Gateway is highly available within its Availability Zone. If you need protection against an entire AZ failing, you can create NAT Gateways in multiple AZs. NAT Instances don't have the same built-in availability. If the instance fails, you would need to set up another instance and use failover mechanisms to maintain connectivity.
+
+    - There is also a major difference in bandwidth and scalability. A NAT Gateway can automatically scale to handle large amounts of traffic, with AWS documenting support for up to 100 Gbps of bandwidth. A NAT Instance's performance depends on the EC2 instance type you choose, so you would need a larger instance to handle more traffic.
+
+    - Maintenance is another important difference. With a NAT Gateway, AWS manages the underlying infrastructure, so you don't have to worry about operating system updates, patches, or maintaining a server. With a NAT Instance, you're responsible for managing the EC2 instance, including its operating system, patches, software, and availability.
+
+    - The cost model is also different. A NAT Gateway charges you based on its hourly usage and the amount of data it processes. A NAT Instance is charged according to the EC2 instance type you're running, along with the associated network costs. Depending on your traffic and requirements, either option can have different cost implications.
+    
+    - Both options can provide private resources with outbound internet access, but a NAT Instance is essentially an EC2 server performing the NAT function, while a NAT Gateway is a purpose-built managed AWS service.
+
+    - Finally, there is a difference in Security Groups. A NAT Instance is an EC2 instance, so you can attach and configure a Security Group for it. A NAT Gateway does not use Security Groups because AWS manages the underlying service for you.
+
+    In simple terms:
+
+    - NAT Gateway = managed, scalable, highly available, less maintenance.
+    
+    - NAT Instance = EC2-based, more control, but more management and maintenance.
+
+NETWORK ACCESS CONTROL LIST (NACL)
+
+    - A Network Access Control List (NACL) is like a firewall that works at the subnet level. It checks network traffic and decides whether that traffic should be allowed or denied based on rules that you define. Every subnet is automatically associated with a default NACL, but you can also create custom NACLs.
+
+    - Each subnet can have only one NACL, and that NACL applies to everything within the subnet. NACLs are also stateless, which means they don't automatically allow return traffic. You need to create both inbound and outbound rules to control traffic in both directions.
+
+    - NACL rules are numbered, from 1 to 32,766, and they are evaluated from the lowest number to the highest number. The first rule that matches the traffic is applied, and AWS stops checking the remaining rules. For example, if rule 100 allows traffic from 10.0.0.10/32 and rule 200 denies it, rule 100 wins because it has the lower number and therefore higher priority.
+
+    - At the end of the NACL rules there is an asterisk (*) catch-all rule. This applies to any traffic that doesn't match one of your other rules. A custom NACL will effectively deny traffic that hasn't been explicitly allowed, so you need to add the appropriate rules for the traffic you want to permit.
+
+    - A good practice is to number your rules in increments of 100, such as 100, 200, 300, and so on. This leaves space to add new rules between existing ones later without having to renumber everything.
+
+    - NACLs are particularly useful when you need to block or allow traffic at the subnet level. For example, if you want to block a specific IP address from accessing resources in a subnet, you can create a deny rule in the NACL. This provides an additional layer of security alongside Security Groups.
+
+    - In simple terms, Security Groups protect individual resources, while NACLs provide a layer of protection across the entire subnet.
+
+SGs VS NACLs 
+
+    - Security Groups (SGs) and Network Access Control Lists (NACLs) are both used to control network traffic in AWS, but they operate at different levels. A Security Group works at the resource level, such as an EC2 instance, while a NACL works at the subnet level and applies to all resources inside that subnet.
+
+    - Security Groups are stateful, meaning if you allow an incoming connection, the response traffic is automatically allowed. Security Groups only have allow rules, so you cannot create an explicit deny rule. NACLs are stateless, meaning you must define both inbound and outbound rules. NACLs can also have both allow and deny rules.
+
+    - Another important difference is how their rules are evaluated. Security Group rules are evaluated together, while NACL rules are evaluated in numerical order, starting with the lowest rule number. The first rule that matches the traffic is applied.
+
+    - A simple way to remember the difference is: Security Group = firewall for a resource, while NACL = firewall for a subnet. In a real AWS environment, you can use both together to provide multiple layers of network security.
+
+
+VPC PEERING
+
+    - VPC Peering is a way to privately connect two VPCs using the AWS network. Once a peering connection is established, resources in each VPC can communicate with each other using private IP addresses without sending traffic over the public internet. This allows separate networks to communicate securely while remaining independent VPCs.
+
+    - One important requirement is that the VPCs must have non-overlapping CIDR ranges. For example, a VPC using 10.0.0.0/16 could peer with another VPC using 192.168.0.0/16. However, two VPCs using the same or overlapping IP ranges cannot be connected through VPC Peering.
+
+    - VPC Peering is also non-transitive. For example, if VPC A is peered with VPC B, and VPC B is peered with VPC C, this does not mean that VPC A can communicate with VPC C. If A and C need to communicate, a separate connection between them must be created.
+
+    - Creating a peering connection alone is not enough to allow communication. You must also update the route tables in both VPCs. The route tables need to tell traffic destined for the other VPC's CIDR range to use the VPC Peering connection. Security Groups and other network rules must also allow the required traffic.
+
+    - A common use case for VPC Peering is when different departments or applications have their own VPCs but need to share resources. For example, a sales application in one VPC may need to access a database located in another VPC. VPC Peering allows this communication to take place privately instead of sending traffic across the public internet.
+
+    - VPC Peering can also be used across different AWS accounts and, where supported, across different AWS Regions. This is useful for larger organisations that separate their development, testing, and production environments into different AWS accounts or regions but still need certain resources to communicate securely.
+
+    - Another useful feature is the ability to use Security Group references across peered VPCs in supported scenarios. This can allow you to define access based on another Security Group instead of hard-coding individual IP addresses. For example, a database in a production VPC could allow traffic only from a specific application Security Group in a connected environment.
+
+    - In simple terms, VPC Peering creates a private bridge between two VPCs. It is useful when separate networks need to communicate securely, but remember the key rules: CIDR ranges cannot overlap, route tables must be configured, and VPC Peering is not transitive.
+
+
+VPC ENDPOINTS
+
+    - A VPC Endpoint allows resources inside your VPC to connect privately to supported AWS services without needing to send that traffic through the public internet. For example, a private EC2 instance may need to access Amazon S3 or another AWS service. Instead of using a NAT Gateway and Internet Gateway, a VPC Endpoint can provide a direct private connection through the AWS network.
+
+    Without a VPC Endpoint, a private instance might need to use a NAT Gateway to access an AWS service:
+
+        Private EC2 → NAT Gateway → AWS Service
+
+    With a VPC Endpoint, the connection can be more direct:
+
+        Private EC2 → VPC Endpoint → AWS Service
+
+    - This is useful because your private resources can access supported AWS services without needing direct internet connectivity for that traffic. It can improve security and reduce your dependency on NAT Gateways when accessing AWS services.
+
+    - There are two main types of VPC Endpoints. Gateway Endpoints are commonly used for services such as Amazon S3 and DynamoDB and are configured through route tables. Interface Endpoints use AWS PrivateLink and create private network interfaces inside your VPC, allowing private access to many other AWS services.
+    
+    - If you experience problems with a VPC Endpoint, it is important to check the relevant DNS settings, as DNS helps direct service requests through the private endpoint. You should also check your route tables, particularly when working with Gateway Endpoints, to ensure traffic is being sent to the correct destination.
+
+    simpler way to remeber is [VPC Endpoint = a private door from your VPC directly to an AWS service.]
+    Instead of going out through the internet path and back into AWS, your resources can communicate with supported AWS services through a private connection inside the AWS network.
+
+
+TYPES OF ENDPOINT
+    - 
