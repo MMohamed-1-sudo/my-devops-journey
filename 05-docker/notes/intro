@@ -47,7 +47,7 @@ IMPORTANCE OF DOCKER IN MODERN DEVELOPMENT
     - In summary, Docker is a game-changer in modern development. It simplifies deployment by ensuring consistency, improves efficiency with lightweight containers, enhances collaboration through shared environments, and streamlines workflows with CI/CD integration. By using Docker, development teams can work more productively, reduce issues, and deliver applications more smoothly.
 
 CONTAINERS VS VIRTUAL MACHINE
-    - VIRTUAL MACHINE allows multiple operating systems to run on a single physical machine at the base you have infrastucture which is your base or physical hardware, then the host opertating system sits on top of it, the we have the Hypervisor which is responsible for creating for creating and mangaing virtual machines by allocating resources like CPU, memory and storage ecah virtual machine runs a full guest operating system which is completely isolated from others, whicch acts as essentially another complete opertaing system running on top of the host, for example if your host operating system is a mac os then your guest operating system could be ubuntu. Each VM also has its own bin and lib folders and anythiing an application would need to run. This also makes each virtual machine resouce heavy which has a down side of significant CPU and memory storage loss.
+    - VIRTUAL MACHINE allows multiple operating systems to run on a single physical machine at the base you have infrastucture which is your base or physical hardware, then the host opertating system sits on top of it, the we have the Hypervisor which is responsible for creating and mangaing virtual machines by allocating resources like CPU, memory and storage ecah virtual machine runs a full guest operating system which is completely isolated from others, whicch acts as essentially another complete opertaing system running on top of the host, for example if your host operating system is a mac os then your guest operating system could be ubuntu. Each VM also has its own bin and lib folders and anythiing an application would need to run. This also makes each virtual machine resouce heavy which has a down side of significant CPU and memory storage loss.
 
     - CONTAINERS are a more light weight and effient way to isolate applications, they share the host opertaing systems just like virtual machines but instead of using a Hypervisor they will run on a docker engine which sits on top of the host Operating system and is responsible for running containers, these containers are isolated from each other at the process level while sharing the underlying OS kernal making them much ligher then VM's. the difference is they dont have the guest operating system beacuse they share the host opertaing system making it lighter, within each containers you have the libs and bin folders but without the need for a full guest operating system allowing the containers to set up quickly while also using few resources to VM's.
 
@@ -69,3 +69,34 @@ CONTAINERS VS VIRTUAL MACHINE
     - On the other hand, containers are better suited for modern applications that require speed and scalability. For instance, a company running a web application with thousands of users might use containers with tools like Docker to quickly scale up services during peak traffic. Containers start almost instantly and use fewer resources, allowing many instances of an application to run efficiently on the same hardware.
     - Another example is in development environments. A team working on a project might use containers to ensure that every developer has the same setup. Instead of configuring each machine manually, they can share a container that includes all dependencies. This avoids issues where the application works on one developer’s machine but not on another.
     - In summary, both containers and virtual machines provide isolated environments for running applications, but they do so in different ways. Containers are lightweight, fast, and share the host operating system, making them ideal for scalable and cloud-native applications. Virtual machines, in contrast, provide stronger isolation and include a full operating system, making them suitable for secure or specialized use cases. Understanding these differences is essential for making the right technical choices and is a concept that will continue to be important throughout a career in software development and IT operations.
+
+
+CONTAINER RELATED SERVICES ON AWS
+
+    - AMAZON ECS (ELASTIC CONTAINER SERVICE)
+        - Amazon ECS is AWS's fully managed container orchestration service for running Docker containers. It allows you to deploy, manage, and scale containerized applications without installing or maintaining your own orchestration software. You simply define your containers, specify how many should run, and ECS handles scheduling and management.
+    - AMAZON EKS (ELASTIC KUBERNETES SERVICE)
+        - Amazon EKS is AWS's managed Kubernetes service. It allows you to run Kubernetes clusters without managing the Kubernetes control plane yourself. AWS takes care of the control plane, while you use Kubernetes features such as automated scaling, service discovery, load balancing, and rolling updates to manage your containerized applications.
+    - AWS FARGATE
+        - AWS Fargate is a serverless compute engine for containers that works with both Amazon ECS and Amazon EKS. Instead of provisioning and managing EC2 instances, you simply define your container requirements, and Fargate automatically provides the necessary infrastructure. This allows you to focus on your applications rather than managing servers.
+    - AMAZON ECR
+        - Amazon ECR is AWS's fully managed container image registry. It provides a secure place to store, manage, and retrieve Docker images, making it easy to deploy them with services such as ECS and EKS. ECR is private by default but also supports public repositories for sharing container images with others.
+
+
+AMAZON ECS - EC2 LAUNCH TYPE 
+    - When using Amazon ECS (Elastic Container Service), one of the first decisions you make when creating an ECS cluster is how your containers will run. This is known as the launch type. ECS itself is responsible for orchestrating your containers—it starts them, stops them, replaces failed containers, and can automatically scale them. The launch type determines who is responsible for the underlying infrastructure that runs those containers.
+
+    There are two main launch types:
+
+        - EC2 Launch Type
+        - Fargate Launch Type
+
+
+    - EC2 LAUNCH TYPES 
+        - With the EC2 launch type, you manage the infrastructure. Your containers run on Amazon EC2 instances that you provision and maintain. This means you are responsible for launching the EC2 instances, patching the operating system, monitoring the servers, and scaling the infrastructure when additional capacity is needed.
+
+        - Each EC2 instance must have the ECS Agent installed. The ECS Agent is software that communicates with the ECS service. It registers the EC2 instance with the ECS cluster and allows ECS to start, stop, and monitor containers running on that instance. You can think of the ECS Agent as the bridge between your EC2 instance and the ECS service.
+        
+        - Once the EC2 instances have joined the cluster, ECS takes over the management of the containers. It schedules containers onto the available instances, restarts failed containers, and maintains the desired number of running tasks. While you manage the servers, ECS manages the containers.
+
+        - The EC2 launch type is a good choice when you need more control over the infrastructure, such as selecting specific EC2 instance types, installing custom software, meeting security or compliance requirements, or optimizing performance.
