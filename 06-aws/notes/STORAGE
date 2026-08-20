@@ -1,4 +1,8 @@
-WHAT IS EBS (ELASTIC BOCK STORE)
+WHAT IS AN EBS VOLUME
+
+    - EBS volume stands for Elastic block store, which is a persistant block storage service for amazonEC2 instances, think of it as a virtual hard drive that you attachto an instance to store your operating system, applications, files and databases. Unlike the memory (RAM) inside an EC2 instance, data, data stored on a EBs volume remains even if the instance is stopped and restarted, mking it ideal for storing important data.
+
+    WHAT IS EBS (ELASTIC BOCK STORE)
 
     - Amazon Elastic Block Store (EBS) is a persistent block storage service for Amazon EC2 instances. Think of it as a virtual hard drive that you attach to an EC2 instance to store your operating system, applications, files, and databases, Unlike the memory (RAM) inside an EC2 instance, data stored on an EBS volume remains even if the instance is stopped or restarted, making it ideal for storing important data.
 
@@ -22,7 +26,7 @@ WHAT IS AMI ?
 
 WHAT IS AMAZON EFS?
 
-    Amazon EFS stands for Elastic file system and is a fully managed, scaleable file storage service that can be shared by multiple EC2 intstances at the same time, unlike Amazon EBS, which is typiacally atccehd to  single EC2 instance, EFS acts as a shared network drive that many EC2 instances can access simultaneously. this makes it ideal mfor applications that require multiple servers to read and write the same files.
+    Amazon EFS stands for Elastic file system and is a fully managed, scaleable file storage service that can be shared by multiple EC2 intstances at the same time, unlike Amazon EBS, which is typiacally atccehd to  single EC2 instance, EFS acts as a shared network drive that many EC2 instances can access simultaneously. this makes it ideal for applications that require multiple servers to read and write the same files.
 
     - HOW EFS WORKS? 
 

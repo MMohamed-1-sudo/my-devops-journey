@@ -137,8 +137,9 @@ SECURITY GROUPS GOOD TO KNOW
                 - A public IP address is an IP address that is accessible from the internet. it allows your resources, such as EC2 instances to send and recieve traffic from users anywhere in the world, for example when you launch a web server that hosts a website it will typically have a public IP address so that users acn access it through their web browser, when someone visits your website , their request is Sent to your instances public IP, because public IPs are reachable from the internet they should be protected using security groups and firewalls 
             
             - PRIVATE IP ADDRESSES
-                - A private IP address is only accessible within a private network , such as an AWS VPC and cannot be reached directly from the interneta private IP is commonly use for resouces that do not need public access, for eample a database server usally has only a private IP beacuse only your application servers sgould be able to communicate with it and using private IPs improves security by keeping 
-HOW THEY WORK TOGETHER 
+                - A private IP address is only accessible within a private network , such as an AWS VPC and cannot be reached directly from the interneta private IP is commonly use for resouces that do not need public access, for example a database server usally has only a private IP beacuse only your application servers sgould be able to communicate with it and using private IPs improves security by keeping sensativbe resouces hidden from from public internet.
+
+            HOW THEY WORK TOGETHER 
 
                 - In many AWS architectures, both public and private ip address work together, for example imagine your hosting a web application your web server has a public IP so users can access your website and your database server has a private IP because it only needs to communicate with the web server, not the users on the internet The web server receives requests from the internet using its public IP, processes those requests, and then communicates with the database using the database's private IP.
 
@@ -164,3 +165,5 @@ HOW THEY WORK TOGETHER
         HOW ELASTIC IPS WORK 
 
             - When you allocate an Elastic IP, AWS reserves that public IP address for your accountyou can then accociate it with an EC2 instance. If that instance fails or needs replacing, you can simply detach the Elastic IP and attach it to another instance. From the user's perspective, the public IP never changes, allowing traffic to continue reaching your application with minimal disruption.
+
+        

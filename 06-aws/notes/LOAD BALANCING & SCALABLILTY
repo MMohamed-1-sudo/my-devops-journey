@@ -1,9 +1,5 @@
 SCALABILITY AND HIGH AVAILABLIITY 
 
-    scalability means than an application/ system can handle greater loads by adapting, there are two types of scalablity vertical and horizontal scalablity (elasticity) 
-
-SCALABILITY AND HIGH AVAILABLIITY 
-
     - scalability means than an application/ system can handle greater loads by adapting, there are two types of scalablity vertical and horizontal scalablity (elasticity). Vertical scaling means increasing the resources of a single EC2 instance. Instead of adding more servers, you upgrade the existing one to a larger instance type,for example, suppose your application is running on a t3.micro instance. As more users start using the application, the CPU and memory become overloaded. Instead of adding another server, you stop the instance and change it to a larger type, such as a t3.large or m6i.xlarge, which provides more CPU power and RAM, increasing the resources of a single server instead of adding more servers. For example, you might start with one EC2 instance that has 2 vCPUs and 2 GB of RAM. After vertically scaling, that same EC2 instance could be upgraded to 8 vCPUs and 32 GB of RAM. The application remains on a single server, but because the server is now more powerful, it can handle a larger workload and support more users or requests. 
     
     Advantages and disadvantages
@@ -331,7 +327,7 @@ HOW HIGH AVAILABLITY AND SCALABILITY APPLY TO EC2?
 
 
 
-NETWORK LOAD BALANCING
+NETWORK LOADBALANCING
 
     - A Network Load Balancer (NLB) is an AWS load balancer designed to distribute Layer 4 (Transport Layer) traffic across multiple targets, such as EC2 instances. Unlike an Application Load Balancer (ALB), which understands HTTP and HTTPS requests, an NLB works with TCP, UDP, and TLS traffic. It makes routing decisions based on network information, such as the source IP address, destination IP address, port number, and protocol, rather than inspecting the contents of the request. This makes it much faster and more efficient for handling large volumes of network traffic.
     
@@ -358,7 +354,7 @@ NETWORK LOAD BALANCING
 
     SSL/TLS - BASICS
 
-        - Understanding TLS and SSL are important beacuse they are the technologies that encrypt data sent over the internet, ensuring that information exchanged between a user and a server remains private and secure.
+        - - Understanding TLS and SSL are important beacuse they are the technologies that encrypt data sent over the internet, ensuring that information exchanged between a user and a server remains private and secure.
 
         - WHAT ARE SSL/TLS? 
             - SSL stands for secure sockets layer and TLS stands for Transport layer security , are cryptographic protocols that establish a secure, encrypted connection between a client (such as a web browser) and a server (like AWS an ALB), there primary purpose is to protect data while it is being transmitted over the internet. this prevents attckers from reading or modifying sensative information, such as passwords, credit card details or personal info.
@@ -434,3 +430,8 @@ NETWORK LOAD BALANCING
             CONNECTION DRAINING 
 
                 -  Connection Draining also known as de-registration delay is a feature that allows a load balancer to gracefully remove a server from service without interuppting active user connections, intead of immediately stopping all traffic to a server, the load balancer allows existing requests to finish while preventing any new requests from being sent to that server . This ensures users dont experience interupted downloads, failed uploads or dropped sessions during maintenance, deployments, or when an instance becomes unhealthy.
+
+        
+
+            
+                
