@@ -187,4 +187,133 @@ VPC ENDPOINTS
 
 
 TYPES OF ENDPOINT
-    - 
+    - AWS provides two main types of VPC Endpoints: Interface Endpoints and Gateway Endpoints. Both allow resources inside your VPC to access AWS services privately, without needing to send that traffic through the public internet. However, they work in different ways and are used for different services.
+
+    - INTERFACE ENDPOINT
+
+        - An Interface Endpoint uses AWS PrivateLink to provide private access to supported AWS services. When you create one, AWS creates an Elastic Network Interface (ENI) inside your subnet. This ENI has a private IP address and acts as the private entry point that your resources use to connect to the AWS service.For example, imagine you have an EC2 instance in a private subnet that needs to send messages to Amazon SNS. Instead of using a NAT Gateway and accessing SNS through an internet path, you can create an Interface Endpoint: Private EC2
+                     ↓
+                Interface Endpoint
+                (ENI with Private IP)
+                     ↓
+                Amazon SNS
+
+        Interface Endpoints support many AWS services, including services such as SNS, SQS, and Systems Manager. Because the endpoint uses an ENI, you can attach a Security Group to control which resources are allowed to communicate with it.Interface Endpoints are charged based on hourly usage and the amount of data processed, so costs can increase depending on how many endpoints you create and how much traffic passes through them.
+
+    - GATEWAY ENDPOINT
+
+        A Gateway Endpoint works differently because it does not create an ENI or use a private network interface. Instead, it works by adding a route to your route table, which directs traffic from your VPC to the supported AWS service.
+        
+        Gateway Endpoints are used specifically for Amazon S3 and Amazon DynamoDB.
+        For example, if an EC2 instance in a private subnet needs to access an S3 bucket:
+
+            Private EC2
+                 ↓
+            Route Table
+                 ↓
+            Gateway Endpoint
+                 ↓
+            Amazon S3
+
+
+        The route table directs the traffic to the Gateway Endpoint, allowing the EC2 instance to access S3 privately. Unlike an Interface Endpoint, there is no ENI and no Security Group attached directly to the Gateway Endpoint.Gateway Endpoints are also useful because there is no additional hourly or per-GB endpoint charge for using them. This makes them a simple and cost-effective option when your resources need private access to S3 or DynamoDB.
+
+
+WHAT IS IPv6 ?
+
+     - IPv6 adresses are 128 bit numbers which can provide a large pool of unique addresses around 320 undicillion addressses which is formatted in a hexadecimal digit seprated by colons. IPv6 not only provides more addresses but also includes enhancement like simplified address assignment and improved seurity features.
+            
+            WHY ARE IP ADDRESSES IMPORTANT?
+            
+            - they enable  devices to identify and communicate with each other on the network, without IP addresses devicese wouldnt know where to send or recieve data.
+
+    IPv6 IN AWS VPC'S 
+
+        - When you enable IPv6 in an AWS VPC, IPv4 does not disappear. Your network can use both IPv4 and IPv6 at the same time. This is known as dual-stack mode. It allows your infrastructure to communicate with systems that use either IP version,For example, an EC2 instance could have both a private IPv4 address and an IPv6 address:
+
+            - EC2 Instance
+
+                Private IPv4: 10.0.1.10
+                IPv6:         2001:db8:1234::10
+
+        - The private IPv4 address can be used for communication inside the VPC, such as when an application server communicates with a database. At the same time, the IPv6 address can be used for IPv6 communication, including communication with the internet when the appropriate routing and security rules are configured. The Internet Gateway supports both IPv4 and IPv6 traffic. For example, an EC2 instance with a public IPv4 address can communicate with IPv4 services on the internet, while an EC2 instance with an IPv6 address can communicate with IPv6-enabled services.
+
+        -                  Internet
+                         /        \
+                     IPv4        IPv6
+                        |          |
+                        └────┬─────┘
+                             |
+                      Internet Gateway
+                             |
+                            EC2
+                         /       \
+                    IPv4          IPv6
+
+        - Dual-stack is useful when moving towards IPv6 while still supporting existing IPv4 systems. For example, your application may need to communicate with an older service that only supports IPv4, while also accepting connections from newer clients using IPv6. Instead of choosing one protocol, your infrastructure can support both.
+        
+        - A simple way to remember it is: dual-stack means your AWS network speaks both IPv4 and IPv6. IPv4 maintains compatibility with existing systems, while IPv6 prepares your infrastructure for the growing use of newer IP addressing.
+
+TROUBLESHOOTING: UNALBE TO LAUNCH AN EC2 INSTANCE DUE TO IPV4 EXHAUSTION
+
+    The problem
+
+        - You are trying to launch a new EC2 instance, but the launch fails. You may initially think the problem is related to IPv6, especially if your VPC has IPv6 enabled. However, the issue may actually be that your subnet has run out of available IPv4 addresses.
+
+        - For example, imagine your subnet uses the CIDR range 10.0.1.0/24. This gives you 256 total IPv4 addresses, but AWS reserves 5 addresses, leaving 251 usable addresses. Once those addresses are assigned to resources, there are no IPv4 addresses left for new instances.
+
+    How to troubleshoot
+
+        - First, check the number of available IPv4 addresses in the subnet. If the available IPv4 address count is 0, this is likely the reason why your new EC2 instance cannot launch.
+
+        - Even if your VPC has a large number of available IPv6 addresses, this may not solve the problem if your EC2 instance or network configuration still requires an IPv4 address.
+
+    The solution
+
+        - To fix the problem, you need to provide additional IPv4 address space. One option is to add another IPv4 CIDR block to your VPC and create a new subnet from that range. You can then launch new EC2 instances into the new subnet.
+
+        For example:
+            
+            - Existing subnet:
+            
+                10.0.1.0/24 → No IPv4 addresses available
+
+            - New subnet:
+            
+                10.0.2.0/24 → New IPv4 addresses available
+
+        Key takeaway
+        If an EC2 instance fails to launch, don't only check IPv6. Check whether your subnet has available IPv4 addresses.
+        IPv6 provides a massive address space, but IPv4 addresses are still limited. Properly planning your VPC and subnet CIDR ranges helps prevent IPv4 exhaustion as your AWS infrastructure grows.
+
+EGRESS-ONLY INTERNET GATEWAY 
+
+    - An Egress-Only Internet Gateway is an AWS networking service designed specifically for IPv6 traffic. It allows resources in a private subnet to connect to the internet while preventing unsolicited inbound connections from the internet. You can think of it as being similar to a NAT Gateway, but for IPv6, For example, an EC2 instance may need to download software updates or connect to an external API. The instance can send traffic out through the Egress-Only Internet Gateway, and the response traffic can return to the instance. However, an external user on the internet cannot initiate a new connection directly to that EC2 instance.
+
+    - To use an Egress-Only Internet Gateway, you must configure the route table for the private subnet. A typical route would send all IPv6 traffic, represented by ::/0, to the Egress-Only Internet Gateway. Without this route, the instances in the subnet will not know where to send their outbound IPv6 traffic.In simple terms, an Egress-Only Internet Gateway allows private resources to communicate out to the internet using IPv6 while helping prevent the internet from initiating connections back to them. It is useful when your resources need outbound IPv6 connectivity but should remain protected from direct inbound internet access.
+
+
+    IPv6 ROUTING 
+
+        - In a dual-stack VPC, both IPv4 and IPv6 are enabled, allowing resources to communicate using either protocol depending on what the destination supports. Each subnet can have both an IPv4 CIDR range and an IPv6 CIDR range, meaning EC2 instances can be configured to use both types of IP addresses. In a public subnet, an EC2 instance can access the internet directly using both IPv4 and IPv6. For IPv4 traffic, the instance typically has a private IPv4 address along with a public IPv4 address or Elastic IP, and traffic is routed through an Internet Gateway. For IPv6 traffic, the instance has an IPv6 address and can also communicate with the internet through the Internet Gateway.
+
+        - For example, a public EC2 instance would route traffic like this:
+
+            IPv4 → Internet Gateway → Internet
+
+            IPv6 → Internet Gateway → Internet
+
+        In a private subnet, the setup is different because we do not want the instances to be directly accessible from the internet. For IPv4 traffic, a private EC2 instance sends outbound traffic through a NAT Gateway. The NAT Gateway translates the private IPv4 address into its public Elastic IP, allowing the instance to access the internet without exposing the instance directly.
+
+        The IPv4 traffic flow looks like this:
+
+            Private EC2 → NAT Gateway → Internet Gateway → Internet
+
+        For IPv6, private instances use an Egress-Only Internet Gateway instead of a NAT Gateway. This allows the instance to initiate connections to the internet using IPv6, while preventing unsolicited inbound connections from the internet.
+
+        The IPv6 traffic flow looks like this:
+
+            Private EC2 → Egress-Only Internet Gateway → Internet
+
+        The route tables control where this traffic goes. A public subnet route table sends IPv4 traffic (0.0.0.0/0) and IPv6 traffic (::/0) to the Internet Gateway. A private subnet route table sends IPv4 internet traffic to the NAT Gateway and IPv6 internet traffic to the Egress-Only Internet Gateway.
+    
