@@ -171,3 +171,23 @@ ALIAS RECORDS TARGETS
     - One important limitation is that you cannot create an ALIAS record that points directly to an EC2 instance's public DNS name. If you want to point a domain directly to an EC2 instance, you would typically use an A record with the instance's IP address, or a CNAME record for a subdomain when appropriate.
 
     - In simple terms, ALIAS records are particularly useful when working with supported AWS resources. They make it easier to use custom domain names and are especially helpful because many AWS resources use hostnames or IP addresses that can change over time. 
+
+
+
+ALIAS RECORDS
+
+    - An Alias record in Route 53 lets you connect your domain name to certain AWS resources without having to enter their IP address manually. This is useful because AWS resources can have changing IP addresses, while the Alias record can automatically follow the AWS resource.
+
+        For example, you could have: [www.example.com → Application Load Balancer]
+
+    - Common AWS resources that support Alias records include Application/Network Load Balancers, CloudFront, API Gateway, Elastic Beanstalk, S3 website endpoints, VPC interface endpoints, and Global Accelerator. Alias records can also point to another Route 53 record in the same hosted zone. One important limitation is that you cannot use an Alias record to point directly to an EC2 instance's DNS name. If you need to point a domain directly to an EC2 instance, you would normally use an A record with the instance's public IPv4 address, or an AAAA record for IPv6. In practice, though, it's often better to put a Load Balancer in front of EC2 and use an Alias record to point your domain to the Load Balancer.
+
+ROUTING POLICIES 
+
+    simple routing policy - Simple Routing Policy is the most basic routing option in Route 53. You use it when you want a domain name to point to one resource. For example, you could have www.example.com pointing to one server. Every time a user visits your website, Route 53 sends them to that same destination.
+
+        - You can also put multiple IP addresses in a Simple Routing record. In that situation, Route 53 can return multiple values in the DNS response, and the client chooses one. This can provide a basic way of spreading requests across several servers, but it is not a proper load-balancing solution. There are also limitations: you cannot use health checks with Simple Routing, so Route 53 won't automatically know if one of the servers has failed. Also, an Alias record can point to only one AWS resource. So Simple Routing is best when you want straightforward DNS routing without complicated traffic decisions.
+
+    weighted routing policies - 
+
+
