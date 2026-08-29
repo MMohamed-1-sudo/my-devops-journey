@@ -190,4 +190,9 @@ ROUTING POLICIES
 
     weighted routing policies - 
 
+    weighted routing policies - Weighted Routing in Route 53 lets you control how much traffic goes to different resources. Instead of sending everyone to one server, you can split traffic between multiple servers based on weights. For example, you could have three servers with weights of 70, 20, and 10. Route 53 would send roughly 70% of traffic to the first server, 20% to the second, and 10% to the third. The weights don't have to add up to 100 — they just need to be proportional. So 7, 2, and 1 would produce the same 70/20/10 split.
+
+        - A common use is testing a new version of an application. For example, you could send 90% of users to your existing application and 10% to the new version. If everything works well, you can gradually increase the weight of the new version. Weighted records can also use health checks, so Route 53 can stop sending traffic to an unhealthy resource. If you give a record a weight of 0, Route 53 sends no traffic to that resource.
+
+
 
