@@ -1,0 +1,173 @@
+AMAZON ROUTE 53 
+
+    - Route 53 is AWS's managed DNS service. DNS, or the Domain Name System, translates domain names that people can easily read, such as mywebsite.com, into IP addresses that computers use to find each other. Route 53 is highly available, scalable, and fully managed by AWS, so you do not need to build or maintain your own DNS servers.Route 53 acts as an authoritative DNS service. This means that you, as the owner of a domain, can control the DNS records for that domain. You can create, update, or delete records that tell internet traffic where to go. For example, you could point your domain to an EC2 instance, an Application Load Balancer, a CloudFront distribution, or another AWS resource.
+
+    - Route 53 can also be used to register and manage domain names, making it similar to a domain registrar. Instead of using one service to buy a domain and another to manage its DNS records, you can manage both through Route 53. Another important feature is health checks. Route 53 can monitor your application's resources to see whether they are healthy and responding correctly. For example, if your main server becomes unavailable, Route 53 can detect the problem and automatically route users to a healthy backup server. This helps improve the availability and reliability of your application.
+
+    - Route 53 gets its name from port 53, which is the standard port used for DNS queries. Overall, Route 53 gives you control over how users reach your applications and AWS resources. It can manage domain names, control DNS records, monitor the health of resources, and route traffic to the correct destination.
+
+
+    - HOSTED ZONES
+
+        - A hosted zone in Route 53 is like a container that holds the DNS records for a domain and tells Route 53 where traffic should go. A public hosted zone is used for domains that need to be accessed over the internet. For example, if someone visits application1.mywebsite.com, the public hosted zone contains the DNS records that help Route 53 direct that user to the correct public resource, such as a load balancer or EC2 instance.
+
+        - A private hosted zone is used for internal DNS within one or more VPCs. For example, you could have an internal application called application1.company.internal that should only be accessible by resources inside your private AWS network. The private hosted zone allows Route 53 to manage this internal traffic without exposing it to the public internet.
+        
+        - A public hosted zone is used for resources that people can access over the public internet. For example, if someone types example.com into their browser, Route 53 uses the DNS records in the public hosted zone to direct them to the correct public resource, such as a Load Balancer, CloudFront distribution, EC2 instance, or public S3 website. Anyone on the internet can potentially resolve the domain name.
+
+        - A private hosted zone, on the other hand, is used for resources inside your AWS network, usually within one or more VPCs. For example, you might have api.company.internal or db.company.internal. These names can be used by your internal applications to communicate with each other, but they are not exposed to the public internet. So, simply put: public hosted zones are for internet-facing DNS, while private hosted zones are for internal DNS within your VPCs.
+
+
+WHAT IS DNS? 
+
+    - DNS, or the Domain Name System, is a system that translates human-readable domain names, such as google.com, into IP addresses that computers use to identify and communicate with each other.Its main role is to make the internet easier for people to use. Instead of remembering an IP address such as 142.250.200.14, you can simply type google.com into your browser.
+
+    - When you enter a website address, DNS helps find the correct IP address and directs your request to the right destination. DNS works alongside networking protocols such as IP to ensure that data is sent to the correct server or device, A simple way to think about DNS is as the phonebook of the internet. You know the name of the website, but DNS looks up the correct "phone number," which is the IP address.
+
+DNS COMPONENTS 
+
+    - The DNS system is made up of several components that work together to translate domain names into IP addresses. The main components include DNS resolvers, name servers, authoritative name servers, and DNS records stored in zones. A DNS resolver is responsible for finding the answer to a DNS query. When you enter a domain such as example.com, your device sends a DNS request to a resolver, which performs the lookup on your behalf.
+
+    - Name servers are specialized servers that provide DNS information. They answer queries about domain names and help direct requests through the DNS hierarchy. The DNS lookup process usually involves several types of servers. These include root servers, Top-Level Domain (TLD) servers, and authoritative name servers. The DNS lookup process usually involves several types of servers. These include root servers, Top-Level Domain (TLD) servers, and authoritative name servers. 
+
+    - A root server helps direct the resolver to the correct TLD server. For example, if you are looking for example.com, the root server directs the resolver towards the .com TLD servers.The TLD server then provides information about which authoritative name server is responsible for the domain. Finally, the authoritative name server contains the DNS records for the domain and provides the final answer, such as the IP address associated with example.com.
+
+ZONE FILES
+
+    - A DNS zone is a section of the DNS system that contains information about a particular domain. For example, the zone for example.com contains the DNS records that tell the internet how to find services associated with that domain. This information is traditionally stored in a zone file. A zone file contains different DNS records, such as A records for IPv4 addresses, AAAA records for IPv6 addresses, CNAME records for aliases, MX records for email servers, and NS records that identify the authoritative name servers for the domain. When a DNS query is made, the authoritative name server uses the information in the zone to provide the correct answer. This allows users and devices to find the correct website, email server, or other service associated with a domain.
+
+DNS RECORDS
+
+    - DNS records are the individual pieces of information stored within a DNS zone. Each record has a specific job and helps tell devices where a particular service is located. An A record maps a domain name to an IPv4 address. For example, example.com → 192.168.1.10. This tells your device which IPv4 address it should connect to when someone requests example.com. IPv4 addresses are 32 bits long and are usually written as four numbers separated by dots.An AAAA record works in the same way as an A record, but it maps a domain name to an IPv6 address instead. For example, example.com → 2001:db8::1. IPv6 addresses are 128 bits long and provide a much larger number of available addresses than IPv4.
+
+    - A CNAME record, which stands for Canonical Name, creates an alias from one domain name to another. For example, www.example.com → example.com. Instead of pointing directly to an IP address, the CNAME points to another domain name, which is then resolved to the correct IP address. An MX record, or Mail Exchange record, is used for email routing. It tells the internet which mail server is responsible for receiving emails for a particular domain. For example, when someone sends an email to user@example.com, the sending mail server checks the MX records for example.com to find out where the email should be delivered.
+
+    - Finally, an NS record, or Name Server record, identifies the authoritative name servers responsible for a domain. These servers contain the official DNS information for that domain and are responsible for providing answers to DNS queries.
+
+
+
+
+HOW DOES DNS WORK?
+
+    - DNS works like a direction system for the internet. When you type a website name such as [example.com] into your browser, your computer needs to find the IP address of the server hosting that website. Computers communicate using IP addresses, so DNS is responsible for translating the domain name into the correct IP address.
+
+    - First, your device checks its local DNS cache to see if it already knows the IP address for example.com. If the information is not stored locally, the request is sent to a DNS resolver. This resolver may be provided by your Internet Service Provider (ISP), your company, or another DNS provider. The resolver is responsible for finding the correct answer on your behalf.
+
+    - The resolver also checks its own cache. If it does not already have the answer, it begins searching through the DNS hierarchy. The first server it contacts is a root name server. The root server does not normally know the final IP address, but it knows where to direct the resolver next. For example, because example.com ends in .com, the root server directs the resolver to the appropriate .com Top-Level Domain (TLD) name servers.
+
+    - The resolver then contacts the TLD name server for .com. The TLD server does not usually provide the final IP address either. Instead, it tells the resolver which authoritative name server is responsible for example.com.
+
+    - The resolver then contacts the authoritative name server. This server contains the official DNS records for the domain and provides the final answer. For example, it may return an A record containing the IP address associated with example.com.
+
+    - The DNS resolver sends this IP address back to your device, and your browser can then connect to the correct web server. Once the connection is made, the browser requests the website and begins loading the page.
+
+    - A simple way to understand this process is to think of asking for directions. You ask one person where a place is, and they may not know the exact location, but they can direct you to someone else. Eventually, you reach someone who knows the exact address. DNS works in a similar way, with each server directing the request closer to the final answer.
+
+    - The entire process usually happens very quickly, often in milliseconds, and takes place behind the scenes. You simply type a domain name, DNS finds the IP address, and your browser uses that IP address to connect to the correct website.
+
+
+
+
+ROUTE 53 RECORDS
+
+    - Think of Amazon Route 53 as a traffic director for your domain. When someone tries to visit a domain or subdomain, such as example.com or api.example.com, Route 53 uses DNS records to determine where that request should go.
+
+    - A Route 53 record contains instructions about how DNS queries for a particular domain name should be handled. The record includes the domain or subdomain name, such as example.com or api.example.com, and the record type, which tells Route 53 what kind of information the record contains.
+
+    - For example, an A record maps a domain name to an IPv4 address, while an AAAA record maps a domain name to an IPv6 address. The record also contains a value, which is the destination the domain should point to. Depending on the record type, this could be an IP address, another domain name, or another supported AWS resource.
+
+    - Route 53 records can also use a routing policy. The routing policy controls how Route 53 responds when there are multiple possible records or destinations. For example, you may want all traffic to go to one resource, distribute traffic between multiple resources, or route users based on factors such as location or health.
+
+    - Another important setting is TTL, which stands for Time to Live. TTL tells DNS resolvers how long they should cache a DNS record before asking Route 53 for the information again. You can think of it as an expiration time for the cached DNS information.
+
+    - Route 53 supports many different DNS record types. Common examples include A records for IPv4 addresses, AAAA records for IPv6 addresses, CNAME records for creating aliases to other domain names, and NS records for identifying the authoritative name servers for a domain. Other record types, such as MX, TXT, and CAA, can be used for email configuration, domain verification, and security settings.
+
+    -In simple terms, Route 53 records are instructions that tell DNS where traffic for your domain should go. You create these records to direct users to the correct resource, whether that is a website, an API, an email server, or another service.
+
+    Simple example:
+
+    - example.com → Route 53 record → Web server
+
+    A user types example.com, Route 53 checks the DNS record, returns the correct destination, and the user's browser can then connect to the appropriate resource.
+
+DNS 
+
+    - TTL, or Time To Live, determines how long a DNS record can be cached before a DNS resolver checks for updated information.
+
+    - If you use a high TTL, such as 24 hours, DNS resolvers can keep the record cached for a longer period. This means fewer DNS queries need to be made to Route 53, which can reduce the number of queries and potentially lower costs. However, there is a downside. If you change the DNS record, some users may continue using the old cached information until the TTL expires.
+
+    - For example, imagine your DNS record points to this IP address:
+
+            [example.com → 1.2.3.4]
+
+       If you change it to:
+
+         [example.com → 5.6.7.8]
+
+    - but the record has a TTL of 24 hours, a resolver that already cached the old record may continue returning 1.2.3.4 until its cached TTL expires. On the other hand, a low TTL, such as 60 seconds, means DNS records expire from caches more quickly. This is useful when you are moving servers, changing IP addresses, or making frequent DNS changes. Users are more likely to receive the updated DNS information sooner.
+
+    - The trade-off is that a lower TTL can result in more frequent DNS queries because resolvers cannot keep the information cached for as long. More DNS queries may increase DNS query costs. In Route 53, choosing a TTL is therefore about finding the right balance between caching efficiency and how quickly DNS changes need to take effect. A longer TTL is useful when your DNS records rarely change, while a shorter TTL is useful when you expect to make changes and need those changes to be picked up more quickly.
+
+    - One important exception in Route 53 is an ALIAS record. You do not set a TTL for an ALIAS record because Route 53 manages it automatically.
+
+    - Simple way to remember it:
+
+        - High TTL = More caching, fewer DNS lookups, but slower updates.
+        - Low TTL = Less caching, more DNS lookups, but faster updates and a higher DNS query cost.
+
+
+ALAISE VS CNAME records 
+
+    - AWS resources such as Load Balancers and CloudFront distributions are given AWS-generated hostnames. These hostnames can be long and difficult to remember. Instead of asking users to access a long AWS address, you can use your own custom domain name, such as app.mydomain.com, and point it to the AWS resource.
+
+    - A CNAME record allows one domain bname to point to another hostname. for example, you could convigure 
+
+        [app.mydomain.com → my-load-balancer.amazonaws.com]
+
+    When someone visits app.mydomain.com, DNS resolves the CNAME and then finds the IP address associated with the target hostname.
+
+    - However, CNAME records generally cannot be used at the root domain, also called the zone apex. This means you can use a CNAME for a subdomain such as app.mydomain.com, but not for the root domain mydomain.com.
+
+    - An ALIAS record is a special feature provided by Amazon Route 53. It allows you to point a domain or subdomain to certain AWS resources, such as an Application Load Balancer or CloudFront distribution.
+
+        -  for example:
+
+            [mydomain.com → ALIAS → AWS Load Balancer]
+
+        - Unlike a CNAME, an ALIAS record can be used for the root domain as well as subdomains. Route 53 handles the DNS resolution behind the scenes. Another benefit is that Route 53 ALIAS queries to supported AWS resources are free, and Route 53 can evaluate the health of certain targets depending on the configuration.
+
+    - SIMPLE EXAMPLE 
+
+        CNAME: [app.mydomain.com → my-load-balancer.amazonaws.com]
+        ALIAS: [mydomain.com → AWS Load Balancer]
+
+        KEY DIFFERENCE 
+            - CNAME = Points one hostname to another hostname and is typically used for subdomains.
+            - ALIAS = A Route 53 feature that can point your root domain or subdomain to supported AWS resources.
+
+    - In simple terms, if you are using Route 53 with supported AWS resources, ALIAS records provide more flexibility, especially when you need to point your root domain directly to an AWS resource.
+
+
+ALIAS RECORDS TARGETS 
+
+    - Route 53 ALIAS records are designed to work with specific AWS resources. They allow you to point a custom domain name, such as app.mydomain.com, to an AWS resource without needing to use the resource's long AWS-generated hostname or manage changing IP addresses yourself.
+
+    - One common use is with Elastic Load Balancers. You can create an ALIAS record that points your domain to an Application Load Balancer or Network Load Balancer. For example, instead of users accessing a long AWS load balancer address, they can simply visit app.mydomain.com.
+
+    - ALIAS records can also be used with CloudFront distributions. If you are delivering content through CloudFront, you can connect a custom domain name to your CloudFront distribution using an ALIAS records
+    
+    - Another common use is API Gateway. If you host an API using API Gateway and configure a custom domain, Route 53 can use an ALIAS record to point your domain to the API endpoint.
+
+    - You can also use ALIAS records with supported Elastic Beanstalk environments. This allows you to connect a custom domain name to your application running in Elastic Beanstalk.
+
+    - For static websites hosted using Amazon S3, an ALIAS record can point your domain to an S3 website endpoint. This is useful when you want users to access your website using a custom domain name.
+
+    - ALIAS records can also be used with supported VPC interface endpoints, allowing you to create easier-to-use DNS names for private services within your AWS environment.
+
+    - Another supported target is AWS Global Accelerator. You can use an ALIAS record to point your domain name to a Global Accelerator, allowing users to access your application through a custom domain.
+
+    - Finally, an ALIAS record can point to another Route 53 record in the same hosted zone, giving you additional flexibility when managing your DNS records.
+
+    - One important limitation is that you cannot create an ALIAS record that points directly to an EC2 instance's public DNS name. If you want to point a domain directly to an EC2 instance, you would typically use an A record with the instance's IP address, or a CNAME record for a subdomain when appropriate.
+
+    - In simple terms, ALIAS records are particularly useful when working with supported AWS resources. They make it easier to use custom domain names and are especially helpful because many AWS resources use hostnames or IP addresses that can change over time. 
