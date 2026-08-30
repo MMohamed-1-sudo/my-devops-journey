@@ -1,0 +1,45 @@
+AMAZON CLOUDFRONT (CDN)
+
+    - Amazon CloudFront is AWS's Content Delivery Network (CDN). Its main purpose is to improve the performance of your applications by storing copies of your content closer to your users. These locations are called edge locations. Normally, when a user requests content, the request has to travel all the way to your origin, which could be an S3 bucket, EC2 instance, or load balancer. For example, if your application is hosted in London and a user in Australia requests a webpage, the request has to travel to London and then back to Australia. This can increase the amount of time it takes to load the content.
+
+    - With CloudFront, your content can be cached at an edge location closer to the user. When another user requests the same content, CloudFront can deliver it from the nearby edge location instead of going back to the origin every time. This results in faster load times, lower latency, and less work for your origin server.
+
+    - CloudFront is also useful for security. It can work with services such as AWS WAF to help filter and block malicious web requests, and AWS Shield to help protect applications from DDoS attacks. The main idea to remember is that CloudFront puts your content closer to your users. Your S3 bucket, EC2 server, or load balancer is the origin, while CloudFront's edge locations store cached copies of your content. This allows users around the world to access your application faster.
+
+
+    CLOUDFRONT  - S3 AS AN ORIGIN 
+
+        - When using CloudFront with S3, the S3 bucket acts as the origin. This means the S3 bucket is where your original files are stored, such as images, videos, HTML files, or other website content. CloudFront then uses its edge locations (Points of Presence) around the world to deliver those files closer to users.
+
+        - When a user requests a file, CloudFront first checks the nearest edge location to see if the file is already cached there. If the file is cached, CloudFront delivers it directly from the edge location. This is faster because the user doesn't have to wait for the request to travel all the way back to the S3 bucket.
+
+        - If the file isn't cached at the edge location, CloudFront sends a request to the S3 bucket (the origin) to retrieve it. CloudFront then sends the file back to the user and stores a copy at the edge location. The next time someone requests that same file, CloudFront can serve it directly from the cache instead of requesting it from S3 again.
+
+        - You can also make the S3 bucket private and use Origin Access Control (OAC) with an S3 bucket policy. This allows CloudFront to access the files in the S3 bucket while preventing users from accessing the S3 bucket directly. This provides an additional layer of security.
+
+        - So, the main idea is: S3 stores the original content, CloudFront caches that content at edge locations, and users receive the content from a location closer to them. This makes content delivery faster, reduces requests to S3, and can improve security.
+
+
+    CLOUDFRONT - ALB/EC2 AS THE ORIGIN 
+
+        - CloudFront can also use an Application Load Balancer (ALB) or an EC2 instance as its origin instead of an S3 bucket. In this setup, users first connect to a CloudFront edge location that is close to them. CloudFront then forwards their request to the ALB or EC2 instance that is acting as the origin.
+
+        - If you're using an ALB, the ALB needs to be publicly accessible so that it can receive requests coming from CloudFront. Its security group should be configured to allow inbound traffic from CloudFront's public IP ranges. This means the ALB can accept requests from CloudFront while restricting other unwanted traffic.
+
+        - The ALB can then forward the request to your backend EC2 instances. These EC2 instances can remain private, meaning they don't need public IP addresses and users cannot access them directly from the internet. This is generally a more secure architecture because the ALB acts as the public entry point.
+
+        - You can also use EC2 directly as the CloudFront origin. In this case, if the EC2 instance is publicly accessible, its security group needs to allow traffic from CloudFront's IP ranges. CloudFront sends the user's request to the EC2 instance, which then processes the request and sends the response back through CloudFront to the user.
+
+        - The important security point is that you should restrict inbound traffic to your origin as much as possible. When CloudFront is in front of your ALB or EC2 instances, you want the origin to receive traffic from CloudFront rather than allowing unrestricted internet traffic.
+
+            So the basic flow is:
+
+                User → CloudFront Edge Location → ALB → Private EC2
+
+                Or, if using EC2 directly:
+
+                User → CloudFront Edge Location → EC2
+
+                The main benefit is that CloudFront provides faster global delivery and caching, while an ALB can provide load balancing and access to private backend instances.
+
+    
