@@ -224,5 +224,65 @@ ROUTING POLICIES
 
         Health Checks = "Is this resource healthy enough to receive traffic?"
 
+    GEOLOACTION ROUTING POLICY
+
+        - Geolocation Routing allows Route 53 to decide where to send a user based on their geographical location. You can create rules based on countries, continents, or US states. For example, if you have servers in Europe and North America, you could configure Route 53 to send users from France to your European application and users from the US to your North American application.
+
+        - The important difference is that Geolocation is about where the user is located, not which server gives the lowest latency. You can use it to provide different content, languages, or services to different regions, or to meet regional regulations. You should also create a default record as a fallback for users whose location doesn't have a specific rule. If rules overlap, Route 53 uses the most specific rule. For example, a rule for France would take priority over a general Europe rule.
+
+        GEOLOCTION ROUTING = "Where is the user? Send them based on their location."
+
+        Don't confuse it with Latency-Based Routing:
+
+            - Geolocation: "Where is the user?"
+            - Latency: "Which location gives the user the fastest response?"
+
+    GEOPROXIMITY ROUTING 
+    
+        - Geoproximity Routing is similar to Geolocation Routing because both consider where the user is located, but Geoproximity gives you more control over how traffic is distributed. You choose resources in different locations, and Route 53 normally sends users to the resource that is geographically closest. You can then use a bias value to make a resource's geographical area larger or smaller. A positive bias attracts more traffic to that resource, while a negative bias reduces the amount of traffic it receives.
+
+        - For example, imagine you have applications in US East and US West. With a bias of 0, users are routed based on proximity: users on the East Coast generally go to US East, while users on the West Coast generally go to US West. If you give US East a positive bias, such as +50, you effectively make its geographical area larger. Some users who would normally have gone to US West may now be sent to US East. This is useful when you want to shift traffic between regions, balance workloads, or give one region more traffic. Geoproximity can work with AWS resources such as regions, as well as non-AWS resources using geographical coordinates, and it requires Route 53 Traffic Flow.
+
+        Geoproximity = "Send users based on location, but let me adjust the boundaries."
+
+        So the key difference is:
+
+            Geolocation: "Users from this country → this resource."
+            Geoproximity: "Users near this resource → this resource, but I can adjust how much geographical territory it gets."
+
+    IP BASED ROUTING
+
+        - IP-based routing is a Route 53 routing policy that determines where to send traffic based on the user's IP address. Instead of looking at the user's physical location or network latency, Route 53 checks which CIDR block the user's IP address belongs to and then routes them to the endpoint associated with that CIDR block.
+
+        - For example, imagine you have two servers. Users whose IP addresses fall within 10.1.0.0/16 could be sent to Server A, while users whose IP addresses fall within 10.2.0.0/16 could be sent to Server B. Route 53 checks the user's IP, identifies the matching CIDR range, and sends the traffic to the appropriate endpoint.
+
+        - This can be useful when you want more specific control over your traffic. For example, you could route users from a particular ISP, company network, or group of IP addresses to a specific server. This could help with performance, network costs, or specific business requirements.
+
+        - IP-based routing = "What's your IP address? I'll decide where you go.
+
+        - The main difference from geolocation routing is that geolocation asks "Where is the user located?", while IP-based routing asks "Which IP range does the user's IP belong to?"
+
+DOMAIN REGISTAR VS DNS SERVICE 
+        
+    - A domain registrar is where you buy and register your domain name. For example, if you want example.com, you could register it through a company such as GoDaddy, Amazon Registrar, or Cloudflare. You normally pay a registration fee, often annually, to keep control of that domain name.
+
+    - A DNS service is responsible for managing the DNS records for your domain. These records tell the internet where your domain should send users. For example, you could have a DNS record that says example.com should point to the IP address of your web server.
+
+    - The important thing is that your registrar and DNS provider don't have to be the same company. For example, you could buy your domain from GoDaddy but use Amazon Route 53 to manage your DNS records:
+
+            Buy domain
+                ↓
+            GoDaddy (Domain Registrar)
+                ↓
+            example.com
+
+            Manage DNS
+                ↓
+            Amazon Route 53 (DNS Service)
+                ↓
+            example.com → Your AWS resources
+
+        A simple analogy is: the registrar is like the land registry—you establish ownership of the address. DNS is like the phone book—it tells people where to find you.
+
 
 
