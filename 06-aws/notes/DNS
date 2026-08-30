@@ -194,5 +194,35 @@ ROUTING POLICIES
 
         - A common use is testing a new version of an application. For example, you could send 90% of users to your existing application and 10% to the new version. If everything works well, you can gradually increase the weight of the new version. Weighted records can also use health checks, so Route 53 can stop sending traffic to an unhealthy resource. If you give a record a weight of 0, Route 53 sends no traffic to that resource.
 
+  latency based routing -  
+
+        - Latency-Based Routing is used when you have your application running in multiple locations around the world and you want users to connect to the location that gives them the fastest response time. Route 53 looks at the user's location and the network latency to your different AWS resources, such as Load Balancers or EC2 instances, and sends the user to the resource with the lowest latency. For example, if you have servers in Europe, the US, and Asia, a user in Germany would normally be sent to your European server because it is likely to provide the fastest connection.
+
+        - The important thing is that Route 53 doesn't simply choose the geographically closest server. It chooses the location that AWS determines has the lowest network latency. So, in some situations, a user in Germany could be sent to a US server if the network connection happens to be faster. You can also use health checks, so if the lowest-latency resource becomes unhealthy, Route 53 can direct users to another healthy resource.
+
+            EASY WAY TO REMEMBER THIS IS:
+                Latency-Based Routing = "Send the user to the resource that responds fastest."
+
+     HEALTH CHECK 
+
+        - Route 53 Health Checks allow Route 53 to monitor whether your application or resource is healthy and available. Think of it as Route 53 regularly asking your server, "Are you working?" If the server responds correctly, Route 53 considers it healthy. If it stops responding or fails the check, Route 53 can stop sending traffic to it and send users to another healthy resource instead.
+
+        - There are three main types of health checks. Endpoint health checks directly check a resource, such as a web server, by sending requests to it. Calculated health checks combine the results of multiple health checks to give you an overall health status. CloudWatch-based health checks use CloudWatch alarms and metrics to detect deeper problems, rather than simply checking whether a server responds. For example, you could use a CloudWatch alarm to detect a serious application problem and then use Route 53 to route users elsewhere.
+
+            example 
+
+            User
+             ↓
+            Route 53
+             ↓
+            US Server → ❌ Unhealthy
+             ↓
+            Backup Server → ✅ Healthy
+             ↓
+            User gets the application
+
+
+        Health Checks = "Is this resource healthy enough to receive traffic?"
+
 
 
