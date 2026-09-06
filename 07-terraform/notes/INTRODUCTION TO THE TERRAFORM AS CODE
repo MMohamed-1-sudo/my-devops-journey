@@ -12,6 +12,40 @@ INFRASTRUCTURE AS CODE:
 
 INFRASTRUCTURE ORCHESTRATION VS CONFIG MANAGEMENT:
 
+    - Infrastructure orchestration is about creating and managing the infrastructure itself. For example, Terraform can be used to create AWS resources such as VPCs, subnets, EC2 instances, load balancers, security groups and databases. Instead of manually creating these resources through the AWS Console, you define what you want in Terraform code and Terraform builds it for you.
+
+    - Configuration management focuses on configuring servers and systems after they have been created. For example, Ansible can connect to an EC2 instance and install software such as Docker or Nginx, create users, copy configuration files, change security settings and start services.
+
+    - A simple way to remember the difference is: Terraform builds the infrastructure, while Ansible configures the infrastructure. For example, Terraform could create an EC2 instance in AWS, and then Ansible could configure that EC2 instance by installing Docker and deploying an application.
+
 WHAT IS TERRAFORM 
 
+    - Terraform is an Infrastructure as Code (IaC) tool that allows you to create and manage infrastructure using configuration files instead of manually creating resources through a cloud console.
+    
+    - Terraform is cloud-agnostic, meaning it can work with multiple cloud providers such as AWS, Microsoft Azure and Google Cloud Platform (GCP). For example, you can use Terraform to create AWS resources such as VPCs, EC2 instances, subnets, security groups and load balancers.
+
+    - The basic Terraform process is Write → Plan → Apply. First, you write Terraform code describing the infrastructure you want. You then run terraform plan, which shows you what Terraform intends to create, change or delete. This gives you an opportunity to check the changes before anything actually happens.
+
+    - If the plan looks correct, you run terraform apply. Terraform then communicates with the cloud provider and creates or updates the resources defined in your code.
+
+    - Terraform also keeps track of the infrastructure it manages using a state file. This helps Terraform understand what resources already exist and what needs to change to make your real infrastructure match the infrastructure described in your code.
+
+    for example:
+
+        - Terraform code → terraform plan → terraform apply → AWS resources created
+
+    If your Terraform code says you want an EC2 instance and a VPC, the plan will show that Terraform intends to create them. Once you run terraform apply, Terraform will create those resources in AWS.
+
 TIPS FOR USING TERRAFORM 
+
+    - When learning Terraform, one of the most important things to get comfortable with is the official Terraform documentation. You won't always remember how to create every resource, and that's completely normal. The documentation shows you the correct syntax, available options and examples of how Terraform works. The Terraform Registry is especially important. It contains documentation for different providers such as AWS, Azure and GCP. For example, if you want to create an EC2 instance in AWS but don't know the Terraform code, you can look up the AWS EC2 aws_instance resource in the Registry and see what arguments you need.
+
+    - Testing and validation are also very important. Before making changes to real infrastructure, you should check what your Terraform code is going to do. Commands such as terraform validate can check whether your configuration is valid, while terraform plan shows what Terraform intends to create, modify or delete. Always check the plan carefully before running terraform apply, especially in a production environment.
+
+    - When learning Terraform, start small and build gradually. This is sometimes called creating an MVP (Minimum Viable Product). For example, start by creating one simple EC2 instance. Once that works, you could add a security group, variables, outputs and eventually turn the configuration into a reusable module. You don't need to build everything perfectly from the beginning.
+
+    - Finally, follow the DRY principle — Don't Repeat Yourself. Instead of copying and pasting the same Terraform code many times, try to make your code reusable. Terraform modules are especially useful for this because they allow you to create reusable templates for infrastructure.
+
+    A good terraform learning process: 
+
+    Build something small → Validate → Plan → Apply → Improve → Make it reusable.
