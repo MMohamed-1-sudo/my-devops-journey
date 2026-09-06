@@ -1,0 +1,44 @@
+DEPLOYING INFRASTRUCTURE 
+
+    - HOW IS INFRASTRUCTURE DEPLOYED VIA TERRAFORM?
+
+        - A Terraform provider is a plugin that allows Terraform to communicate with another platform or service, such as AWS, Microsoft Azure or Google Cloud.Terraform itself does not directly know how to create an EC2 instance, VPC or S3 bucket. Instead, it uses the AWS provider, which understands how to communicate with AWS APIs and manage AWS resources.
+        
+        - For example, if you write Terraform code to create an EC2 instance, the process looks like this:
+
+            - Terraform Code → Terraform → AWS Provider → AWS API → EC2 Created
+
+        - Different platforms require different providers. For example, you would use the AWS Provider for AWS resources, the Azure Provider for Azure resources and the Google Provider for Google Cloud resources.
+
+        - Providers are one of the reasons Terraform is cloud-agnostic. Terraform can work with many different platforms by using the appropriate provider plugin.
+        -A simple way to remember it is:
+
+            Terraform = the tool giving the instructions.
+            Provider = the translator/connector between Terraform and the platform.
+            AWS = the platform that actually creates the infrastructure.
+
+    - HOW ARE THE CONNECTIONS ESTBLISHED FOR YOUR DEPLOYMENTS?
+        - When using Terraform with AWS, you normally need to tell Terraform which provider you want to use. This is done using the terraform block and the provider block. 
+        - The terraform block defines Terraform-level settings and dependencies. Inside it, required_providers tells Terraform which providers your configuration depends on. For AWS, you specify the AWS provider, its source and usually a version constraint.
+
+        - for example: 
+
+            terraform { 
+                required_providers { 
+                    aws = { 
+                        source = "hashicorp/aws"
+                         version = "~> 6.0"
+                          }
+                    } 
+                }
+        
+            - The source tells Terraform where the provider comes from. hashicorp/aws means the AWS provider under the hashicorp namespace in the Terraform Registry. The version controls which versions of the AWS provider Terraform is allowed to install. Pinning or constraining versions helps prevent unexpected changes when newer provider versions are released.
+
+            - The provider block configures the provider itself. For example, you can specify which AWS region Terraform should work with:
+
+
+
+
+
+
+    - HOW DO I MAKE SURE I DEPLOY THINGS SAFELY?
