@@ -1,0 +1,23 @@
+TERRAFORM STATE FILE
+
+    - The Terraform state file is a file Terraform uses to keep track of the infrastructure it manages. By default, this file is called terraform.tfstate. It stores information about resources Terraform has created, such as EC2 instances, VPCs, subnets and security groups. This allows Terraform to understand which resources in your code correspond to real resources in your cloud environment.
+
+    - It is important to understand the difference between desired state and current state. The desired state is what you define in your Terraform .tf configuration files. For example, your configuration might say that you want three EC2 instances. The current state represents the infrastructure Terraform currently knows about and manages, with Terraform also refreshing information from the cloud provider when needed.
+
+    - Terraform uses this information to determine what changes are required. For example, if your Terraform configuration says you want three EC2 instances but only two currently exist, terraform plan can identify that one additional EC2 instance needs to be created. When you run terraform apply, Terraform makes the required change to bring the infrastructure closer to your desired state.
+
+    - This also relates to idempotency. Idempotency means that running the same Terraform configuration multiple times should produce the same result rather than creating duplicate resources. For example, if your configuration says you want two EC2 instances and those two instances already exist, running terraform apply again should result in no changes.
+
+    - If you change your configuration from two EC2 instances to three, Terraform does not simply recreate everything. Instead, it determines what has changed and creates the additional resource required.
+
+    - A SIMPLE WAY TO REMEMBER THE RELATIONSHIP IS:
+
+        .tf files = what you want (desired state)
+
+        terraform.tfstate = what Terraform tracks and manages
+
+        AWS/Azure/GCP = the real infrastructure
+
+    The state file is extremely important and should be handled carefully. In real production environments, teams commonly store Terraform state remotely rather than keeping it only on one developer's computer.
+
+    
