@@ -1,0 +1,93 @@
+TERRAFORM INIT
+
+    - terraform init stands for Terraform Initialize. It is usually the first command you run when starting a new Terraform project. Its job is to prepare the project and make sure Terraform has everything it needs to work with your infrastructure.One of the main things terraform init does is initialize the backend. The backend is where Terraform stores its state, which keeps track of the infrastructure Terraform manages. The state can be stored locally in a terraform.tfstate file or remotely using services such as an Amazon S3 bucket.
+
+    - terraform init also initializes and downloads provider plugins. Providers allow Terraform to communicate with platforms such as AWS, Azure, and Google Cloud. For example, if your configuration specifies the AWS provider, Terraform will download the required AWS provider so it can communicate with AWS. Terraform reads the required_providers section of your configuration to determine which providers it needs. Once terraform init has completed, your project is ready for commands such as terraform plan and terraform apply.
+
+    A simple way to remember the process is:
+
+        - terraform init → Prepare the project
+        - terraform plan → Preview the changes
+        - terraform apply → Make the changes
+
+TERRAFORM PLAN
+ 
+    - terraform plan allows you to preview the changes Terraform wants to make before they actually happen. After using terraform init to prepare your Terraform environment, you can run terraform plan to check that your infrastructure changes are what you expect. When you run terraform plan, Terraform reads your configuration files, which represent your desired state, and compares them with the current state of your infrastructure recorded in the Terraform state. Terraform then calculates what needs to change to make the current infrastructure match your desired configuration.
+
+    - Terraform uses different symbols to show what actions it plans to perform:
+
+        + Create — A new resource will be created.
+        ~ Update — An existing resource will be modified.
+        - Destroy — An existing resource will be deleted.
+
+    - For example, a Terraform plan might show that an EC2 instance will be created, a security group will be updated, and an S3 bucket will be destroyed. If the security group changes from port 80 to 443, Terraform will show this as an update so you can review the change before applying it.
+
+    - At the bottom of the output, Terraform provides a plan summary, which may look like:
+    
+        Plan: 1 to add, 1 to change, 1 to destroy.
+
+   - You should always check this summary carefully. For example, if you're only expecting Terraform to create a new EC2 instance but the plan says another resource will be destroyed, you should investigate before continuing.
+
+    - terraform plan does not make any changes to your infrastructure. It simply shows you what Terraform intends to do. Once you've reviewed the plan and confirmed the changes are correct, you can use terraform apply to perform them.
+
+TERRAFORM APPLY
+
+    - terraform apply is the command that actually makes changes to your infrastructure. While terraform init prepares your Terraform environment and terraform plan previews the changes, terraform apply takes those planned changes and puts them into action. When you run terraform apply, Terraform first generates an execution plan, similar to running terraform plan. This shows you which resources will be created, updated, or destroyed before any changes are made.
+
+    - Terraform then asks you to confirm the changes by entering yes. For example, the plan summary might show:
+
+        - Plan: 1 to add, 1 to change, 1 to destroy.
+
+    - Once confirmed, Terraform communicates with the provider and performs those actions. For example, it could create an EC2 instance, update a security group, and destroy an S3 bucket. After the changes are complete, Terraform updates the state file to reflect the new state of your infrastructure. This allows Terraform to keep track of the resources it manages and their current configurations.
+
+    - In simple terms, terraform apply is where your desired infrastructure becomes real infrastructure.
+
+        terraform init → Prepare
+        terraform plan → Preview
+        terraform apply → Execute
+
+
+TERRAFORM DESTORY
+
+    - terraform destroy is the command used to remove infrastructure that Terraform is managing. Instead of manually deleting cloud resources one by one, Terraform can automatically identify and remove the resources it created and manages. You might use terraform destroy after finishing a project or when you no longer need a development environment. It is essentially the opposite of terraform apply. While terraform apply creates or modifies infrastructure, terraform destroy removes it.
+
+    - When you run terraform destroy, Terraform first reads your configuration and state file to understand which resources it currently manages. It then generates a destruction plan showing exactly which resources will be deleted. Before deleting anything, Terraform asks you to confirm the destruction by entering yes. This acts as a safety measure to help prevent resources from being deleted accidentally.
+
+    - Once confirmed, Terraform communicates with the cloud provider, such as AWS, and begins deleting the resources. After the process is complete, Terraform updates the state file to reflect that those resources no longer exist.
+
+    In simple terms:
+    
+        - terraform init → Prepare
+        - terraform plan → Preview
+        - terraform apply → Create or change
+        - terraform destroy → Remove
+
+TERRAFORM RESOURCE BLOCK
+
+    - A resource block is used to tell Terraform what infrastructure you want to create and manage. This could be an AWS EC2 instance, S3 bucket, VPC, subnet, security group, or many other resources.
+
+    - A resource block follows this basic structure:
+
+         resource "RESOURCE_TYPE" "RESOURCE_NAME" {
+            # Configuration
+          }
+
+    - For example, to create an AWS EC2 instance:
+
+        resource "aws_instance" "web_server" {
+          ami           = "ami-12345678"
+          instance_type = "t3.micro"
+
+          tags = {
+            Name = "WebServer"
+          }
+        }
+
+    - There are two important parts in the first line, "aws_instance" is the resource type. It tells Terraform that you want to manage an AWS EC2 instance and "web_server" is the local resource name. This is the name Terraform uses to reference this particular resource inside your configuration, The information inside the { } tells Terraform how the resource should be configured. In this example, we specify the AMI, instance type, and a name tag. You can reference this resource elsewhere using "aws_instance.web_server"
+
+    So, simply:
+    
+    Provider → tells Terraform which platform you're using, such as AWS.
+    Resource block → tells Terraform what you want to create on that platform.  
+
+    
